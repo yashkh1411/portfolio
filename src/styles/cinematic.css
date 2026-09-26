@@ -139,3 +139,228 @@ html[data-theme="void"] .site-header, html[data-theme="obsidian"] .site-header {
 /* No perpetual grain pass on reading sections. Motion belongs to the product story. */
 .chapter[data-theme-on="paper"]:is(#work, #approach, #about, [data-idea])::after { display: none; }
 html:not(.motion-ready) #approach .proc-object { display: none; }
+
+/* Phone approach: four editorial beats, not eight equal chips. Desktop keeps .proc-object. */
+#approach .proc-mobile { display: none; }
+@media (max-width: 767px) {
+  #approach.chapter[data-theme-on="paper"] > .approach-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    padding: 88px 22px 22px;
+  }
+  #approach .proc-object { display: none; }
+  #approach .proc-mobile {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+    margin: 0;
+  }
+  #approach .proc-story {
+    margin: 0 0 14px;
+    min-height: 14px;
+    font: 11px/1 var(--font-mono);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #3155c4;
+  }
+  #approach .proc-story::before { content: "Scattered inputs"; }
+  #approach[data-proc-phase="system"] .proc-story::before { content: "Organized system"; }
+  #approach[data-proc-phase="pipeline"] .proc-story::before { content: "Connected pipeline"; }
+  #approach[data-proc-phase="product"] .proc-story::before { content: "One connected product"; }
+  #approach .proc-board {
+    position: relative;
+    flex: 0 0 auto;
+    height: 196px;
+    margin: 0 0 4px;
+  }
+  #approach .proc-board::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    width: 1px;
+    height: 36%;
+    background: #3155c4;
+    transform-origin: bottom;
+    transition: height 280ms ease, opacity 280ms ease;
+  }
+  #approach[data-proc-phase="system"] .proc-board::before { height: 62%; }
+  #approach[data-proc-phase="pipeline"] .proc-board::before { height: 88%; }
+  #approach[data-proc-phase="product"] .proc-board::before { height: 0; opacity: 0; }
+  #approach .proc-scatter,
+  #approach .proc-clusters,
+  #approach .proc-product {
+    position: absolute;
+    inset: 0 0 0 16px;
+    margin: 0;
+    transition: opacity 280ms ease, transform 280ms ease;
+  }
+  #approach .proc-scatter {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 18px;
+    padding-bottom: 6px;
+  }
+  #approach .proc-scatter b {
+    font: 15px/1 var(--font-mono);
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0c1118;
+  }
+  #approach .proc-scatter b:nth-child(2) { margin-left: 34px; }
+  #approach .proc-scatter b:nth-child(3) { margin-left: 68px; }
+  #approach .proc-clusters {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  #approach .proc-clusters li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 16px;
+    padding: 14px 0;
+    border-top: 1px solid #e3e8f0;
+  }
+  #approach .proc-clusters li:first-child { border-top: 0; padding-top: 0; }
+  #approach .proc-clusters li > span {
+    flex: 0 0 72px;
+    font: 10px/1 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7d8896;
+  }
+  #approach .proc-clusters b {
+    font: 13px/1 var(--font-mono);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #0c1118;
+  }
+  #approach[data-proc-phase="system"] [data-cluster="pipeline"],
+  #approach[data-proc-phase="inputs"] [data-cluster="pipeline"] {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    border-top-color: transparent;
+  }
+  #approach[data-proc-phase="pipeline"] [data-cluster="pipeline"] {
+    opacity: 1;
+    max-height: 72px;
+  }
+  #approach .proc-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 2px;
+    opacity: 0;
+    transform: translateY(8px);
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: #0c1118;
+  }
+  #approach .proc-product span {
+    display: block;
+    max-width: 34ch;
+    margin-bottom: 18px;
+    font: 10px/1.7 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #5c6b80;
+  }
+  #approach .proc-product i {
+    display: block;
+    width: 36px;
+    height: 2px;
+    margin-bottom: 14px;
+    background: #b64b2d;
+  }
+  #approach[data-proc-phase="system"] .proc-scatter,
+  #approach[data-proc-phase="pipeline"] .proc-scatter,
+  #approach[data-proc-phase="product"] .proc-scatter {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  #approach[data-proc-phase="system"] .proc-clusters,
+  #approach[data-proc-phase="pipeline"] .proc-clusters {
+    opacity: 1;
+    transform: none;
+  }
+  #approach[data-proc-phase="product"] .proc-clusters { opacity: 0; }
+  #approach[data-proc-phase="product"] .proc-product {
+    opacity: 1;
+    transform: none;
+  }
+  #approach .proof.method {
+    margin-top: 0;
+    padding-left: 16px;
+    border-left: 1px solid #e3e8f0;
+  }
+  html.reduce #approach .proc-story::before,
+  html:not(.motion-ready) #approach .proc-story::before { content: "One connected product"; }
+  html.reduce #approach .proc-scatter,
+  html:not(.motion-ready) #approach .proc-scatter { display: none; }
+  html.reduce #approach .proc-clusters,
+  html.reduce #approach .proc-product,
+  html:not(.motion-ready) #approach .proc-clusters,
+  html:not(.motion-ready) #approach .proc-product {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    transform: none;
+  }
+  html.reduce #approach [data-cluster="pipeline"],
+  html:not(.motion-ready) #approach [data-cluster="pipeline"] {
+    opacity: 1;
+    max-height: none;
+    overflow: visible;
+    padding: 14px 0;
+    border-top-color: #e3e8f0;
+  }
+  html.reduce #approach .proc-board,
+  html:not(.motion-ready) #approach .proc-board { min-height: 0; }
+  html.reduce #approach .proc-board::before,
+  html:not(.motion-ready) #approach .proc-board::before { display: none; }
+}
+@media (max-width: 767px) and (max-height: 700px) {
+  #approach { min-height: 0; }
+  #approach.chapter[data-theme-on="paper"] > .approach-pin {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    padding-top: 84px;
+  }
+  #approach .proc-board { height: auto; min-height: 0; }
+  #approach .proc-board::before { display: none; }
+  #approach[data-proc-phase] .proc-scatter { display: none; }
+  #approach[data-proc-phase] .proc-clusters,
+  #approach[data-proc-phase] .proc-product {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    transform: none;
+  }
+  #approach[data-proc-phase] [data-cluster="pipeline"] {
+    opacity: 1;
+    max-height: none;
+    overflow: visible;
+    padding: 14px 0;
+    border-top-color: #e3e8f0;
+  }
+  #approach[data-proc-phase] .proc-story::before { content: "One connected product"; }
+  #approach .proc-product { font-size: 22px; }
+}

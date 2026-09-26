@@ -460,9 +460,10 @@ export function initChoreography(root: HTMLElement) {
           });
           ScrollTrigger.create({
             trigger: approach,
-            start: "top 80%",
-            end: "bottom 28%",
+            start: () => (compactMq.matches ? "top top" : "top 80%"),
+            end: () => (compactMq.matches ? "bottom bottom" : "bottom 28%"),
             scrub: 0.35,
+            invalidateOnRefresh: true,
             onUpdate: (self) => {
               const p = self.progress;
               const steps = [...approach.querySelectorAll<HTMLElement>(".proof li")];
@@ -470,6 +471,11 @@ export function initChoreography(root: HTMLElement) {
               const live = n ? Math.min(n - 1, Math.floor(p * n)) : -1;
               approachItems.forEach((el) => el.classList.remove("is-live"));
               steps.forEach((el, i) => el.classList.toggle("is-live", i === live));
+              if (compactMq.matches) {
+                const phase = p < 0.25 ? "inputs" : p < 0.5 ? "system" : p < 0.75 ? "pipeline" : "product";
+                if (approach.dataset.procPhase !== phase) approach.dataset.procPhase = phase;
+                return;
+              }
               const bits = [...approach.querySelectorAll<HTMLElement>("[data-proc-bit]")];
               const frame = approach.querySelector<HTMLElement>("[data-proc-frame]");
               const line = approach.querySelector<HTMLElement>("[data-proc-line]");

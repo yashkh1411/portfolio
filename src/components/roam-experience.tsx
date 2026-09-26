@@ -31,7 +31,7 @@ export function RoamExperience() {
       <div className="travel-pin" data-travel-pin>
         <header className="travel-editorial">
           <p className="visual-label">03 / ROAM OS</p>
-          <h2 id="roam-title">{steps[step].title}</h2>
+          <h2 id="roam-title" key={isPhone ? step : "roam-title"}>{steps[step].title}</h2>
           <p className="travel-intent">A trip plan, a phrase, your next stop.</p>
           <div className="travel-controls" role="group" aria-label="Explore ROAM concept">
             {steps.map((item, i) => <button type="button" key={item.label} aria-pressed={step === i} onClick={() => { setStep(i); setStop(i); }}><span>{item.icon}</span>{item.label}<i aria-hidden="true" /></button>)}

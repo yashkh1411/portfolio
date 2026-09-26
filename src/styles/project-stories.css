@@ -98,6 +98,8 @@
 .travel-build { margin: 0 var(--space-page); padding-bottom: 56px; border-top: 1px solid #cad7ee; }
 .travel-build .body { font-size: 16px; max-width: 72ch; }
 @keyframes travel-panel { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes travel-panel-phone { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes roam-title-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 @media (min-width: 768px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
   .motion-ready .travel-story { height: 270svh; }
   .motion-ready .travel-pin { position: sticky; top: 0; min-height: 100svh; height: 100svh; padding-block: 80px 40px; }
@@ -124,10 +126,11 @@
   .travel-editorial .visual-label { font-size: 10px; }
   .travel-intent { font-size: 14px; margin: 8px 0; }
   .travel-controls { flex-direction: row; margin: 16px 0 6px; gap: 16px; max-width: none; }
-  .travel-controls button { font-size: 12px; gap: 7px; min-height: 44px; flex: 1; }
+  .travel-controls button { font-size: 12px; gap: 7px; min-height: 44px; flex: 1; transition: none; }
   .travel-controls button i { display: none; }
-  .travel-controls button[aria-pressed="true"] { border-color: #355bdd; }
+  .travel-controls button[aria-pressed="true"] { border-color: #355bdd; box-shadow: inset 0 -2px 0 #214dc6; }
   .travel-controls button span { font-size: 8px; }
+  .travel-editorial h2 { animation: roam-title-in 240ms ease both; }
   .travel-status { font-size: 9px; }
   .travel-visual { height: 62vh; min-height: 320px; width: 100%; }
   .travel-coordinate { top: 8px; font-size: 8px; }
@@ -195,8 +198,8 @@ html.reduce .travel-route-line { stroke-dashoffset: 0; }
 @media (max-width: 767px) {
  .travel-visual { min-height: 400px; height: 400px; }
  .travel-camera { inset: 0 -8px 65px; }
- .travel-story[data-stop="2"] .travel-camera { translate: 0 -144px; }
- .travel-visual .travel-product { width: 205px; bottom: 45px; right: 0; padding: 12px; }
+ .travel-story[data-stop="2"] .travel-camera { translate: none; }
+ .travel-visual .travel-product { width: 205px; bottom: 45px; right: 0; padding: 12px; animation: travel-panel-phone 260ms cubic-bezier(.2,.7,.2,1) both; }
  .travel-itinerary button { font-size: 11px; padding: 8px 0; gap: 8px; }
  .travel-itinerary span { font-size: 11px; }
  .travel-product h3 { font-size: 16px; }

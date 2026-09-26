@@ -19,17 +19,31 @@ export function initProjectStories(root: HTMLElement, reduced: boolean) {
   // Short landscape screens use the ordinary, fully interactive layout.
   if (window.innerHeight < (compact ? 780 : 700)) return;
   let previous = -1;
+  let stick = false;
+  let ignoreScrollUntil = 0;
   const clock = { progress: 0 };
+  const buttons = compact ? [...story.querySelectorAll<HTMLButtonElement>(".travel-controls button")] : [];
+  const onClick = () => {
+    stick = true;
+    ignoreScrollUntil = performance.now() + 420;
+  };
+  const onScroll = () => {
+    if (performance.now() < ignoreScrollUntil) return;
+    stick = false;
+  };
+  buttons.forEach((btn) => btn.addEventListener("click", onClick));
+  if (compact) window.addEventListener("scroll", onScroll, { passive: true });
   gsap.to(clock, {
     progress: 1, ease: "none",
-    scrollTrigger: { trigger: story, start: "top top", end: "bottom bottom", scrub: .45, invalidateOnRefresh: true },
+    scrollTrigger: { trigger: story, start: "top top", end: "bottom bottom", scrub: compact ? 0.22 : 0.45, invalidateOnRefresh: true },
     onUpdate: () => {
       const p = clock.progress;
+      if (!compact) {
+        (camera as HTMLElement).style.transform = `perspective(1100px) rotateX(${12 - p * 10}deg) rotateZ(${-4 + p * 3}deg) scale(${.96 + p * .05})`;
+      }
+      if (compact && stick) return;
       const next = Math.min(2, Math.floor(p * 3));
       // Direct DOM painting avoids creating GSAP tweens inside a scroll callback.
-      (camera as HTMLElement).style.transform = compact
-        ? `translateY(${-p * 10}px) scale(${1 + p * .035})`
-        : `perspective(1100px) rotateX(${12 - p * 10}deg) rotateZ(${-4 + p * 3}deg) scale(${.96 + p * .05})`;
       if (next !== previous) {
         previous = next;
         story.dispatchEvent(new CustomEvent("roam-step", { detail: next }));
@@ -37,5 +51,9 @@ export function initProjectStories(root: HTMLElement, reduced: boolean) {
     },
   });
   // CSS owns the static transform; don't leave a desktop camera on a phone.
-  return () => { (camera as HTMLElement).style.removeProperty("transform"); };
+  return () => {
+    buttons.forEach((btn) => btn.removeEventListener("click", onClick));
+    if (compact) window.removeEventListener("scroll", onScroll);
+    (camera as HTMLElement).style.removeProperty("transform");
+  };
 }

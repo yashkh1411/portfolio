@@ -94,7 +94,7 @@ export function RoamScene() {
 
 export function ApproachScene() {
   return (
-    <section className="chapter" id="approach" aria-labelledby="approach-title" data-theme-on="paper" data-approach>
+    <section className="chapter" id="approach" aria-labelledby="approach-title" data-theme-on="paper" data-approach data-proc-phase="inputs">
       <div className="approach-pin">
       <p className="kicker" data-approach-in>
         How I build
@@ -106,6 +106,40 @@ export function ApproachScene() {
         {["Brief", "UX", "UI", "API", "Data", "AI", "Testing", "Handoff"].map((part) => <i key={part} data-proc-bit>{part}</i>)}
         <i data-proc-line aria-hidden="true" />
         <b data-proc-frame>One connected product</b>
+      </div>
+      <div className="proc-mobile" data-proc-mobile aria-hidden="true">
+        <p className="proc-story" />
+        <div className="proc-board">
+          <p className="proc-scatter">
+            <b>Brief</b>
+            <b>UX</b>
+            <b>UI</b>
+          </p>
+          <ol className="proc-clusters">
+            <li data-cluster="inputs">
+              <span>Inputs</span>
+              <b>Brief</b>
+              <b>UX</b>
+              <b>UI</b>
+            </li>
+            <li data-cluster="system">
+              <span>System</span>
+              <b>API</b>
+              <b>Data</b>
+              <b>AI</b>
+            </li>
+            <li data-cluster="pipeline">
+              <span>Delivery</span>
+              <b>Testing</b>
+              <b>Handoff</b>
+            </li>
+          </ol>
+          <p className="proc-product">
+            <span>Brief · UX · UI · API · Data · AI · Testing · Handoff</span>
+            <i aria-hidden="true" />
+            One connected product
+          </p>
+        </div>
       </div>
       <ul className="proof method">
         <li data-approach-in>
