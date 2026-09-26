@@ -16,13 +16,12 @@ function SolarLayer() {
       if (idle) window.cancelIdleCallback?.(idle);
       if (timer) window.clearTimeout(timer);
       const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-      const desktop = window.matchMedia("(min-width: 900px)").matches;
-      if (!desktop || isReduced() || saveData) {
+      if (isReduced() || saveData) {
         setEnabled(false);
         return;
       }
       const start = () => {
-        if (!isReduced() && window.matchMedia("(min-width: 900px)").matches) setEnabled(true);
+        if (!isReduced()) setEnabled(true);
       };
       if (window.requestIdleCallback) idle = window.requestIdleCallback(start, { timeout: 700 });
       else timer = window.setTimeout(start, 280);
