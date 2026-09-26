@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdirSync, mkdtempSync, symlinkSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, mkdtempSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -60,8 +60,12 @@ test("an explicit process-env override wins over the file", () => {
   assert.equal(merged.PATH, "/usr/bin");
 });
 
-test("the template ships auth off", () => {
-  assert.deepEqual(readAppEnv(projectRoot()), { VITE_AUTH_ENABLED: "false" });
+test("this portfolio does not ship the Grok app-env file", () => {
+  // The app-builder template committed `.grok/app-env.json` with
+  // VITE_AUTH_ENABLED "false". This public tree has never had that file
+  // (it is not gitignored), and no src module reads the flag. README: a
+  // missing file is ignored. The empty result is the wrapper's no-op.
+  assert.deepEqual(readAppEnv(projectRoot()), {});
 });
 
 test("vite loadEnv resolves the wrapped value", () => {
@@ -75,8 +79,16 @@ test("vite loadEnv resolves the wrapped value", () => {
 });
 
 test("the wrapped command runs with the app env applied", async () => {
+  // projectRoot() follows the script path, so a copy in a fixture workspace
+  // reads that workspace's file. The real repo has no app-env file; injection
+  // of VITE_AUTH_ENABLED=false is what this proves.
+  const root = mkdtempSync(join(tmpdir(), "app-env-cli-"));
+  mkdirSync(join(root, "scripts"), { recursive: true });
+  copyFileSync(WRAPPER, join(root, "scripts", "with-app-env.mjs"));
+  mkdirSync(join(root, ".grok"), { recursive: true });
+  writeFileSync(join(root, APP_ENV_REL_PATH), '{"VITE_AUTH_ENABLED":"false"}');
   const { stdout } = await execFileAsync(process.execPath, [
-    WRAPPER,
+    join(root, "scripts", "with-app-env.mjs"),
     process.execPath,
     "-e",
     PRINT_FLAG,
@@ -133,5 +145,9 @@ test("the CLI still runs when invoked through a symlinked path", async () => {
     "-e",
     PRINT_FLAG,
   ]);
-  assert.equal(stdout, "false");
+  // A symlink no-op exits 0 with empty stdout. The child must run and report
+  // the real workspace flag, which is unset because the Grok template file
+  // is not part of this portfolio.
+  assert.equal(stdout, String(readAppEnv(projectRoot()).VITE_AUTH_ENABLED));
+  assert.notEqual(stdout, "");
 });

@@ -90,9 +90,13 @@ test("only a divergence warns the smoke verdict", () => {
   }
 });
 
-test("the build side resolves the template's shipped app-env", () => {
-  assert.equal(buildAuthEnabled(projectRoot(), {}), false);
+test("the build side sees no shipped app-env flag", () => {
+  // Same public-tree fact as with-app-env.test.mjs: there is no
+  // `.grok/app-env.json`. The helper treats an unset flag as enabled
+  // (`value !== "false"`). An explicit env value still wins.
+  assert.equal(buildAuthEnabled(projectRoot(), {}), true);
   assert.equal(buildAuthEnabled(projectRoot(), { VITE_AUTH_ENABLED: "true" }), true);
+  assert.equal(buildAuthEnabled(projectRoot(), { VITE_AUTH_ENABLED: "false" }), false);
 });
 
 test("the CLI reports rather than silently passing when run via a symlink", async () => {
