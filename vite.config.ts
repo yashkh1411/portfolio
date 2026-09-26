@@ -38,6 +38,25 @@ export default defineConfig(({ command, isPreview }) => ({
       ? [
           nitro({
             preset: "vercel",
+            // Nitro's Vercel preset does not copy vercel.json response headers
+            // into the Build Output API config. A header-only route must set
+            // continue so it does not swallow the filesystem and server routes.
+            vercel: {
+              config: {
+                routes: [
+                  {
+                    src: "/(.*)",
+                    headers: {
+                      "x-content-type-options": "nosniff",
+                      "referrer-policy": "strict-origin-when-cross-origin",
+                      "x-frame-options": "SAMEORIGIN",
+                      "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=()",
+                    },
+                    continue: true,
+                  },
+                ],
+              },
+            },
           }),
         ]
       : []),
