@@ -552,9 +552,6 @@ export function SolarSystem() {
       });
       mercury.mesh.getWorldPosition(mercuryWorld);
 
-      const vis = window.visualViewport;
-      const visH = vis?.height || h;
-      const visTop = vis?.offsetTop || 0;
       const vFovDeg = wideColumn ? 24 : phone ? 32 : 28;
       const envelope = 2.28;
       const vHalf = Math.tan((vFovDeg * Math.PI) / 360);
@@ -569,7 +566,6 @@ export function SolarSystem() {
       camStart.set(0, dist * Math.sin(elev), dist * Math.cos(elev));
       const lift = phone ? 0.04 : compact ? 0.02 : 0.0;
       sunTarget.set(0.0, lift, 0);
-      const visCenter = visTop + visH * 0.5;
       const stageCx = wideColumn ? w * 0.71 : w * 0.5;
       const stageCy = wideColumn ? 76 + (h - 76) * 0.48 : 76 + (h - 76) * 0.3;
       camera.setViewOffset(w, h, w * 0.5 - stageCx, h * 0.5 - stageCy, w, h);
