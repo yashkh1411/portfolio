@@ -472,7 +472,7 @@ export function initChoreography(root: HTMLElement) {
           };
           const seg = (p: number, a: number, b: number) => smooth((p - a) / (b - a));
           const mix = (a: number, b: number, t: number) => a + (b - a) * t;
-          const paintMobileApproach = (p: number) => {
+          const paintApproach = (p: number) => {
             const phase = p < 0.25 ? "inputs" : p < 0.5 ? "system" : p < 0.75 ? "pipeline" : "product";
             if (approach.dataset.procPhase !== phase) approach.dataset.procPhase = phase;
             const short = window.matchMedia("(max-height: 700px)").matches;
@@ -484,46 +484,69 @@ export function initChoreography(root: HTMLElement) {
             const w = stage.clientWidth;
             const h = stage.clientHeight;
             if (w < 40 || h < 40) return;
+            const wide = w >= 640;
+            const desk = w >= 1100;
             const colW = (w - 12) / 3;
-            const pitch = Math.min(58, Math.max(44, h * 0.14));
-            const base = Math.min(h - 18, h * 0.74);
-            const scatter = [
-              { x: w * 0.0, y: base - pitch * 2.45, s: 1.16, o: 1 },
-              { x: w * 0.46, y: base - pitch * 1.35, s: 0.96, o: 1 },
-              { x: w * 0.14, y: base - pitch * 0.2, s: 1.05, o: 1 },
-              { x: w * 0.42, y: base - pitch * 0.55, s: 0.96, o: 0 },
-              { x: w * 0.02, y: base + 8, s: 0.96, o: 0 },
-              { x: w * 0.5, y: base - pitch * 1.7, s: 0.96, o: 0 },
-              { x: w * 0.0, y: base + 18, s: 0.96, o: 0 },
-              { x: w * 0.36, y: base + 22, s: 0.96, o: 0 },
-            ];
+            const pitch = Math.min(wide ? 78 : 58, Math.max(wide ? 52 : 44, h * (wide ? 0.16 : 0.14)));
+            const base = wide ? Math.min(h * 0.62, h - 150) : Math.min(h - 18, h * 0.74);
+            const scatter = wide
+              ? [
+                  { x: w * 0.02, y: h * 0.1, s: desk ? 1.7 : 1.28, o: 1 },
+                  { x: w * 0.62, y: h * 0.02, s: desk ? 1.08 : 0.98, o: 1 },
+                  { x: w * 0.28, y: h * 0.48, s: desk ? 1.38 : 1.12, o: 1 },
+                  { x: w * 0.58, y: h * 0.4, s: 1, o: 0 },
+                  { x: w * 0.06, y: h * 0.5, s: 1, o: 0 },
+                  { x: w * 0.72, y: h * 0.2, s: 1, o: 0 },
+                  { x: w * 0.18, y: h * 0.58, s: 1, o: 0 },
+                  { x: w * 0.48, y: h * 0.6, s: 1, o: 0 },
+                ]
+              : [
+                  { x: w * 0.0, y: base - pitch * 2.45, s: 1.16, o: 1 },
+                  { x: w * 0.46, y: base - pitch * 1.35, s: 0.96, o: 1 },
+                  { x: w * 0.14, y: base - pitch * 0.2, s: 1.05, o: 1 },
+                  { x: w * 0.42, y: base - pitch * 0.55, s: 0.96, o: 0 },
+                  { x: w * 0.02, y: base + 8, s: 0.96, o: 0 },
+                  { x: w * 0.5, y: base - pitch * 1.7, s: 0.96, o: 0 },
+                  { x: w * 0.0, y: base + 18, s: 0.96, o: 0 },
+                  { x: w * 0.36, y: base + 22, s: 0.96, o: 0 },
+                ];
+            const gridInset = wide ? w * 0.04 : 0;
+            const gridCol = wide ? (w - gridInset * 2) / 3 : colW;
             const grid = pieces.map((_, i) => {
               const col = i % 3;
               const row = Math.floor(i / 3);
               const visible = i < 6;
               return {
-                x: col * colW,
-                y: visible ? base - pitch * (1.15 - row * 1.05) : base + 30,
-                s: 1,
+                x: gridInset + col * gridCol,
+                y: wide
+                  ? (visible ? h * (0.3 + row * 0.22) : h * 0.72)
+                  : visible
+                    ? base - pitch * (1.15 - row * 1.05)
+                    : base + 30,
+                s: wide ? (desk ? 1.22 : 1.08) : 1,
                 o: visible ? 1 : 0,
               };
             });
-            const pipeInset = Math.min(18, w * 0.04);
+            const pipeInset = wide ? w * 0.16 : Math.min(18, w * 0.04);
             const pipeCol = (w - pipeInset * 2) / 3;
             const pipe = pieces.map((_, i) => {
               const pair = i >= 6;
               const col = pair ? i - 6 : i % 3;
               const row = pair ? 2 : Math.floor(i / 3);
-              const x = pair ? pipeInset + col * pipeCol * 1.2 : pipeInset + col * pipeCol;
-              const y = pair ? base - 2 : base - pitch * (2.2 - row * 1.1);
-              return { x, y, s: 0.98, o: 1 };
+              const x = pair ? pipeInset + col * pipeCol * 1.15 : pipeInset + col * pipeCol;
+              const y = wide
+                ? h * (pair ? 0.7 : 0.22 + row * 0.2)
+                : pair
+                  ? base - 2
+                  : base - pitch * (2.2 - row * 1.1);
+              return { x, y, s: wide ? (desk ? 1.05 : 1) : 0.98, o: 1 };
             });
             const metaCol = w / 4;
             const meta = pieces.map((_, i) => ({
               x: (i % 4) * metaCol,
-              y: i < 4 ? 0 : 28,
-              s: 0.78,
-              o: 0.62,
+              y: i < 4 ? 0 : wide ? 34 : 28,
+              s: desk ? 0.58 : wide ? 0.68 : 0.78,
+              o: 0.58,
             }));
             const tGrid = seg(p, 0.08, 0.26);
             const tPipe = seg(p, 0.4, 0.6);
@@ -545,7 +568,9 @@ export function initChoreography(root: HTMLElement) {
               y = mix(y, meta[i].y, tMeta);
               s = mix(s, meta[i].s, tMeta);
               o = mix(o, meta[i].o, tMeta);
-              x = Math.max(14, Math.min(x + 14, w - 78));
+              const gutter = wide ? 20 : 14;
+              const reserve = desk ? 210 : wide ? 140 : 78;
+              x = Math.max(gutter, Math.min(x + (wide ? 0 : gutter), w - reserve));
               const reveal = i < 3 ? Math.max(0.94 - i * 0.05, seg(p, 0, 0.1)) : 1;
               gsap.set(el, {
                 x,
@@ -558,7 +583,9 @@ export function initChoreography(root: HTMLElement) {
             });
             const storyOps = [1 - seg(p, 0.24, 0.36), seg(p, 0.22, 0.36) * (1 - seg(p, 0.48, 0.6)), seg(p, 0.46, 0.6) * (1 - seg(p, 0.72, 0.84)), seg(p, 0.72, 0.86)];
             storyBits.forEach((el, i) => gsap.set(el, { opacity: storyOps[i] ?? 0 }));
-            const axisGrow = Math.min(1, seg(p, 0.14, 0.32) * 0.46 + seg(p, 0.4, 0.62) * 0.54);
+            const axisGrow = wide
+              ? Math.min(1, seg(p, 0.12, 0.3) * 0.78 + seg(p, 0.4, 0.62) * 0.22)
+              : Math.min(1, seg(p, 0.14, 0.32) * 0.46 + seg(p, 0.4, 0.62) * 0.54);
             const axisRetract = seg(p, 0.74, 0.9);
             if (axis) gsap.set(axis, { scaleY: axisGrow * (1 - axisRetract), transformOrigin: "50% 100%" });
             const rule = seg(p, 0.76, 0.96);
@@ -575,8 +602,8 @@ export function initChoreography(root: HTMLElement) {
           };
           ScrollTrigger.create({
             trigger: approach,
-            start: () => (compactMq.matches ? "top top" : "top 80%"),
-            end: () => (compactMq.matches ? "bottom bottom" : "bottom 28%"),
+            start: "top top",
+            end: "bottom bottom",
             scrub: 0.35,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
@@ -586,36 +613,7 @@ export function initChoreography(root: HTMLElement) {
               const live = n ? Math.min(n - 1, Math.floor(p * n)) : -1;
               approachItems.forEach((el) => el.classList.remove("is-live"));
               steps.forEach((el, i) => el.classList.toggle("is-live", i === live));
-              if (compactMq.matches) {
-                paintMobileApproach(p);
-                return;
-              }
-              const bits = [...approach.querySelectorAll<HTMLElement>("[data-proc-bit]")];
-              const frame = approach.querySelector<HTMLElement>("[data-proc-frame]");
-              const line = approach.querySelector<HTMLElement>("[data-proc-line]");
-              const board = approach.querySelector<HTMLElement>(".proc-object");
-              const span = Math.max(280, (board?.clientWidth || approach.clientWidth) * 0.9);
-              const step = span / Math.max(bits.length - 1, 1);
-              bits.forEach((bit, i) => {
-                const clustered = p > 0.22;
-                const built = p > 0.55;
-                const col = i % 4;
-                const row = Math.floor(i / 4);
-                const scatterX = (col - 1.5) * (compactMq.matches ? 70 : 140);
-                const scatterY = (row - 0.5) * 90 + (i % 2) * 24;
-                gsap.set(bit, {
-                  x: clustered ? (i - (bits.length - 1) / 2) * step : scatterX,
-                  y: clustered ? 0 : scatterY,
-                  xPercent: -50,
-                  yPercent: -50,
-                  opacity: built ? 1 : 0.72,
-                  scale: 1,
-                });
-              });
-              if (line) gsap.set(line, { scaleX: Math.max(0, (p - 0.22) / 0.4) });
-              if (frame) {
-                gsap.set(frame, { opacity: p > 0.5 ? Math.min(1, (p - 0.5) / 0.35) : 0, scale: 0.86 + Math.min(1, p) * 0.14 });
-              }
+              paintApproach(p);
             },
           });
           gsap.fromTo(

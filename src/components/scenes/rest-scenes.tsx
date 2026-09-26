@@ -102,11 +102,6 @@ export function ApproachScene() {
       <h2 id="approach-title" data-approach-in>
         From brief to build.
       </h2>
-      <div className="proc-object" data-proc-object aria-hidden="true">
-        {["Brief", "UX", "UI", "API", "Data", "AI", "Testing", "Handoff"].map((part) => <i key={part} data-proc-bit>{part}</i>)}
-        <i data-proc-line aria-hidden="true" />
-        <b data-proc-frame>One connected product</b>
-      </div>
       <div className="proc-mobile" data-proc-mobile>
         <p className="proc-story" data-proc-story aria-hidden="true">
           <span data-story="inputs">Scattered inputs</span>
