@@ -7,8 +7,12 @@ function env(name: string): string | undefined {
   return value && value.length > 0 ? value : undefined;
 }
 
+/**
+ * Workspace preview vs a deployed project. Publish writes `GROK_PROJECT_ID`;
+ * a local or sandbox run does not. Connector-token errors key off this.
+ */
 export function isWorkspacePreview(): boolean {
-  return false;
+  return !env("GROK_PROJECT_ID");
 }
 
 function assertSameSiteRequest(): void {}
@@ -286,7 +290,9 @@ function tokenIdentityKey(token: string): string {
             .digest("base64url");
         }
       }
-    } catch {}
+    } catch {
+      return createHash("sha256").update(token).digest("base64url");
+    }
   }
   return createHash("sha256").update(token).digest("base64url");
 }
