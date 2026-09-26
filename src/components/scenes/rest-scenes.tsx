@@ -107,37 +107,24 @@ export function ApproachScene() {
         <i data-proc-line aria-hidden="true" />
         <b data-proc-frame>One connected product</b>
       </div>
-      <div className="proc-mobile" data-proc-mobile aria-hidden="true">
-        <p className="proc-story" />
-        <div className="proc-board">
-          <p className="proc-scatter">
-            <b>Brief</b>
-            <b>UX</b>
-            <b>UI</b>
-          </p>
-          <ol className="proc-clusters">
-            <li data-cluster="inputs">
-              <span>Inputs</span>
-              <b>Brief</b>
-              <b>UX</b>
-              <b>UI</b>
-            </li>
-            <li data-cluster="system">
-              <span>System</span>
-              <b>API</b>
-              <b>Data</b>
-              <b>AI</b>
-            </li>
-            <li data-cluster="pipeline">
-              <span>Delivery</span>
-              <b>Testing</b>
-              <b>Handoff</b>
-            </li>
-          </ol>
-          <p className="proc-product">
-            <span>Brief · UX · UI · API · Data · AI · Testing · Handoff</span>
-            <i aria-hidden="true" />
-            One connected product
+      <div className="proc-mobile" data-proc-mobile>
+        <p className="proc-story" data-proc-story aria-hidden="true">
+          <span data-story="inputs">Scattered inputs</span>
+          <span data-story="system">Organized system</span>
+          <span data-story="pipeline">Connected pipeline</span>
+          <span data-story="product">One connected product</span>
+        </p>
+        <div className="proc-stage" data-proc-stage>
+          <i className="proc-axis" data-proc-axis aria-hidden="true" />
+          {["Brief", "UX", "UI", "API", "Data", "AI", "Testing", "Handoff"].map((part) => (
+            <span key={part} className="proc-piece" data-piece={part.toLowerCase()}>{part}</span>
+          ))}
+          <p className="proc-payoff" data-proc-payoff>
+            <i className="proc-bar" data-proc-bar aria-hidden="true" />
+            <i className="proc-warm" data-proc-warm aria-hidden="true" />
+            <span>One</span>
+            <span>connected</span>
+            <span>product</span>
           </p>
         </div>
       </div>
