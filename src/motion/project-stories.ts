@@ -16,8 +16,9 @@ export function initProjectStories(root: HTMLElement, reduced: boolean) {
   const camera = story?.querySelector("[data-travel-camera]");
   if (!story || !camera || reduced) return;
   const compact = window.matchMedia("(max-width: 767px)").matches;
-  // Short landscape screens use the ordinary, fully interactive layout.
-  if (window.innerHeight < (compact ? 780 : 700)) return;
+  // Only a tiny viewport skips the scroll story. Shorter phones and laptops
+  // still advance Plan → Translate → Navigate; CSS shortens the pin.
+  if (window.innerHeight < 520) return;
   let previous = -1;
   let stick = false;
   let ignoreScrollUntil = 0;

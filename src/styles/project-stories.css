@@ -104,6 +104,10 @@
   .motion-ready .travel-story { height: 270svh; }
   .motion-ready .travel-pin { position: sticky; top: 0; min-height: 100svh; height: 100svh; padding-block: 80px 40px; }
 }
+@media (min-width: 768px) and (min-height: 520px) and (max-height: 699px) and (prefers-reduced-motion: no-preference) {
+  .motion-ready .travel-story { height: 180svh; }
+  .motion-ready .travel-pin { position: sticky; top: 0; min-height: 100svh; height: 100svh; padding-block: 64px 24px; }
+}
 @media (max-width: 1000px) {
   .finance-layout { grid-template-columns: 1fr; gap: 28px; }
   .finance-plot svg { height: 48vh; }
@@ -151,6 +155,11 @@
 @media (max-width: 767px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
   .motion-ready .travel-story { height: 230svh; }
   .motion-ready .travel-pin { position: sticky; top: 0; height: 100svh; justify-content: center; padding-top: 64px; }
+}
+@media (max-width: 767px) and (min-height: 520px) and (max-height: 779px) and (prefers-reduced-motion: no-preference) {
+  .motion-ready .travel-story { height: 160svh; }
+  .motion-ready .travel-pin { position: sticky; top: 0; height: 100svh; justify-content: flex-start; padding-top: 60px; }
+  .travel-visual { height: 40vh; min-height: 200px; }
 }
 html.reduce .travel-camera { transform: none; }
 html.reduce .travel-route-line { stroke-dashoffset: 0; }
@@ -206,4 +215,7 @@ html.reduce .travel-route-line { stroke-dashoffset: 0; }
  .travel-node-label { font-size: 17px; }
  .travel-map-note { font-size: 8px; bottom: 0; }
  .travel-map-key { font-size: 8px; gap: 6px; }
+}
+@media (max-width: 767px) and (min-height: 520px) and (max-height: 779px) {
+  .travel-visual { height: 38vh; min-height: 190px; }
 }

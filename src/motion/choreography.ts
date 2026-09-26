@@ -475,7 +475,7 @@ export function initChoreography(root: HTMLElement) {
           const paintApproach = (p: number) => {
             const phase = p < 0.25 ? "inputs" : p < 0.5 ? "system" : p < 0.75 ? "pipeline" : "product";
             if (approach.dataset.procPhase !== phase) approach.dataset.procPhase = phase;
-            const short = window.matchMedia("(max-height: 700px)").matches;
+            const short = window.matchMedia("(max-height: 519px)").matches;
             if (short || !stage || pieces.length !== 8) {
               const live = [pieces, payoffLines, storyBits, axis, bar, warm].flat().filter((el): el is HTMLElement => el instanceof HTMLElement);
               if (live.length) gsap.set(live, { clearProps: "all" });

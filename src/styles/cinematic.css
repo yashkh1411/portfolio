@@ -259,7 +259,17 @@ html.motion-ready #approach .proc-piece { opacity: 0; }
   }
   #approach .proof.method li.is-live::after { display: none; }
 }
-@media (max-height: 700px) {
+@media (max-height: 760px) and (min-height: 520px) {
+  #approach { min-height: 132vh; }
+  #approach.chapter[data-theme-on="paper"] > .approach-pin {
+    padding-top: 64px;
+    padding-bottom: 12px;
+  }
+  #approach h2 { font-size: clamp(36px, 5vw, 48px); }
+  #approach .proc-stage { min-height: 150px; max-height: 220px; }
+  #approach .proc-payoff { font-size: clamp(28px, 7.5vw, 42px); }
+}
+@media (max-height: 519px) {
   #approach { min-height: 0; }
   #approach.chapter[data-theme-on="paper"] > .approach-pin {
     position: relative;
@@ -271,7 +281,7 @@ html.motion-ready #approach .proc-piece { opacity: 0; }
     display: flex;
     flex-flow: row wrap;
     align-items: baseline;
-    gap: 8px 12px;
+    gap: 8px 0;
     height: auto;
     min-height: 0;
     overflow: visible;
@@ -282,6 +292,11 @@ html.motion-ready #approach .proc-piece { opacity: 0; }
     opacity: 1;
     clip-path: none;
     transform: none;
+  }
+  #approach .proc-piece + .proc-piece::before {
+    content: "·";
+    margin: 0 0.55em 0 0;
+    color: #8b95a3;
   }
   #approach .proc-axis { display: none; }
   #approach .proc-payoff {
@@ -314,6 +329,12 @@ html.reduce #approach .proc-stage,
     clip-path: none;
     transform: none;
   }
+html.reduce #approach .proc-piece + .proc-piece::before,
+html:not(.motion-ready) #approach .proc-piece + .proc-piece::before {
+  content: "·";
+  margin: 0 0.55em 0 0;
+  color: #8b95a3;
+}
   html.reduce #approach .proc-axis,
   html:not(.motion-ready) #approach .proc-axis { display: none; }
   html.reduce #approach .proc-payoff,
