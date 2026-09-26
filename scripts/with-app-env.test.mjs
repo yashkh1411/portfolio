@@ -11,6 +11,7 @@ import {
   parseAppEnv,
   projectRoot,
   readAppEnv,
+  resolveSpawn,
 } from "./with-app-env.mjs";
 
 const execFileAsync = promisify(execFile);
@@ -111,6 +112,14 @@ test("a signal-killed command is never reported as success", async () => {
     ]),
     (err) => err.signal === "SIGTERM" || err.code !== 0,
   );
+});
+
+test("vite is launched through its JavaScript entry, not a bare PATH lookup", () => {
+  const launched = resolveSpawn("vite", ["build", "--mode", "production"]);
+  assert.equal(launched.command, process.execPath);
+  assert.match(launched.args[0], /vite[/\\]bin[/\\]vite\.js$/);
+  assert.deepEqual(launched.args.slice(1), ["build", "--mode", "production"]);
+  assert.deepEqual(resolveSpawn("node", ["-e", "0"]), { command: "node", args: ["-e", "0"] });
 });
 
 test("the CLI still runs when invoked through a symlinked path", async () => {

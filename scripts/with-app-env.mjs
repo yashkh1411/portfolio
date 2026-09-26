@@ -88,6 +88,24 @@ export function projectRoot() {
 }
 
 /**
+ * Resolve a command the wrapper can `spawn` without a shell.
+ *
+ * npm puts `node_modules/.bin` on PATH, but on Windows that entry is
+ * `vite.cmd`. `child_process.spawn` does not apply `PATHEXT`, so a bare
+ * `vite` fails with `spawn vite ENOENT`. The Vite package ships `bin/vite.js`
+ * on every platform; run that with the current Node binary.
+ */
+export function resolveSpawn(command, args, root = projectRoot()) {
+  if (command === "vite") {
+    return {
+      command: process.execPath,
+      args: [join(root, "node_modules", "vite", "bin", "vite.js"), ...args],
+    };
+  }
+  return { command, args };
+}
+
+/**
  * Whether `moduleUrl` is the script node was asked to run.
  *
  * Both sides are resolved through symlinks: node realpaths `import.meta.url`
@@ -111,7 +129,8 @@ function main(argv) {
     process.exit(2);
   }
   const env = mergeAppEnv(readAppEnv(projectRoot()), process.env);
-  const child = spawn(command, args, { stdio: "inherit", env });
+  const launched = resolveSpawn(command, args);
+  const child = spawn(launched.command, launched.args, { stdio: "inherit", env, windowsHide: true });
   // The dev server is long-running and is stopped by signalling this wrapper.
   for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
     process.on(signal, () => child.kill(signal));
