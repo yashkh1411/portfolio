@@ -6,8 +6,10 @@ This package is the current workspace source. It is not an older export.
 
 ## Requirements
 
-- Node.js 22 or newer
+- Node.js 22.x (verified locally on 22.23.1)
 - npm
+
+This app is pinned to Node 22 for local development and for Vercel. `package.json` `engines.node` is `22.x`, `.node-version` is `22`, and the Nitro Vercel preset emits the `nodejs22.x` runtime. Vercel’s project default of Node 24 is not used: the lockfile and `@types/node` are on the 22 line, and the site was verified on 22. Do not bump the runtime without re-running typecheck, tests, and a production build.
 
 ## Install
 
