@@ -19,6 +19,18 @@ export default defineConfig(({ command, isPreview }) => ({
     strictPort: true,
   },
   resolve: { tsconfigPaths: true },
+  build: {
+    rolldownOptions: {
+      output: {
+        // Hero already lazy-loads Solar. Keep Three in that async graph as its
+        // own chunk. The minified library stays above 500 kB; do not hide that
+        // by raising chunkSizeWarningLimit.
+        manualChunks(id: string) {
+          if (id.includes("node_modules/three/") || id.includes("node_modules\\three\\")) return "three";
+        },
+      },
+    },
+  },
   plugins: [
     tailwindcss(),
     tanstackStart(),

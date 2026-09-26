@@ -1,10 +1,16 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState, type ComponentType } from "react";
 import { siteConfig } from "@/lib/site-config";
 import { SpaceField } from "@/components/space-field";
 import { initMotionState, isReduced, subscribeMotion } from "@/hooks/motion-state";
 
 
-const SolarSystem = lazy(() => import("@/components/solar-system").then((m) => ({ default: m.SolarSystem })));
+const SolarSystem = lazy(async (): Promise<{ default: ComponentType }> => {
+  if (import.meta.env.SSR) {
+    return { default: function SolarPlaceholder() { return null; } };
+  }
+  const loaded = await import("@/components/solar-system");
+  return { default: loaded.SolarSystem };
+});
 
 function SolarLayer() {
   const [enabled, setEnabled] = useState(false);
