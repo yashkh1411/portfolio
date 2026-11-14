@@ -1,64 +1,39 @@
-# Yash Khairwal — Portfolio
+# Yash Khairwal · portfolio site
 
-Scroll-driven portfolio for Yash Khairwal (New Delhi). React 19, TanStack Start, Vite, GSAP ScrollTrigger, and one Three.js solar scene.
+A single-page, scroll-driven portfolio: three real builds (PromptForge, SteadyNest, Project DO), how I work, and a Fiverr call to action.
+It's a plain static site: one `index.html`, no build step, no dependencies, no external requests.
 
-This package is the current workspace source. It is not an older export.
+## Run it locally (PowerShell)
 
-## Requirements
+1. `cd "C:\Users\yash\Downloads\claude portfolio\portfolio-site"`
+2. `python -m http.server 8820 --bind 127.0.0.1`
+3. Open `http://127.0.0.1:8820/` in Chrome. Expected: the blue loader with orbiting screens counts to 100%, then the hero.
 
-- Node.js 22.x (verified locally on 22.23.1)
-- npm
+Opening `index.html` straight from the file system may not load the fonts; use the server.
 
-This app is pinned to Node 22 for local development and for Vercel. `package.json` `engines.node` is `22.x`, `.node-version` is `22`, and the Nitro Vercel preset emits the `nodejs22.x` runtime. Vercel’s project default of Node 24 is not used: the lockfile and `@types/node` are on the 22 line, and the site was verified on 22. Do not bump the runtime without re-running typecheck, tests, and a production build.
+## Before it goes public
 
-## Install
+- [x] **Fiverr link.** Set to your gig, `https://www.fiverr.com/s/ZozlZwa`, in three places in `index.html`: `const FIVERR = ...` and the two links in the `<noscript>` block.
+- [x] **Link preview image.** `og:image` is the full URL `https://yash-khairwal.pages.dev/og.jpg`. Change it if you move to a custom domain.
+- [ ] **SteadyNest in public.** Your rule says PromptForge docs and public material never mention SteadyNest. Confirm that showing SteadyNest on this portfolio is okay.
+- [ ] **Real-phone check** and a **Lighthouse** run (not done yet).
 
-```bash
-npm install
-```
+## Deploy (static, no build step)
 
-## Development
+The folder root is the site. Any static host works: no build command, publish directory = the repo root.
+**Vercel Hobby (free) is not a safe fit.** Vercel's Terms of Service (last updated 19 Oct 2026, checked 14 Nov 2026) say: "You shall only use the Services under a Hobby plan for your personal or non-commercial use." A portfolio whose job is to win paid Fiverr work is commercial, so use Vercel Pro (paid) or another host.
+**GitHub Pages** (free) forbids sites "primarily directed at either facilitating commercial transactions" or running an online business; a portfolio that links out to Fiverr is not a store, but read the rule yourself before relying on it.
+**Cloudflare Pages (free) fits.** Cloudflare's Self-Serve Subscription Agreement (last updated 12 Sep 2025, checked 14 Nov 2026) has no personal or non-commercial clause; the free-plan rule that matters here is not to "process or collect personal or business credit card information" on the site, and this site collects nothing. Pages limits (checked the same day): 20,000 files per site and 25 MiB per file on Free; this site is 20 files, the largest 0.58 MB. Free sites get no SLA or support.
 
-```bash
-npm run dev
-```
+## Files
 
-Open http://localhost:8080/
+- `index.html` – the whole site (styles and script inline). Phone layout below 0.9 width/height; reduced-motion and no-JavaScript versions included.
+- `assets/` – 10 real screen captures used by the site.
+- `fonts/` – Barlow Condensed ExtraBold, Inter Tight, JetBrains Mono Medium (all SIL Open Font License 1.1; each licence text is included). The JetBrains Mono licence was downloaded on 14 Nov 2026 from https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/OFL.txt.
+- `og.jpg` – link preview image (1200x630). `favicon.svg` – tab icon.
 
-The dev server binds to `0.0.0.0:8080`. `npm run dev` runs Vite through `scripts/with-app-env.mjs`. A missing `.grok/app-env.json` is ignored. Auth is off. No database is required.
+## Checked on 14 Nov 2026 (local, headless Chrome)
 
-## Checks
-
-```bash
-npm run typecheck
-npm run lint
-npm run test
-```
-
-## Production build
-
-```bash
-npm run build
-npm run preview
-```
-
-`npm run build` runs the Vite production build, then `scripts/migrate.mjs`.
-
-- If `DATABASE_URL` is unset, migrations are skipped. This portfolio does not need a database for the public site.
-- If `DATABASE_URL` is set, pending SQL files in `migrations/` (not `migrations/auth/`) are applied.
-
-The Vite config uses the Nitro Vercel preset. `npm run build` writes the deploy output the host expects. Deploy that output with your host’s Node/Vite adapter. Do not commit `.env` or API keys.
-
-## Optional environment
-
-Copy `.env.example` to `.env` only if you are wiring a database. Leave it empty for a normal local run. Auth is off. No API keys are required.
-
-## What is in this tree
-
-- `src/` — routes, scenes, motion, solar system, project demos
-- `public/` — portraits, fonts, solar textures, map, favicon
-- `scripts/` — env wrapper, preview, checks
-- `server/` — platform middleware used by the Vite build
-Auth is off. There is no database and no AI API key in this package.
-
-Project DO on the site is a local UI simulation. FinPulse numbers are sample data. ROAM is a concept map, not a live routing product.
+- moment-check: desktop PASS 103.1 fps, 0 ms long tasks. Phone at 4x CPU PASS 104.2 fps, 79 ms longest load task. Reduced motion PASS 143 fps.
+- No page errors, no failed requests, no external requests. Full content visible at 1440x900, 1366x768, 1024x768, 2560x1080 and 360x800. No-JS version readable on desktop and phone.
+- Not tested: a real phone, Lighthouse, Safari/Firefox.
