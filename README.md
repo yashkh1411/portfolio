@@ -14,7 +14,7 @@ Opening `index.html` straight from the file system may not load the fonts; use t
 ## Before it goes public
 
 - [x] **Fiverr link.** Set to your gig, `https://www.fiverr.com/s/ZozlZwa`, in three places in `index.html`: `const FIVERR = ...` and the two links in the `<noscript>` block.
-- [ ] **Link preview image.** `og:image` is `og.jpg` (relative). Once you have a domain, change it to the full URL (for example `https://your-domain/og.jpg`) so link previews show it.
+- [x] **Link preview image.** `og:image` is the full URL `https://yash-khairwal.pages.dev/og.jpg`. Change it if you move to a custom domain.
 - [ ] **SteadyNest in public.** Your rule says PromptForge docs and public material never mention SteadyNest. Confirm that showing SteadyNest on this portfolio is okay.
 - [ ] **Real-phone check** and a **Lighthouse** run (not done yet).
 
