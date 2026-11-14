@@ -1,5 +1,10 @@
+# secrets never go in this repo
+.env*
+# local tool folders
+.wrangler/
+.vercel/
 node_modules/
-.project_id
-.github_repo
-.env
-.env.*
+# OS clutter
+.DS_Store
+Thumbs.db
+desktop.ini
