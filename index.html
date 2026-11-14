@@ -24,7 +24,7 @@ svg.full,canvas.full{position:absolute;left:0;top:0;width:var(--sw,1600px);heigh
 #p0,#pS{--bg:#0B0C0F;--key:#F4F2EC;--on:#F4F2EC;--acc:#D4AF5A}
 #p1{--bg:#0E1624;--key:#A9BCD6;--on:#E9EEF5;--acc:#C97B43}   /* navy / silver blue / copper */
 #p2{--bg:#F1ECE1;--key:#1E4A42;--on:#14211E;--acc:#E2634B}   /* cream / deep teal / coral */
-#p3{--bg:#0F100D;--key:#8C9A5B;--on:#E4E2D6;--acc:#C9A44C}   /* black / olive / brass */
+#p3{--bg:#141312;--key:#D08A5E;--on:#EDE6DA;--acc:#8A3322}   /* graphite / copper / oxblood, with a bone run panel */
 #p4{--bg:#E6EBD3;--key:#2E4632;--on:#1E2B20;--acc:#E07B39}   /* sage ivory / forest / tangerine */
 #p5{--bg:#0E0E10;--key:#9A9CA1;--on:#F1F1EF;--acc:#D22B3F}   /* jet black / smoke grey / cherry */
 #p6{--bg:#FBF1E0;--key:#6F0D17;--on:#2B0A0E;--acc:#D4AF5A}   /* warm ivory / burgundy / gold */
@@ -192,7 +192,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc,#D4AF5A);outlin
 .trail{transition:background-color .3s}#ret{transition:width .15s,height .15s,margin .15s,border-color .3s}
 /* ===== v15 energy on v16: bold flat backgrounds, chunky hard-shadow buttons and frames, the ribbon spine, the orbit-ring loader ===== */
 #p0{--bg:#1C47D0;--key:#0B0C0F;--on:#F4F2EC;--acc:#D4AF5A}   /* cobalt / ink / gold */
-#p1{--bg:#EA862C;--key:#120D0A;--on:#120D0A;--acc:#F4F2EC}   /* orange / ink / pearl */
+#p1{--bg:#0D1528;--key:#3D6CF0;--on:#EEF1F8;--acc:#F4F2EC}   /* deep ink / cobalt (PromptForge's own colour) / pearl */
 #p6{--bg:#D4AF5A;--key:#0B0C0F;--on:#0B0C0F;--acc:#F4F2EC}   /* gold / ink / pearl */
 .hire,.ghost,#forge,#p6 .big{border-radius:12px;border:3px solid var(--key);box-shadow:5px 5px 0 var(--key)}
 .ghost{background:var(--bg)}
@@ -227,6 +227,104 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc,#D4AF5A);outlin
 #p3 .st .pd{margin-left:auto;padding:8px 12px;border-radius:999px;box-shadow:inset 0 0 0 2px var(--on);font:500 12px/1 'JM',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--on);white-space:nowrap}
 #p3 .st .pd i{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--acc);animation:blink 1.2s steps(1) infinite}
 .m #p3 .flow{left:32px;top:520px;width:536px;padding:18px 20px}.m #p3 .st h4{font-size:25px}.m #p3 .st p{font-size:14.5px}.m #p3 .st b{width:40px;height:40px;font-size:21px}
+/* hand-over: the next chapter's ribbon streaks across, its colour band follows and floods the screen */
+.paint{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;visibility:hidden}
+/* "Wanna go next?": a little guy hits a red arcade button and the rope carries you to the next chapter */
+.nextb{position:absolute;z-index:45;right:40px;bottom:24px;display:flex;align-items:flex-end;gap:4px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit}
+.nextb .bub{position:absolute;right:-4px;bottom:100%;margin-bottom:12px;white-space:nowrap;padding:9px 13px;border-radius:10px;background:#F4F2EC;color:#0B0C0F;border:3px solid #0B0C0F;box-shadow:4px 4px 0 #0B0C0F;font:700 15px/1 'IT',sans-serif;animation:bub 1.6s ease-in-out infinite alternate}
+.nextb .bub::after{content:"";position:absolute;right:24px;top:100%;border:8px solid transparent;border-top-color:#0B0C0F}
+@keyframes bub{from{translate:0 0}to{translate:0 -5px}}
+.nextb .rb{position:relative;width:66px;height:42px;flex:none}
+.nextb .rb::before{content:"";position:absolute;left:0;right:0;bottom:0;height:24px;border-radius:50%;background:#7A1A12;border:3px solid #0B0C0F;box-sizing:border-box}
+.nextb .cap{position:absolute;left:9px;right:9px;bottom:11px;height:28px;border-radius:50%;background:#E5402F;border:3px solid #0B0C0F;box-sizing:border-box;transition:translate .12s}
+.nextb:hover .cap{translate:0 3px}.nextb:focus-visible{outline:3px solid var(--acc,#D4AF5A);outline-offset:6px;border-radius:12px}
+.nextb .guy{position:relative;--gs:30px;flex:none;margin-bottom:2px}
+html:not(.m) .nextb .bub{font-size:18px;padding:11px 15px}html:not(.m) .nextb .rb{width:80px;height:50px}html:not(.m) .nextb .rb::before{height:28px}html:not(.m) .nextb .cap{left:11px;right:11px;bottom:13px;height:33px}html:not(.m) .nextb .guy{--gs:36px}
+html:not(.m) #p4 .nextb{bottom:auto;top:430px}   /* Process: keep clear of the SHIP card */
+/* desktop: the bubble sits beside the guy, so it never covers a device; PromptForge and Process have open space above, so theirs sits on top */
+html:not(.m) .nextb .bub{right:100%;bottom:18px;margin:0 16px 0 0}
+html:not(.m) .nextb .bub::after{right:auto;left:100%;top:50%;margin-top:-8px;border-top-color:transparent;border-left-color:#0B0C0F}
+html:not(.m) #p1 .nextb,html:not(.m) #p4 .nextb{--x:0}
+html:not(.m) #p1 .nextb .bub,html:not(.m) #p4 .nextb .bub{bottom:100%;margin:0 0 12px}html:not(.m) #p4 .nextb .bub{right:-4px}
+html:not(.m) #p1 .nextb .bub::after,html:not(.m) #p4 .nextb .bub::after{left:auto;right:24px;top:100%;margin-top:0;border-left-color:transparent;border-top-color:#0B0C0F}
+html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb .bub{right:auto;left:-4px}html:not(.m) #p1 .nextb .bub::after{right:auto;left:24px}   /* PromptForge: under Run it again, clear of the screen */
+.m .nextb{right:22px;bottom:22px}.m .nextb .bub{font-size:14px}
+/* the rope that carries you between chapters */
+.rope{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;visibility:hidden}
+.flood{position:fixed;left:50%;top:50%;pointer-events:none;visibility:hidden;will-change:transform;overflow:visible}   /* the flood is a pre-drawn wavy curtain that only slides: no repaint per frame */
+.dev .s .boot{position:absolute;inset:0;z-index:2;background:#141416;transform:scaleY(0);transform-origin:50% 100%;will-change:transform}
+/* frosted glass (from the Glassy Dashboard reference): milky tint, a soft blur of whatever is behind, a thin bright edge */
+.gl{background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.07) 55%);border:1.5px solid rgba(255,255,255,.38);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 24px 60px rgba(0,0,0,.35)}   /* faded glass without live blur: what sits behind is blurred once (see .blobs), never per frame */
+/* glass hand-over: a frosted pane carries the next chapter's name across the screen */
+.pane{position:fixed;inset:0;border-radius:36px;visibility:hidden;pointer-events:none;display:flex;flex-direction:column;justify-content:flex-end;padding:7vh 5vw;will-change:transform;color:#0B0C0F}
+.pane.gl{background:linear-gradient(160deg,rgba(250,249,245,.9),rgba(236,234,228,.8) 60%,rgba(226,224,218,.84));border:2px solid rgba(255,255,255,.75);box-shadow:inset 0 2px 0 rgba(255,255,255,.9),inset 0 -40px 80px rgba(255,255,255,.25),0 30px 80px rgba(0,0,0,.35)}   /* milky faded glass: you sense the page behind, you can't read it */
+.pane span{font:500 13px/1 'JM',monospace;letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px}
+.pane b{font:800 min(10vw,128px)/.88 'BC',sans-serif;text-transform:uppercase;max-width:14ch}
+/* 05 Range: four real earlier directions on frosted glass cards over flat colour shapes; one comes forward at a time */
+#p5 .blobs{position:absolute;left:0;top:0;width:100%;height:100%;z-index:5}   /* colour shapes blurred once into a canvas at load: moving it never re-blurs, and the cards above read as frosted glass */
+#p5 .deck{position:absolute;inset:0;z-index:20}
+#p5 .rc{position:absolute;left:0;top:0;width:560px;margin:0;padding:12px;border-radius:22px;transform-origin:50% 50%;will-change:transform;box-sizing:border-box}
+#p5 .rc.gl{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 14px 30px rgba(0,0,0,.3)}
+#p5 .rc img{display:block;width:100%;aspect-ratio:16/9;border-radius:12px;object-fit:cover}
+#p5 .rc figcaption{display:flex;flex-direction:column;gap:6px;padding:12px 6px 4px;color:#F4F2EC}
+#p5 .rc b{font:800 30px/1 'BC',sans-serif;text-transform:uppercase}#p5 .rc figcaption span{font:500 15px/1.35 'IT',sans-serif}
+#p5 .tag5{position:absolute;z-index:30;font:500 12.5px/1 'JM',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--on)}
+/* 03 DO: a live simulated run beside the four steps */
+#p3 .fr{display:grid;grid-template-columns:160px 1fr;gap:18px}
+#p3 .rail{list-style:none;margin:0;padding:0;display:grid;gap:10px;align-content:start}
+#p3 .rail li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;font:800 21px/1 'BC',sans-serif;text-transform:uppercase;color:var(--on);box-shadow:inset 0 0 0 2px #2A2C1F}
+#p3 .rail li b{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--key);color:var(--bg);font-size:17px}
+#p3 .rail li.on{background:var(--key);color:var(--bg);box-shadow:none}#p3 .rail li.on b{background:var(--acc)}
+#p3 .run{position:relative;height:318px;display:flex;flex-direction:column;gap:11px;padding:16px;border-radius:14px;background:#0B0C09;box-shadow:inset 0 0 0 2px #2A2C1F;box-sizing:border-box;overflow:hidden}
+#p3 .run>div{opacity:0}
+#p3 .mu{align-self:flex-end;max-width:82%;min-height:20px;padding:11px 14px;border-radius:14px 14px 4px 14px;background:#E4E2D6;color:#0F100D;font:600 15px/1.35 'IT',sans-serif}
+#p3 .ma{align-self:flex-start;max-width:88%;padding:10px 14px;border-radius:12px;background:var(--key);color:#0F100D;font:700 15px/1.35 'IT',sans-serif}
+#p3 .ma small{display:block;font:500 10.5px/1 'JM',monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
+#p3 .mq{align-self:flex-start;max-width:88%;min-height:20px;padding:11px 14px;border-radius:14px 14px 14px 4px;background:#20221A;color:var(--on);font:500 15px/1.35 'IT',sans-serif;box-shadow:inset 0 0 0 1.5px var(--key)}
+#p3 .mr{align-self:flex-end;padding:8px 14px;border-radius:999px;background:var(--acc);color:#0F100D;font:700 14px/1 'IT',sans-serif}
+#p3 .stt{margin-top:auto;font:500 11.5px/1.45 'JM',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--on)}
+#p3 .stt i{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--acc);animation:blink 1.2s steps(1) infinite}
+.m #p3 .fr{grid-template-columns:1fr;gap:12px}.m #p3 .rail{grid-template-columns:repeat(4,1fr);gap:6px}.m #p3 .rail li{font-size:15px;padding:8px 6px;gap:6px;justify-content:center}.m #p3 .rail li b{width:22px;height:22px;font-size:13px}.m #p3 .run{height:300px}
+/* 06 Hire: what was actually checked on this site */
+.trust{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:28px;max-width:640px}
+.trust span{font:500 12px/1 'JM',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--on);margin-right:4px}
+.trust i{font:600 13px/1 'IT',sans-serif;font-style:normal;padding:8px 11px;border-radius:999px;box-shadow:inset 0 0 0 2px var(--key);color:var(--on)}
+.m .trust{max-width:536px}.m .trust i{font-size:12px}
+/* ===== premium middle: the product chapters drop the chunky hard shadows for hairline frames and deep soft shadows (the front stays playful) ===== */
+#p1 .dev .f,#p2 .dev .f,#p3 .dev .f,#p4 .dev .f,#p5 .dev .f{box-shadow:0 0 0 1.5px var(--key),0 34px 70px rgba(0,0,0,.38),0 8px 18px rgba(0,0,0,.22)}
+#p1 .plus{box-shadow:0 12px 26px rgba(0,0,0,.28);border-width:2px}#p2 .note{box-shadow:0 14px 30px rgba(20,33,30,.28)}
+#p3 .flow{background:#1B1917;border:1.5px solid var(--key);box-shadow:0 40px 80px rgba(0,0,0,.5),0 10px 22px rgba(0,0,0,.3)}
+#p3 .rail li{box-shadow:inset 0 0 0 1.5px #3A3530}#p3 .rail li.on{background:var(--key);color:#141312}#p3 .rail li.on b{background:var(--acc);color:var(--on)}
+#p3 .run{background:var(--on);box-shadow:inset 0 0 0 1px rgba(20,19,18,.12)}
+#p3 .mu{background:var(--acc);color:var(--on)}
+#p3 .ma{background:var(--key);color:#141312}
+#p3 .mq{background:#FBF7F0;color:#141312;box-shadow:inset 0 0 0 1.5px var(--key)}
+#p3 .mr{background:#141312;color:var(--on)}
+#p3 .stt{color:#141312}#p3 .stt i{background:var(--acc)}
+#p3 .proto{border-width:1.5px}
+/* ===== gate: three glass panels, one open at a time ===== */
+#pS .blobsS{position:absolute;left:0;top:0;width:100%;height:100%;z-index:5}
+#pS .row3{position:absolute;left:640px;top:150px;width:852px;height:650px;z-index:20;overflow:hidden;border-radius:24px}
+#pS .store{position:absolute;left:0;top:0;height:100%;display:block;width:520px;translate:none;will-change:transform}
+#pS .store:hover{translate:none}
+#pS .pn{position:relative;height:100%;border-radius:24px;overflow:hidden;box-sizing:border-box;padding:22px}
+#pS .no{position:absolute;left:20px;top:16px;font:800 46px/1 'BC',sans-serif}
+#pS .vt{position:absolute;left:75px;bottom:28px;writing-mode:vertical-rl;transform:translateX(-50%) rotate(180deg);font:800 34px/1 'BC',sans-serif;text-transform:uppercase;letter-spacing:.02em;color:#F4F2EC;white-space:nowrap}
+#pS .bd{position:absolute;left:22px;top:74px;width:430px;height:554px;display:flex;flex-direction:column;gap:10px;opacity:0;will-change:opacity,transform}
+#pS .nm{font:800 40px/1 'BC',sans-serif;text-transform:uppercase;color:#F4F2EC}
+#pS .ln{font:500 12.5px/1 'JM',monospace;letter-spacing:.12em;text-transform:uppercase;color:#F4F2EC}
+#pS .scr{position:relative;flex:1;min-height:0;border-radius:14px;overflow:hidden;background:#141416;box-shadow:0 0 0 1.5px rgba(255,255,255,.35)}
+#pS .scr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#pS .why{margin:2px 0 0;font:600 17px/1.35 'IT',sans-serif;color:#F4F2EC}#pS .why em{display:block;font:500 11px/1 'JM',monospace;font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:#D4AF5A;margin-bottom:6px}
+#pS .go{font:700 14px/1 'IT',sans-serif;color:#D4AF5A}
+.m #pS .row3{left:32px;top:430px;width:536px;height:702px}
+.m #pS .store{width:536px;height:470px}.m #pS .vt{writing-mode:horizontal-tb;transform:none;left:86px;bottom:auto;top:34px;font-size:30px}
+.m #pS .bd{width:auto;right:22px;top:66px;bottom:auto;height:380px}   /* fixed height: opening a panel reveals the screen, it never re-scales it */.m #pS .nm{font-size:30px}.m #pS .why{font-size:15px}
+/* Range: a chip says whether a card is a real build or AI-assisted concept art */
+#p5 .rc em{align-self:flex-start;font:600 11px/1 'JM',monospace;font-style:normal;letter-spacing:.12em;text-transform:uppercase;padding:6px 8px;border-radius:6px;background:#F4F2EC;color:#0B0C0F}
+#p5 .rc em.ca{background:#D4AF5A}
+/* Hire: point to the real prices */
+.pk{display:block;width:max-content;margin-top:18px;font:600 15px/1 'IT',sans-serif;color:var(--on);text-decoration:underline;text-underline-offset:4px}
 .nojs{max-width:760px;margin:0 auto;padding:64px 24px 96px;color:#F4F2EC;font:500 18px/1.6 'IT',sans-serif}
 .nojs h1,.nojs h2{white-space:normal}.nojs h1{margin:16px 0 0;font:800 clamp(52px,11vw,104px)/.9 'BC',sans-serif;text-transform:uppercase}
 .nojs h2{margin:56px 0 0;font:800 40px/1 'BC',sans-serif;text-transform:uppercase}.nojs h3{margin:28px 0 0;font:700 20px/1.3 'IT',sans-serif}
@@ -277,7 +375,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc,#D4AF5A);outlin
 <section class="page" id="pS"><div class="stage">
  <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">The work · pick a build</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
  <div class="copy"><div class="kick">Three real builds</div><h2>Step inside<br>one.</h2>
-  <p class="sub">Each storefront opens onto a real screen. Hover to look in, click to walk through that chapter.</p></div>
+  <p class="sub">Three things I built, and what each one proves I can build for you. Hover a panel to open it, click to walk inside.</p></div>
+ <div class="row3"></div>
 </div></section>
 
 <section class="page" id="p1"><div class="stage">
@@ -308,11 +407,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc,#D4AF5A);outlin
   <div class="proto">Prototype · simulated run · calendar proof pending · not live</div></div>
  <svg class="full" id="str3" viewBox="0 0 1600 900" data-mid="hide"></svg>
  <div class="chips"><div class="chip">1 request → 1 plan</div><div class="chip">asks 1 question</div><div class="chip pend"><i></i>calendar read-back · pending</div></div>
- <div class="flow" data-depth="60"><div class="fh">How DO handles a request · simulated run</div>
-  <div class="st"><b style="animation-delay:0s">1</b><div><h4>Request</h4><p>One request comes in.</p></div></div>
-  <div class="st"><b style="animation-delay:1.5s">2</b><div><h4>Plan</h4><p>It becomes one plan.</p></div></div>
-  <div class="st"><b style="animation-delay:3s">3</b><div><h4>Question</h4><p>If something is missing, it asks one question.</p></div></div>
-  <div class="st"><b style="animation-delay:4.5s">4</b><div><h4>Confirm</h4><p>Marked done only after the calendar reads it back.</p></div><span class="pd"><i></i>Pending</span></div></div>
+ <div class="flow" data-depth="60"><div class="fh">Project DO · simulated run · sample request · not live</div>
+  <div class="fr"><ol class="rail"><li><b>1</b>Request</li><li><b>2</b>Plan</li><li><b>3</b>Question</li><li><b>4</b>Confirm</li></ol>
+   <div class="run"><div class="mu"></div><div class="ma"><small>One plan</small><span>Tue · 4:00–4:30 pm · Call with accountant</span></div><div class="mq"></div><div class="mr">Tue 4 pm</div>
+    <div class="stt"><i></i>Sent to the calendar · waiting for its read-back · not marked done</div></div></div></div>
 </div></section>
 
 <section class="page" id="p4"><div class="stage">
@@ -322,10 +420,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc,#D4AF5A);outlin
 </div></section>
 
 <section class="page" id="p5"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">05 / 06 · The work, up close</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">05 · Work · real screens</div><h2>Real screens,<br>nothing mocked.</h2>
-  <p class="sub">Every card is a capture of something I built: PromptForge, SteadyNest and the Project DO prototype.</p></div>
- <div class="tunnel" id="tun5"><div class="ring"></div></div>
+ <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">05 / 06 · Range</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
+ <div class="copy"><div class="kick">05 · Range · same products, other styles</div><h2>Not just<br>one style.</h2>
+  <p class="sub">Before this version I built six other directions for this same portfolio, from calm editorial to cinematic 3D. Two cards are the AI-assisted concept art I started from, and they say so. Your site gets the style your customers need.</p></div>
+ <div class="deck"></div>
 </div></section>
 
 <section class="page" id="p6"><div class="stage">
@@ -333,7 +431,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc,#D4AF5A);outlin
  <div class="copy"><div class="kick">06 · Let's build yours</div><h2>Available for<br>new work.</h2>
   <p class="sub">Immersive 3D websites, designed and engineered by Yash. Start with a short brief on Fiverr.</p>
   <ul class="list"><li><span>A scroll story built around your product, shop or service</span></li><li><span>Phone and desktop versions, checked before hand-off</span></li><li><span>The source files and a short written hand-off note</span></li></ul>
-  <span class="hirewrap"><a class="big" id="contact" data-hire href="#">Hire me on Fiverr →</a></span></div>
+  <span class="hirewrap"><a class="big" id="contact" data-hire href="#">Hire me on Fiverr →</a></span>
+  <a class="pk" data-hire href="#">See packages and prices on Fiverr →</a>
+  <div class="trust"><span>Checked on this site</span><i>Frame-timed on a 4× slowed phone CPU</i><i>Reduced-motion version</i><i>Works without JavaScript</i><i>Real screens only</i></div></div>
 </div></section>
 
 <div id="spacer"></div>
@@ -373,7 +473,7 @@ function device(stage, a) {
   const h = sh + 2 * b + (a.kind === 'win' ? 22 : 0); d.style.left = (a.cx - a.w / 2) + 'px'; d.style.top = (a.cy - h / 2) + 'px'; d.style.zIndex = a.z || 5;
   stage.appendChild(d); a.h = h; a.d = d; a.imgs = [...d.querySelectorAll('img')]; return a;
 }
-const SCR = { pfW: 'assets/pf-weak-wide.jpg', pfS: 'assets/pf-stream-wide.jpg', pfF: 'assets/pf-final-wide.jpg', snL: 'assets/sn-04-listing-detail.jpg', snD: 'assets/sn-03-tenant-discovery-list.jpg', snT: 'assets/sn-06-tira-chat.jpg', snR: 'assets/sn-02-role-selection.jpg', snI: 'assets/sn-01-login.jpg', doB: 'assets/do-braid.jpg', pfSet: 'assets/pf-settings.jpg' };
+const SCR = { pfW: 'assets/pf-weak-2x.jpg', pfS: 'assets/pf-stream-2x.jpg', pfF: 'assets/pf-final-2x.jpg', snL: 'assets/sn-04-listing-detail.jpg', snD: 'assets/sn-03-tenant-discovery-list.jpg', snT: 'assets/sn-06-tira-chat.jpg', snR: 'assets/sn-02-role-selection.jpg', snI: 'assets/sn-01-login.jpg', doB: 'assets/do-braid.jpg', pfSet: 'assets/pf-settings.jpg' };
 
 /* ---------- mascot: an original little flat figure (fill + outline); walk / sit / wave / cheer ---------- */
 function guy(parent, o) {
@@ -398,15 +498,17 @@ await YIELD();
 
 /* ======================= level select: three storefronts ======================= */
 const stS = document.querySelector('#pS .stage');
-const STORES = [['p1', 'PromptForge', 'win', SCR.pfF, '0 0', 'Chrome extension', 'works today'], ['p2', 'SteadyNest', 'phone', SCR.snL, '50% 0', 'Rental app for India', 'in build'], ['p3', 'Project DO', 'tab', SCR.doB, '30% 50%', 'AI assistant · concept render', 'prototype']]
- .map(([id, name, kind, src, pos, line, st], i) => {
-   const w = M([480, 180, 380], [520, 150, 300])[i], cx = M([600, 975, 1310], [300, 150, 420])[i], base = M([760, 760, 760], [770, 1190, 1190])[i];
-   const r = kind === 'phone' ? Math.round(w * .13) : kind === 'tab' ? 16 : 12, b = kind === 'phone' ? 7 : kind === 'tab' ? 10 : 6, sw = w - 2 * b, sh = kind === 'phone' ? sw * 2400 / 1080 : kind === 'tab' ? sw * 9 / 16 : sw * .42, h = sh + 2 * b + (kind === 'win' ? 20 : 0);
-   const a = document.createElement('a'); a.className = 'store'; a.href = '#' + id; a.setAttribute('aria-label', `Open ${name}`); Object.assign(a.style, { left: cx - w / 2 + 'px', top: base - h + 'px', width: w + 'px' });
-   a.innerHTML = `<div class="sign">${name}<i></i><span class="tagx">CLOSED</span></div><div class="f" style="--r:${r}px;--b:${b}px">${kind === 'win' ? '<div class="bar"><i></i><i></i><i></i></div>' : ''}<div class="scr" style="height:${sh}px"><img src="${src}" alt="${name} screen" style="object-position:${pos}"><div class="shutter"></div></div></div><div class="meta"><span class="ln">${line}</span><span class="status">${st}</span></div>`;
-   stS.appendChild(a); a.querySelector('.sign i').style.background = getComputedStyle(document.getElementById(id)).getPropertyValue('--acc'); const kp = guy(a, { act: 'wave', fill: '#F4F2EC', line: '#0B0C0F' }); kp.classList.add('keeper');
-   return { a, sh: a.querySelector('.shutter'), open: 0, i, scr: a.querySelector('.scr'), tag: a.querySelector('.tagx'), kp, sign: a.querySelector('.sign') }; });
-M([[300, 1560, 760]], [[20, 580, 770], [20, 580, 1190]]).forEach(([x0, x1, y]) => { const s = document.createElement('div'); s.className = 'shelf'; Object.assign(s.style, { left: x0 + 'px', width: x1 - x0 + 'px', top: y + 'px' }); stS.appendChild(s); });
+{ const cv = document.createElement('canvas'), g = cv.getContext('2d'); cv.className = 'blobsS'; cv.setAttribute('aria-hidden', 'true'); cv.width = SW / 4; cv.height = SH / 4; g.filter = 'blur(11px)';   // quarter size: it is blurred anyway, and costs ~16x less to draw
+  M([[820, 360, 200, '#3D6CF0'], [1130, 620, 190, '#1E4A42'], [1440, 330, 180, '#D08A5E']], [[170, 640, 150, '#3D6CF0'], [440, 900, 150, '#1E4A42'], [200, 1130, 140, '#D08A5E']])
+    .forEach(([x, y, r, c]) => { g.fillStyle = c; g.beginPath(); g.arc(x / 4, y / 4, r / 4, 0, Math.PI * 2); g.fill(); }); stS.appendChild(cv); }
+const ROW3 = document.querySelector('#pS .row3');
+const STORES = [['p1', '01', 'PromptForge', 'Chrome extension · works today', SCR.pfF, '0 0', 'Browser tools and AI features, shipped and working today.'],
+  ['p2', '02', 'SteadyNest', 'Rental app for India · in build', SCR.snL, '50% 16%', 'Full mobile apps with real flows, made for real users.'],
+  ['p3', '03', 'Project DO', 'AI assistant · prototype · concept render', SCR.doB, '30% 50%', 'AI assistants that show their work, prototyped honestly.']]
+ .map(([id, no, name, line, src, pos, why], i) => { const a = document.createElement('a'); a.className = 'store'; a.href = '#' + id; a.setAttribute('aria-label', `Open ${name}`);
+   a.innerHTML = `<div class="pn gl"><span class="no">${no}</span><span class="vt">${name}</span><div class="bd"><b class="nm">${name}</b><span class="ln">${line}</span><div class="scr"><img src="${src}" alt="${name} screen" style="object-position:${pos}"></div><p class="why"><em>Proves</em>${why}</p><span class="go">Walk inside →</span></div></div>`;
+   a.querySelector('.no').style.color = getComputedStyle(document.getElementById(id)).getPropertyValue('--key'); ROW3.appendChild(a);
+   return { a, pn: a.querySelector('.pn'), bd: a.querySelector('.bd'), vt: a.querySelector('.vt'), e: i === 0 ? 1 : 0, i, scr: a.querySelector('.scr') }; });
 await YIELD();
 
 /* ======================= 01 PromptForge ======================= */
@@ -417,7 +519,7 @@ const PFN = document.querySelector('#p1 .meter .num'), PFB = document.querySelec
 Object.assign(PFP.style, { left: M(1470, 470) + 'px', top: M(208, 626) + 'px' }); Object.assign(PFS.style, { left: M(740, 32) + 'px', top: M(778, 1130) + 'px' });
 let PF0 = 0; document.getElementById('forge').addEventListener('click', () => { PF0 = NOW; });
 const CF1 = document.getElementById('cf1'), CF1G = CF1.getContext('2d'); CF1.width = SW; CF1.height = SH;
-const CFP = Array.from({ length: 46 }, (_, i) => ({ a: -Math.PI / 2 + (rn() - .5) * 2.4, v: 260 + rn() * 340, s: 5 + rn() * 7, r: rn() * 6, c: i % 3 ? '#F4F2EC' : '#120D0A' }));
+const CFP = Array.from({ length: 46 }, (_, i) => ({ a: -Math.PI / 2 + (rn() - .5) * 2.4, v: 260 + rn() * 340, s: 5 + rn() * 7, r: rn() * 6, c: i % 3 ? '#F4F2EC' : '#3D6CF0' }));
 function pf(t) { const ph = ((t - PF0) % 10 + 10) % 10, st = ph < 2.2 ? 0 : ph < 3.6 ? 1 : 2;
   { CF1G.clearRect(0, 0, SW, SH); const u = ph - 3.7; if (u > 0 && u < 1.3) { const ox = M(1500, 500), oy = M(228, 646);   // a short burst from the +12 when the score lands
     CFP.forEach(p => { const x = ox + Math.cos(p.a) * p.v * u, y = oy + Math.sin(p.a) * p.v * u + 700 * u * u; CF1G.save(); CF1G.translate(x, y); CF1G.rotate(p.r + u * 8); CF1G.fillStyle = p.c; CF1G.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * .66); CF1G.restore(); }); } }
@@ -441,14 +543,14 @@ await YIELD();
 
 /* ======================= 03 Project DO: five strands weave into one braid as they reach the plan ======================= */
 const st3 = document.querySelector('#p3 .stage');
-if (!MOB) { device(st3, { src: SCR.doB, kind: 'tab', cx: 1310, cy: 722, w: 330, rz: -2, ry: -8, z: 6, fa: 4, alt: 'Project DO concept render: strands braided into one' });
-  const c = document.createElement('div'); c.className = 'cap'; c.textContent = 'Concept render · not a product screen'; Object.assign(c.style, { left: '1140px', top: '846px' }); st3.appendChild(c); }
+if (!MOB) { device(st3, { src: SCR.doB, kind: 'tab', cx: 1180, cy: 722, w: 330, rz: -2, ry: -8, z: 6, fa: 4, alt: 'Project DO concept render: strands braided into one' });
+  const c = document.createElement('div'); c.className = 'cap'; c.textContent = 'Concept render · not a product screen'; Object.assign(c.style, { left: '1015px', top: '846px' }); st3.appendChild(c); }
 Object.assign(document.querySelector('#p3 .chips').style, { left: M(842, 32) + 'px', top: M(700, 1190) + 'px', right: M('auto', '32px') });
 const XS3 = M([600, 640, 680, 720, 760], [120, 210, 300, 390, 480]), STR3 = XS3.map(x => { const o = document.createElementNS(NS, 'path'), c = document.createElementNS(NS, 'path');
-  o.setAttribute('stroke', '#0F100D'); o.setAttribute('stroke-width', M(14, 12)); c.setAttribute('stroke', '#8C9A5B'); c.setAttribute('stroke-width', M(8, 7));
+  o.setAttribute('stroke', '#141312'); o.setAttribute('stroke-width', M(14, 12)); c.setAttribute('stroke', '#D08A5E'); c.setAttribute('stroke-width', M(8, 7));
   [o, c].forEach(p => { p.setAttribute('fill', 'none'); p.setAttribute('stroke-linecap', 'round'); document.getElementById('str3').appendChild(p); });
-  const n = document.createElement('div'); n.className = 'node'; Object.assign(n.style, { left: x + 'px', top: M(800, 1110) + 'px' }); st3.appendChild(n); return [o, c]; });
-const B3 = M({ a: [680, 800], b: [760, 720], c: [770, 400], e: [842, 370], amp: 14 }, { a: [300, 1110], b: [300, 1050], c: [300, 980], e: [300, 900], amp: 10 });
+  const n = document.createElement('div'); n.className = 'node'; Object.assign(n.style, { left: x + 'px', top: M(800, 1180) + 'px' }); st3.appendChild(n); return [o, c]; });
+const B3 = M({ a: [680, 800], b: [760, 720], c: [770, 400], e: [842, 370], amp: 14 }, { a: [300, 1180], b: [300, 1120], c: [300, 1060], e: [300, 1000], amp: 10 });
 const bez = s => { const u = 1 - s; return [0, 1].map(j => u * u * u * B3.a[j] + 3 * u * u * s * B3.b[j] + 3 * u * s * s * B3.c[j] + s * s * s * B3.e[j]); };
 function weave3(t) { const n = 30; STR3.forEach(([o, c], i) => { let d = ''; const sx = XS3[i] - B3.a[0];
   for (let k = 0; k <= n; k++) { const s = k / n, p = bez(s), q = bez(Math.min(1, s + .01)), tx = q[0] - p[0], ty = q[1] - p[1], L = Math.hypot(tx, ty) || 1, nx = -ty / L, ny = tx / L;
@@ -480,11 +582,27 @@ const N4 = M([[150, 690], [470, 590], [790, 715], [1110, 570], [1440, 660]], [[1
   const mkr = document.createElement('div'); mkr.className = 'mk'; mkr.dataset.depth = '110'; mkr.style.offsetPath = `path('${d}')`; mkr.style.animation = `trek ${DUR}s linear infinite`; st4.appendChild(mkr); }
 await YIELD();
 
-/* ======================= 05 Work: a slow ring of real screens ======================= */
-const RING5 = document.querySelector('#tun5 .ring'), R5 = M(430, 330);
-[[SCR.pfF, '0 0'], [SCR.snL], [SCR.doB, '30% 50%'], [SCR.snT], [SCR.pfSet, '0 0'], [SCR.snD], [SCR.pfW, '0 0'], [SCR.snI], [SCR.pfS, '0 0'], [SCR.snR]]
- .forEach(([src, pos], i, A) => { const c = document.createElement('div'); c.className = 'tc'; c.style.transform = `rotateY(${(i * 360 / A.length).toFixed(1)}deg) translateZ(${-R5}px)`;
-   c.innerHTML = `<div class="in"><img src="${src}" alt="" style="${pos ? 'object-position:' + pos : ''}"></div>`; RING5.appendChild(c); });
+/* ======================= 05 Range: four earlier directions for this portfolio, on frosted glass ======================= */
+const st5 = document.querySelector('#p5 .stage');
+{ const cv = document.createElement('canvas'), g = cv.getContext('2d'); cv.className = 'blobs'; cv.setAttribute('aria-hidden', 'true'); cv.width = SW / 4; cv.height = SH / 4; g.filter = 'blur(9.5px)';   // quarter size, scaled up by CSS
+  M([[1000, 290, 230, '#1C47D0'], [1400, 560, 210, '#D22B3F'], [1130, 790, 170, '#D4AF5A'], [800, 620, 150, '#8C9A5B']], [[150, 560, 170, '#1C47D0'], [470, 760, 160, '#D22B3F'], [330, 1060, 150, '#D4AF5A'], [110, 980, 120, '#8C9A5B']])
+    .forEach(([x, y, r, c]) => { g.fillStyle = c; g.beginPath(); g.arc(x / 4, y / 4, r / 4, 0, Math.PI * 2); g.fill(); });
+  st5.insertBefore(cv, document.querySelector('#p5 .deck')); }
+const R5C = [['range-editorial', 'Calm editorial', 'Serif type, quiet colour · shops, brands, bakeries', 'Built'], ['range-minimal', 'Clean minimal', 'Dark, precise, product-first · startups', 'Built'],
+  ['range-gpt1', 'Burst', 'Where the bold direction started · AI-assisted image', 'Concept art'], ['range-3d', 'Cinematic 3D', 'A 3D scene you scroll through · launches', 'Built'],
+  ['range-3dring', 'Premium 3D', 'A gold ring and real screens in a 3D room · premium brands', 'Built'], ['range-illustrated', 'Bold illustrated', 'Flat colour and characters · playful brands', 'Built'],
+  ['range-gpt2', 'Track', 'A product-on-a-track idea · AI-assisted image', 'Concept art'], ['range-ember', 'Cinematic product', 'Warm light on the real product · tools and SaaS', 'Built']];
+const RC5 = R5C.map(([img, t, d, tag]) => { const c = document.createElement('figure'); c.className = 'rc gl'; c.innerHTML = `<img src="assets/${img}.jpg" alt="${t}: ${tag === 'Built' ? 'an earlier build of this portfolio' : 'AI-assisted concept image'}" loading="eager"><figcaption><em class="${tag === 'Built' ? '' : 'ca'}">${tag}</em><b>${t}</b><span>${d}</span></figcaption>`; document.querySelector('#p5 .deck').appendChild(c); return c; });
+{ const t = document.createElement('div'); t.className = 'tag5'; t.textContent = 'Built = a real earlier build · Concept art = AI-assisted image'; Object.assign(t.style, { left: M(64, 32) + 'px', top: M(560, 470) + 'px' }); st5.appendChild(t); }
+// slot 0 is the featured card; the others wait in a row below. Every 3.4 s the next card glides forward (a shared-layout style morph)
+const SL5 = M([[1130, 380, 1], [760, 740, .38], [980, 740, .38], [1200, 740, .38]], [[300, 700, .95], [112, 1080, .3], [300, 1080, .3], [488, 1080, .3]]);
+const SLH = M([1420, 740, .2, 0], [600, 1080, .15, 0]);   // waiting cards rest out of sight to the right of the row
+const slot = r => r < 4 ? SL5[r] : SLH;
+function range5(t) { const per = 3.4, N = RC5.length, f = Math.floor(t / per), u = eio(cl((t - f * per) / .9));
+  RC5.forEach((c, i) => { const ra = ((i - f + 1) % N + N) % N, rb = ((i - f) % N + N) % N, a = slot(ra), b = slot(rb), x = a[0] + (b[0] - a[0]) * u, y = a[1] + (b[1] - a[1]) * u, k = a[2] + (b[2] - a[2]) * u;
+    const op = (ra < 4 ? 1 : 0) + ((rb < 4 ? 1 : 0) - (ra < 4 ? 1 : 0)) * u; if (c._op !== op.toFixed(2)) { c._op = op.toFixed(2); c.style.opacity = c._op; }
+    const tr = `translate(${(x - 280).toFixed(1)}px,${(y - 210).toFixed(1)}px) scale(${k.toFixed(4)})`, z = b[2] === 1 ? '4' : '1';
+    if (c._tr !== tr) { c._tr = tr; c.style.transform = tr; } if (c._z !== z) { c._z = z; c.style.zIndex = z; } }); }   // write only what changed: between morphs the deck costs nothing
 await YIELD();
 
 /* ======================= 06 Hire: the three builds again, small, beside the offer ======================= */
@@ -496,11 +614,11 @@ await YIELD();
 /* ======================= the journey ======================= */
 const PAGES = [...document.querySelectorAll('section.page')], NP = PAGES.length, UNIT = () => innerHeight * 1.25, KOF = id => PAGES.findIndex(p => p.id === id);
 // one language: each chapter floods in from the previous scene's key object; out of the level select you walk through the storefront you picked
-const TRANS = ['none', 'flood', 'portal', 'flood', 'flood', 'flood', 'flood', 'flood'];
+const TRANS = ['none', 'glass', 'portal', 'flood', 'glass', 'flood', 'glass', 'flood'];   // rope ('flood') and frosted glass take turns; the storefront keeps its portal
 const ORIGIN = M([[1190, 410], null, [1140, 560], [1090, 520], [1150, 430], [1440, 660], [1180, 520]], [[300, 700], null, [300, 900], [300, 980], [300, 790], [140, 1080], [300, 750]]);
 let PICK = 0;   // which storefront the portal opens from
 // the three flat colours of every chapter, read once from CSS (drives the cursor tail and the reticle)
-const PAL = PAGES.map(pg => { const cs = getComputedStyle(pg); return { acc: cs.getPropertyValue('--acc').trim(), key: cs.getPropertyValue('--key').trim() }; });
+const PAL = PAGES.map(pg => { const cs = getComputedStyle(pg); return { acc: cs.getPropertyValue('--acc').trim(), key: cs.getPropertyValue('--key').trim(), bg: cs.getPropertyValue('--bg').trim() }; });
 // v15 ribbon spine, re-routed for the v16 layouts: one thick line per scene in its key colour, behind the work, drawn in as the scene arrives,
 // SteadyNest has its street and Process its road, so they get none.
 const RIB = { p0: ['M-60 880 C 260 905, 520 860, 760 720 S 1260 560, 1660 640', 'M-40 1272 C 160 1236, 380 1292, 640 1214'],
@@ -508,18 +626,27 @@ const RIB = { p0: ['M-60 880 C 260 905, 520 860, 760 720 S 1260 560, 1660 640', 
   p1: ['M-60 850 C 260 880, 560 800, 720 640 S 1100 380, 1660 330', 'M-40 1250 C 160 1190, 420 1270, 640 1160'],
   p3: ['M-60 890 C 400 868, 800 906, 1200 880 S 1500 868, 1660 886', 'M-40 1284 C 200 1258, 420 1296, 640 1266'],
   p5: ['M-60 860 C 380 800, 700 900, 1000 850 S 1400 800, 1660 870', 'M-40 1262 C 200 1212, 420 1290, 640 1240'],
-  p6: ['M-60 820 C 260 760, 520 880, 820 800 S 1300 640, 1660 720', 'M-40 1190 C 200 1130, 420 1230, 640 1150'] };
+  p6: ['M-60 872 C 260 836, 520 904, 820 866 S 1300 720, 1660 790', 'M-40 1190 C 200 1130, 420 1230, 640 1150'] };
 css(`@keyframes rwalk{from{offset-distance:0%}to{offset-distance:100%}}`);
 Object.entries(RIB).forEach(([id, d], n) => { const st = document.querySelector('#' + id + ' .stage'), sv = document.createElementNS(NS, 'svg'), pth = document.createElementNS(NS, 'path'), dd = M(d[0], d[1]);
   sv.setAttribute('class', 'full ribbon'); sv.setAttribute('viewBox', `0 0 ${SW} ${SH}`); sv.dataset.depth = '0'; sv.setAttribute('aria-hidden', 'true'); pth.setAttribute('d', dd); pth.setAttribute('stroke-width', M(30, 24)); sv.appendChild(pth); st.insertBefore(sv, st.firstChild);
   });
 const RIBC = {}; const RIBL = k => { if (k in RIBC) return RIBC[k]; const p = PAGES[k].querySelector('.ribbon path'); if (!p) return (RIBC[k] = null); const L = p.getTotalLength(); p.style.strokeDasharray = L; return (RIBC[k] = { p, L }); };
+document.querySelectorAll('.dev .s').forEach(sc => { const c = document.createElement('i'); c.className = 'boot'; sc.appendChild(c); });
+// "Wanna go next?": on every chapter but the last, a little guy stands at a red arcade button; pressing it carries you on
+PAGES.forEach((pg, k) => { if (k >= NP - 1) return; const st = pg.querySelector('.stage'), b = document.createElement('button');
+  b.type = 'button'; b.className = 'nextb'; b.dataset.depth = '0'; b.setAttribute('aria-label', 'Next chapter');
+  b.innerHTML = '<span class="bub">Wanna go next? →</span><span class="rb"><span class="cap"></span></span>'; st.appendChild(b);
+  const g = guy(b, { act: 'wave', fill: '#F4F2EC', line: '#0B0C0F' }); b.insertBefore(g, b.querySelector('.rb'));
+  b.addEventListener('click', () => { b.querySelector('.cap').animate([{ translate: '0 0' }, { translate: '0 10px', offset: .25 }, { translate: '0 10px', offset: .6 }, { translate: '0 0' }], { duration: 460, easing: 'ease-out' });
+    g.animate([{ transform: 'translate(0,0) rotate(0deg)' }, { transform: 'translate(6px,6px) rotate(14deg)', offset: .3 }, { transform: 'translate(0,0) rotate(0deg)' }], { duration: 460, easing: 'ease-out' });
+    if (window.__capT != null) return; setTimeout(() => scrollTo({ top: (k + 1) * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }), RMQ ? 0 : 300); }); });
 const LAYERS = PAGES.map(pg => [...pg.querySelector('.stage').children].filter(e => !e.matches('nav')).map((e, i) => {
   const c = e.classList, z = e.style.zIndex ? +e.style.zIndex : 0, hide = e.dataset.mid === 'hide';
   const depth = e.dataset.depth != null ? +e.dataset.depth : c.contains('dev') ? 40 + z * 40 : c.contains('copy') ? 50 : e.matches('svg.full,.ground,.shelf') ? 0 : 110;
-  return { e, depth: hide ? 0 : depth, i, hide }; }));
+  return { e, depth: hide ? 0 : depth, i, hide, scr: e.matches('.dev') ? e.querySelector('.s .boot') : null }; }));
 document.getElementById('spacer').style.height = ((NP - 1) * UNIT() + innerHeight) + 'px';
-let G = -.6, tilt = [0, 0], ptr = [0, 0];
+let PW = -1, G = -.6, tilt = [0, 0], ptr = [0, 0];
 addEventListener('pointermove', e => { ptr = [e.clientX / innerWidth * 2 - 1, e.clientY / innerHeight * 2 - 1]; }, { passive: true });
 const PERS = 1800;
 function place(L, z, px = 0, py = 0) {
@@ -529,25 +656,71 @@ function clip(kind, p, ox, oy, W, H, k) {
   if (kind === 'flood') return `circle(${(p * Math.hypot(W, H)).toFixed(1)}px at ${ox.toFixed(1)}px ${oy.toFixed(1)}px)`;
   if (kind === 'portal') { const r = STORES[PICK].scr.getBoundingClientRect(), q = p; return `inset(${(r.top * (1 - q)).toFixed(1)}px ${((W - r.right) * (1 - q)).toFixed(1)}px ${((H - r.bottom) * (1 - q)).toFixed(1)}px ${(r.left * (1 - q)).toFixed(1)}px round ${(14 * (1 - q)).toFixed(1)}px)`; }
   return 'none'; }
+// signature hand-over: a three-strand rope (the next chapter's key colour, its accent and its background) braids across the screen,
+// twisting as it travels; then the background strand swells until it floods the screen and the new chapter is revealed under it
+const ROPE = (() => { const sv = document.createElementNS(NS, 'svg'); sv.setAttribute('class', 'rope'); sv.setAttribute('aria-hidden', 'true');
+  const base = document.createElementNS(NS, 'path'), str = [0, 1, 2].map(() => { const p = document.createElementNS(NS, 'path'); p.setAttribute('fill', 'none'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); return p; });
+  [str[2], str[0], str[1]].forEach(p => sv.appendChild(p)); base.setAttribute('fill', 'none'); sv.appendChild(base);   // background strand sits under the two coloured strands
+  const fl = document.createElementNS(NS, 'svg'), flp = document.createElementNS(NS, 'path'); fl.setAttribute('class', 'flood'); fl.setAttribute('aria-hidden', 'true'); fl.appendChild(flp);
+  document.body.appendChild(sv); document.body.appendChild(fl); return { sv, base, str, fl, flp, sig: '', pts: [] }; })();
+const COVER = .56, RN = 64;   // COVER: share of the step at which the rope has flooded the screen
+function paint(k, s) { const P = ROPE, W = innerWidth, H = innerHeight;
+  if (k < 1 || TRANS[k] !== 'flood' || s <= 0 || s >= COVER + .02) { P.sv.style.visibility = P.fl.style.visibility = 'hidden'; return; }
+  const sig = k + ':' + W + 'x' + H; if (P.sig !== sig) { P.sig = sig; const f = k % 2 ? x => W - x : x => x;
+    const seg = [[[-.14, .9], [.26, 1.1], [.36, .1], [.6, .38]], [[.6, .38], [.84, .66], [.95, .1], [1.16, .04]]].map(q => q.map(([x, y]) => [f(x * W), y * H]));
+    const bz = (q, t) => { const u = 1 - t; return [0, 1].map(j => u * u * u * q[0][j] + 3 * u * u * t * q[1][j] + 3 * u * t * t * q[2][j] + t * t * t * q[3][j]); };
+    const dz = (q, t) => { const u = 1 - t; return [0, 1].map(j => 3 * u * u * (q[1][j] - q[0][j]) + 6 * u * t * (q[2][j] - q[1][j]) + 3 * t * t * (q[3][j] - q[2][j])); };
+    P.sv.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    P.pts = Array.from({ length: RN + 1 }, (_, i) => { const g = i / RN * 2, q = seg[g < 1 ? 0 : 1], t = g < 1 ? g : Math.min(1, g - 1), [x, y] = bz(q, t), [dx, dy] = dz(q, t), l = Math.hypot(dx, dy) || 1; return [x, y, -dy / l, dx / l]; });
+    [PAL[k].key, PAL[k].acc, PAL[k].bg].forEach((c, j) => P.str[j].setAttribute('stroke', c));
+    // the curtain: a square 1.15x the screen diagonal whose leading edge is a wave, filled with the new chapter's background
+    const dg = Math.hypot(W, H), S = Math.ceil(dg * 1.15), amp = dg * .035, wl = dg / 2.6; let e = `M0 ${S} L0 ${amp.toFixed(1)}`;
+    for (let x = 0; x <= S; x += 24) e += ` L${x} ${(amp + Math.sin(x / wl * Math.PI * 2) * amp).toFixed(1)}`; e += ` L${S} ${S} Z`;
+    P.flp.setAttribute('d', e); P.flp.setAttribute('fill', PAL[k].bg); P.fl.setAttribute('viewBox', `0 0 ${S} ${S}`);
+    Object.assign(P.fl.style, { width: S + 'px', height: S + 'px', margin: -S / 2 + 'px 0 0 ' + -S / 2 + 'px' }); P.fS = S; P.fA = amp; P.fR = k % 2 ? 18 : -18; P.fE = (W * Math.sin(Math.PI / 10) + H * Math.cos(Math.PI / 10)) / 2; }   // fE: how far the screen reaches along the curtain's travel
+  const m = Math.min(W, H), sw = eio(cl((s - .26) / (COVER - .26))), ph = s * 10, A = m * .07 * (1 - sw);
+  const draw = [eo(cl(s / .3)), eo(cl((s - .03) / .3)), eo(cl((s - .06) / .3))];
+  P.sv.style.visibility = 'visible'; P.sv.style.zIndex = k * 2 - 1;
+  // each strand's head moves continuously (interpolated between samples), so the rope glides instead of stepping
+  const at = (u, j) => { const t = u * RN, i = Math.min(RN - 1, Math.floor(t)), f = t - i, a = P.pts[i], b = P.pts[i + 1], x = a[0] + (b[0] - a[0]) * f, y = a[1] + (b[1] - a[1]) * f,
+    o = Math.sin(t / RN * Math.PI * 2 * 2.6 - ph + j * Math.PI * 2 / 3) * A; return (x + a[2] * o).toFixed(1) + ' ' + (y + a[3] * o).toFixed(1); };
+  P.str.forEach((p, j) => { const e = draw[j]; if (e * RN < .5) { p.setAttribute('d', ''); return; } let d = 'M' + at(0, j); const n = Math.floor(e * RN);
+    for (let i = 1; i <= n; i++) d += 'L' + at(i / RN, j); d += 'L' + at(e, j);
+    p.setAttribute('d', d); p.setAttribute('stroke-width', (m * (j < 2 ? .06 : .075) * (1 - sw * (j < 2 ? 1 : .5))).toFixed(1)); });
+  // then the background colour floods out from the middle of the screen as a scaling disc (compositor only)
+  // ...then the curtain rises along the rope's angle: its wavy edge starts just below the screen and ends just above it
+  const ty = (P.fS / 2 + P.fE) + (-P.fE * 2 - P.fA * 2 - 6) * sw;
+  P.fl.style.visibility = sw > 0 ? 'visible' : 'hidden'; P.fl.style.zIndex = k * 2 - 1; P.fl.style.transform = `rotate(${P.fR}deg) translateY(${ty.toFixed(1)}px)`; }
+// glass hand-over: a frosted pane slides in carrying the next chapter's name, the chapter changes behind it, then the pane slides away
+const PANE = (() => { const e = document.createElement('div'); e.className = 'pane gl'; e.setAttribute('aria-hidden', 'true'); e.innerHTML = '<span></span><b></b>'; document.body.appendChild(e); return { e, sp: e.querySelector('span'), b: e.querySelector('b'), k: -1 }; })();
+const GSWAP = .5;
+function glassPane(k, s) { const P = PANE; if (k < 1 || TRANS[k] !== 'glass' || s <= 0 || s >= 1) { P.e.style.visibility = 'hidden'; return; }
+  if (P.k !== k) { P.k = k; const pg = PAGES[k], h = pg.querySelector('h1,h2'); P.b.textContent = h ? h.innerHTML.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() : ''; const kk = pg.querySelector('.kick'); P.sp.textContent = kk ? kk.textContent : ''; }
+  const a = eio(cl(s / .45)), b = eio(cl((s - .55) / .42)), x = (1 - a) * 108 - b * 108;
+  P.e.style.visibility = 'visible'; P.e.style.zIndex = k * 2 + 1; P.e.style.transform = `translateX(${x.toFixed(2)}%) rotate(${((1 - a) * -2.5 + b * 2.5).toFixed(2)}deg)`; }
 function journey(G) {
   const sc = Math.min(innerWidth / SW, innerHeight / SH);
   document.getElementById('prog').style.width = (cl(G / (NP - 1)) * 100).toFixed(2) + '%';
-  PAGES.forEach((pg, k) => { const d = G - k, on = d > -1 && d < 1 || (k === NP - 1 && d >= 1);
-    pg.style.visibility = on ? 'visible' : 'hidden'; pg.style.zIndex = k; pg.classList.toggle('off', !on); if (!on) return; pg.classList.add('warm');
+  PAGES.forEach((pg, k) => { const d = G - k, on0 = d > -1 && d < 1 || (k === NP - 1 && d >= 1), on = on0 || k === PW;
+    pg.style.visibility = on ? 'visible' : 'hidden'; pg.style.zIndex = k * 2; pg.classList.toggle('off', !on); if (!on) return; pg.classList.add('warm');
+    if (!on0) { pg.style.zIndex = -5; return; }   // pre-warm: painted once, hidden behind the current chapter, so its first real showing has no decode hitch
     const st = pg.querySelector('.stage');
     { const rb = RIBL(k); if (rb) rb.p.style.strokeDashoffset = (rb.L * (d < 0 ? 1 - eo(cl((1 + d) / .9)) : 0)).toFixed(1); }   // the ribbon draws itself in as the scene arrives
-    st.style.transform = `translate(-50%,-50%) scale(${sc}) rotateX(${(-tilt[1] * 1.6).toFixed(2)}deg) rotateY(${(tilt[0] * 2.2).toFixed(2)}deg)`;
+    const pb = d > 0 && d < 1 && (TRANS[k + 1] === 'flood' || TRANS[k + 1] === 'glass') ? eo(cl(d / (TRANS[k + 1] === 'glass' ? GSWAP : COVER))) : 0;   // the chapter being covered pushes back and tilts, like a camera pulling away
+    st.style.transform = `translate(-50%,-50%) scale(${(sc * (1 - .08 * pb)).toFixed(4)}) rotateX(${(-tilt[1] * 1.6).toFixed(2)}deg) rotateY(${(tilt[0] * 2.2).toFixed(2)}deg) rotateZ(${(-2.4 * pb).toFixed(2)}deg)`;
     if (d !== 0) pg._k = null;
     if (d < 0) {
       const o = ORIGIN[k - 1] || [SW / 2, SH / 2], ox = innerWidth / 2 + (o[0] - SW / 2) * sc, oy = innerHeight / 2 + (o[1] - SH / 2) * sc;
-      const pp = eio(cl((1 + d) / .62)); pg.style.clipPath = k === 0 ? 'none' : clip(TRANS[k], pp, ox, oy, innerWidth, innerHeight, k);
+      const pp = eio(cl((1 + d) / .62)), gls = k > 0 && TRANS[k] === 'glass', fl = k > 0 && (TRANS[k] === 'flood' || gls), cov = gls ? GSWAP : COVER; pg.style.clipPath = k === 0 || fl ? 'none' : clip(TRANS[k], pp, ox, oy, innerWidth, innerHeight, k); if (fl && 1 + d < cov) pg.style.zIndex = k * 2 - 3;
       LAYERS[k].forEach(L => { if (L.hide) { L.e.style.visibility = d > -.03 ? '' : 'hidden'; return; } if (!L.depth) return;
-        const u = k === 0 ? eo(cl((1 + d) * 1.5 - .3 - L.i * .02)) : eo(cl(((1 + d) - .35 - L.i * .015) / .55)); L.e.style.visibility = u < .02 ? 'hidden' : ''; place(L, -(1 - u) * (2600 + L.i * 120), 0, (1 - u) * 40); });
+        const u = k === 0 ? eo(cl((1 + d) * 1.5 - .3 - L.i * .02)) : fl ? eo(cl(((1 + d) - cov + .04 - L.i * .012) / .42)) : eo(cl(((1 + d) - .35 - L.i * .015) / .55)); L.e.style.visibility = u < .02 && !fl ? 'hidden' : ''; place(L, -(1 - u) * (2600 + L.i * 120), 0, (1 - u) * 40);
+        if (L.scr && k > 0) L.scr.style.transform = `scaleY(${(1 - eio(cl((u - .45) / .55))).toFixed(3)})`; });   // the screen powers on top to bottom
     } else {
       pg.style.clipPath = 'none'; const u = eio(cl(d));
       const key = d === 0 ? (MOB ? 'rest' : tilt[0].toFixed(3) + ',' + tilt[1].toFixed(3)) : null; if (key && pg._k === key) return; pg._k = key;
-      LAYERS[k].forEach(L => { if (L.hide) { L.e.style.visibility = d < .03 ? '' : 'hidden'; return; } if (!L.depth) return; L.e.style.visibility = ''; place(L, u * L.depth * 4, MOB ? 0 : -tilt[0] * L.depth * .05, MOB ? -u * 40 : -tilt[1] * L.depth * .035 - u * 40); }); }
+      LAYERS[k].forEach(L => { if (L.hide) { L.e.style.visibility = d < .03 ? '' : 'hidden'; return; } if (!L.depth) return; L.e.style.visibility = ''; if (L.scr) L.scr.style.transform = ''; place(L, u * L.depth * 4, MOB ? 0 : -tilt[0] * L.depth * .05, MOB ? -u * 40 : -tilt[1] * L.depth * .035 - u * 40); }); }
   });
+  { const f = Math.floor(G); paint(G === f ? -1 : f + 1, G - f); glassPane(G === f ? -1 : f + 1, G - f); }
 }
 await YIELD();
 const target = () => RMQ ? Math.round(scrollY / UNIT()) : scrollY / UNIT();
@@ -566,16 +739,26 @@ addEventListener('pointermove', e => { PXY.x = e.clientX; PXY.y = e.clientY; }, 
 if (matchMedia('(pointer:fine)').matches && T == null) { document.documentElement.classList.add('live'); addEventListener('pointermove', e => { RET.style.visibility = 'visible'; RET.style.transform = `translate(${e.clientX}px,${e.clientY}px)`; }, { passive: true }); }
 const KS = KOF('pS'); let H6 = 0;
 function hoverFx(t, dt, px, py) {
-  if (PAGES[KS].style.visibility === 'visible') STORES.forEach(S => { const r = S.a.getBoundingClientRect(), on = px > r.left && px < r.right && py > r.top - 50 && py < r.bottom + 30;
-    S.open += ((on ? 1 : 0) - S.open) * (1 - Math.exp(-dt * 6)); const idle = .74 + Math.sin(t * 1.2 + S.i * 1.9) * .04; S.sh.style.transform = `translateY(${(-(idle + (1 - idle) * S.open) * 100).toFixed(1)}%)`;
-    const op = S.open > .5; if (S.tag.classList.contains('open') !== op) { S.tag.classList.toggle('open', op); S.tag.textContent = op ? 'OPEN' : 'CLOSED'; S.sw = 1; }
-    S.sw = (S.sw || 0) * Math.exp(-dt * 2.5); S.tag.style.transform = `rotate(${(Math.sin(t * 11) * 16 * S.sw).toFixed(2)}deg)`;
-    S.kp.style.bottom = `calc(100% + ${S.sign.offsetHeight + 14}px)`; S.kp.style.transform = `translateY(${((1 - eo(S.open)) * 56).toFixed(1)}px)`; });
+  if (PAGES[KS].style.visibility === 'visible') { const big = MOB ? 470 : 520, small = MOB ? 104 : 150, gap = MOB ? 12 : 16, rr = ROW3.getBoundingClientRect(), sc = rr.width / (MOB ? 536 : 852);
+    let hov = -1, acc = 0; STORES.forEach((S, i) => { const a0 = acc, a1 = acc + small + (big - small) * S.e; acc = a1 + gap; const u = ((MOB ? py - rr.top : px - rr.left) / sc), v = (MOB ? px - rr.left : py - rr.top) / sc;
+      if (u >= a0 && u < a1 && v >= 0 && v <= (MOB ? 536 : 650)) hov = i; });   // hit-test the visible strip of each panel
+    const tgt = hov >= 0 ? hov : Math.floor(t / 3.6) % 3, k = 1 - Math.exp(-dt * 7); acc = 0;
+    STORES.forEach((S, i) => { S.e += ((i === tgt ? 1 : 0) - S.e) * k; const off = acc; acc += small + (big - small) * S.e + gap; const o = cl((S.e - .45) / .45);
+      const tr = MOB ? `translateY(${off.toFixed(1)}px)` : `translateX(${off.toFixed(1)}px)`; if (S._tr !== tr) { S._tr = tr; S.a.style.transform = tr; S.a.style.zIndex = i + 1; }
+      const os = o.toFixed(2), vs = (1 - cl(S.e / .5)).toFixed(2); if (S._o !== os) { S._o = os; S.bd.style.opacity = os; S.bd.style.transform = `translateY(${((1 - o) * 16).toFixed(1)}px)`; } if (S._v !== vs) { S._v = vs; S.vt.style.opacity = vs; } }); }   // write only on change
   if (PAGES[KOF('p6')].style.visibility === 'visible') { const b = document.querySelector('#p6 .big').getBoundingClientRect(), on = px > b.left - 30 && px < b.right + 30 && py > b.top - 60 && py < b.bottom + 30;
     H6 += ((on ? 1 : 0) - H6) * (1 - Math.exp(-dt * 6)); document.querySelectorAll('#p6 .cheerer').forEach((g, i) => { g.style.transform = `translateY(${(-(.3 + .7 * eo(cl(H6 * 1.3 - i * .15))) * 52).toFixed(1)}px)`; }); }
   if (PAGES[0].style.visibility === 'visible') document.querySelectorAll('#p0 h1 .ch').forEach(c => { const r = c.getBoundingClientRect(); c.classList.toggle('hop', px > r.left - 6 && px < r.right + 6 && py > r.top && py < r.bottom); });
   const el = document.elementFromPoint(px, py); RET.classList.toggle('big', !!(el && el.closest('a,button'))); }
-const DRAW = [[pf, 'p1'], [weave3, 'p3']].map(([f, id]) => [f, KOF(id)]);
+// Project DO: a looping simulated run (sample request), so a visitor sees what DO does, not only reads it
+const DOR = { li: [...document.querySelectorAll('#p3 .rail li')], mu: document.querySelector('#p3 .mu'), ma: document.querySelector('#p3 .ma'), mq: document.querySelector('#p3 .mq'), mr: document.querySelector('#p3 .mr'), stt: document.querySelector('#p3 .stt'), on: -1 };
+const DOT = { mu: 'Book 30 minutes with my accountant next week.', mq: 'Your accountant is free Tue 4 pm or Wed 11 am. Which one?' };
+function doRun(t) { if (RMQ) t = 9.6; const ph = t % 13, out = 1 - cl((ph - 12.3) / .5), show = (e, a) => { const o = eo(cl(a)) * out; e.style.opacity = o.toFixed(3); e.style.transform = `translateY(${((1 - eo(cl(a))) * 14).toFixed(1)}px)`; };
+  const typ = (e, txt, a) => { const n = Math.round(txt.length * cl(a)); if (e._n !== n) { e._n = n; e.textContent = txt.slice(0, n) + (n < txt.length && n > 0 ? '▍' : ''); } };
+  show(DOR.mu, ph / .3); typ(DOR.mu, DOT.mu, (ph - .2) / 2.1);
+  show(DOR.ma, (ph - 2.8) / .45); show(DOR.mq, (ph - 4.8) / .3); typ(DOR.mq, DOT.mq, (ph - 5) / 2.2); show(DOR.mr, (ph - 7.7) / .35); show(DOR.stt, (ph - 8.6) / .4);
+  const on = ph < 2.8 ? 0 : ph < 4.8 ? 1 : ph < 8.6 ? 2 : 3; if (on !== DOR.on) { DOR.on = on; DOR.li.forEach((l, i) => l.classList.toggle('on', i === on)); } }
+const DRAW = [[pf, 'p1'], [weave3, 'p3'], [doRun, 'p3'], [range5, 'p5']].map(([f, id]) => [f, KOF(id)]);
 // a tiny mascot rides the gold progress bar: it walks while the journey moves and waves when it stops
 const RIDER = guy(document.body, { act: 'wave', fill: '#D4AF5A', line: '#0B0C0F' }); RIDER.id = 'rider'; let lastG = null, rFace = 1;
 function rider(G, dt) { const x = cl(G / (NP - 1)) * innerWidth, v = lastG == null ? 0 : (G - lastG) / Math.max(dt, 1e-3); lastG = G; if (Math.abs(v) > .02) rFace = v > 0 ? 1 : -1;
@@ -605,9 +788,9 @@ function loader(t, ready) { if (LD.style.display === 'none') return true;
   if (close >= 1) { LD.style.display = 'none'; return true; } return false; }
 if (T != null || GQ || RMQ) LD.style.display = 'none';
 const imgsReady = () => Promise.all([...document.images].map(i => i.decode().catch(() => {}))).then(() => document.fonts.ready);
-{ const t0 = performance.now(); let last = t0, IMG = false, LDONE = RMQ; imgsReady().then(() => { IMG = true; });
+{ const t0 = performance.now(); let last = t0, IMG = false, LDONE = RMQ; imgsReady().then(() => { IMG = true; PW = 1; });   // once images are in, warm one chapter every other frame
   if (RMQ) { DRAW.forEach(([f]) => f(0)); G = target(); }
-  const loop = n => { const t = (n - t0) / 1000, dt = Math.min(.1, (n - last) / 1000); last = n; NOW = t;
+  let wf = 0; const loop = n => { if (PW >= 0 && ++wf % 2 === 0) { PW++; if (PW >= NP) PW = -1; } const t = (n - t0) / 1000, dt = Math.min(.1, (n - last) / 1000); last = n; NOW = t;
     if (!RMQ) DRAW.forEach(([f, k]) => { if (PAGES[k].style.visibility === 'visible') f(t); });
     if (MOB && !RMQ) ptr = [Math.sin(t * .45) * .3, Math.cos(t * .37) * .2];
     if (!LDONE) LDONE = loader(t, IMG);
