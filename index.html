@@ -2,7 +2,7 @@
 <title>Yash Khairwal · Immersive websites for startups, shops and agencies</title>
 <meta name="description" content="Yash Khairwal designs and builds scroll-driven, 3D and illustrated websites for startups, shops and agencies. Real code, real screens, built for phone and desktop.">
 <meta name="theme-color" content="#1C47D0">
-<meta property="og:type" content="website"><meta property="og:title" content="Yash Khairwal · Your product, told in motion">
+<meta property="og:type" content="website"><meta property="og:title" content="Yash Khairwal · Weak ideas in. Real products out.">
 <meta property="og:description" content="Scroll-driven, 3D and illustrated websites for startups, shops and agencies. Three real builds inside.">
 <meta property="og:image" content="https://yash-khairwal.pages.dev/og.jpg"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -256,10 +256,10 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
 /* frosted glass (from the Glassy Dashboard reference): milky tint, a soft blur of whatever is behind, a thin bright edge */
 .gl{background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.07) 55%);border:1.5px solid rgba(255,255,255,.38);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 24px 60px rgba(0,0,0,.35)}   /* faded glass without live blur: what sits behind is blurred once (see .blobs), never per frame */
 /* glass hand-over: a frosted pane carries the next chapter's name across the screen */
-.pane{position:fixed;inset:0;border-radius:36px;visibility:hidden;pointer-events:none;display:flex;flex-direction:column;justify-content:flex-end;padding:7vh 5vw;will-change:transform;color:#0B0C0F}
-.pane.gl{background:linear-gradient(160deg,rgba(250,249,245,.9),rgba(236,234,228,.8) 60%,rgba(226,224,218,.84));border:2px solid rgba(255,255,255,.75);box-shadow:inset 0 2px 0 rgba(255,255,255,.9),inset 0 -40px 80px rgba(255,255,255,.25),0 30px 80px rgba(0,0,0,.35)}   /* milky faded glass: you sense the page behind, you can't read it */
-.pane span{font:500 13px/1 'JM',monospace;letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px}
-.pane b{font:800 min(10vw,128px)/.88 'BC',sans-serif;text-transform:uppercase;max-width:14ch}
+.pane{position:fixed;left:0;top:0;height:100%;width:var(--bw,15vw);min-width:120px;visibility:hidden;pointer-events:none;display:flex;align-items:center;justify-content:center;will-change:transform;color:#0B0C0F}
+.pane.gl{background:linear-gradient(180deg,rgba(250,249,245,.62),rgba(236,234,228,.5));border-left:1.5px solid rgba(255,255,255,.85);border-right:1.5px solid rgba(255,255,255,.85);box-shadow:inset 0 0 40px rgba(255,255,255,.35),0 0 60px rgba(0,0,0,.18)}
+.pane span{writing-mode:vertical-rl;transform:rotate(180deg);font:500 12px/1 'JM',monospace;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;opacity:.8}
+.pane b{display:none}
 /* 05 Range: four real earlier directions on frosted glass cards over flat colour shapes; one comes forward at a time */
 #p5 .blobs{position:absolute;left:0;top:0;width:100%;height:100%;z-index:5}   /* colour shapes blurred once into a canvas at load: moving it never re-blurs, and the cards above read as frosted glass */
 #p5 .deck{position:absolute;inset:0;z-index:20}
@@ -325,6 +325,22 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
 #p5 .rc em.ca{background:#D4AF5A}
 /* Hire: point to the real prices */
 .pk{display:block;width:max-content;margin-top:18px;font:600 15px/1 'IT',sans-serif;color:var(--on);text-decoration:underline;text-underline-offset:4px}
+/* ===== hero, "Track" direction: warm wall, dark floor, an orange 3D track with carriages riding it, the real screens in front ===== */
+#p0{--bg:#F3F0EA;--key:#111111;--on:#111111;--acc:#EE6B2F}
+#p0 .proof{display:none}   /* the gate right after shows the three builds; here the track runs through this corner */
+#p0 h1{font-size:122px;line-height:.86}#p0 h1 .ch{text-shadow:none}
+#p0 .copy{top:130px}
+#p0 nav .hire{background:#111;color:#F3F0EA;border-color:#111;box-shadow:none;border-radius:999px}
+#p0 .ctas .hire{background:var(--acc);color:#111}
+#p0 .pin{background:#111;color:#F3F0EA;border-color:#111;box-shadow:0 10px 24px rgba(0,0,0,.25);border-radius:999px}
+#p0 .pin small{color:#EE6B2F}
+#p0 .dev .f{box-shadow:0 0 0 1.5px #111,0 34px 60px rgba(0,0,0,.32),0 8px 16px rgba(0,0,0,.2)}
+#p0 .car{position:absolute;left:0;top:0;width:150px;height:46px;border-radius:9px;background:#E2622A;box-shadow:inset 0 -12px 0 #B54A1C,inset 0 5px 0 #F38A55;offset-rotate:auto;offset-anchor:50% 62%;z-index:3;animation:ride 12s linear infinite}
+#p0 .car::before{content:"";position:absolute;left:12px;right:12px;top:13px;height:11px;border-radius:3px;background:repeating-linear-gradient(90deg,#3A2216 0 15px,transparent 15px 22px)}
+@keyframes ride{from{offset-distance:0%}to{offset-distance:100%}}
+.m #p0 h1{font-size:62px}.m #p0 .car{width:94px;height:30px;border-radius:6px}.m #p0 .car::before{top:8px;height:7px;left:8px;right:8px}
+/* chapter titles: each line rises from behind its own mask */
+.lr{display:block;overflow:hidden;padding-bottom:.04em;margin-bottom:-.04em}.li{display:inline-block;will-change:transform}
 .nojs{max-width:760px;margin:0 auto;padding:64px 24px 96px;color:#F4F2EC;font:500 18px/1.6 'IT',sans-serif}
 .nojs h1,.nojs h2{white-space:normal}.nojs h1{margin:16px 0 0;font:800 clamp(52px,11vw,104px)/.9 'BC',sans-serif;text-transform:uppercase}
 .nojs h2{margin:56px 0 0;font:800 40px/1 'BC',sans-serif;text-transform:uppercase}.nojs h3{margin:28px 0 0;font:700 20px/1.3 'IT',sans-serif}
@@ -334,7 +350,7 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
 .m nav.top{left:32px;right:32px;top:28px;gap:14px}.m .brand{font-size:19px}.m .chap{display:none}.m .hire{padding:10px 14px;font-size:13px}
 .m .sub{font-size:17px;max-width:536px}.m .ctas{margin-top:24px}
 .m #p0 .copy,.m #pS .copy,.m #p1 .copy,.m #p2 .copy,.m #p3 .copy,.m #p4 .copy,.m #p5 .copy,.m #p6 .copy{left:32px;top:112px}
-.m #p0 h1{font-size:76px}.m h2,.m #p1 h2,.m #p3 h2{font-size:68px}.m #p6 h2{font-size:84px}
+.m #p0 h1{font-size:62px}.m h2,.m #p1 h2,.m #p3 h2{font-size:68px}.m #p6 h2{font-size:84px}
 .m #p0 .proof{display:none}.m .list{display:none}.m #p6 .list{display:grid}.m #p6 .list li{font-size:14px}
 .m #p2 .ground{top:1180px}.m .store .meta .ln{display:none}.m .store .meta .status{margin-left:0}.m .store .sign{font-size:15px;padding:8px 9px}.m .store .meta{font-size:11.5px}
 .m #p5 .tunnel{left:0;top:340px;width:600px;height:820px;perspective:700px}.m #p5 .tc{left:-105px;top:-150px;width:210px;height:300px}
@@ -343,8 +359,8 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
 <noscript><style>section.page,#loader,#prog,#ret{display:none!important}html,body{overflow:auto!important}</style>
 <main class="nojs">
  <p class="k">Yash Khairwal · immersive web designer + developer</p>
- <h1>Your product, told in motion.</h1>
- <p>I design and build scroll-driven, 3D and illustrated websites that walk people through what you make. Real code, real screens, built for phone and desktop. For startups, shops and agencies.</p>
+ <h1>Weak ideas in. Real products out.</h1>
+ <p>I turn a rough idea into a scroll-driven, 3D website or AI tool that works. Real code, real screens, built for phone and desktop. For startups, shops and agencies.</p>
  <p><a class="cta" href="https://www.fiverr.com/s/ZozlZwa" target="_blank" rel="noopener noreferrer">Hire me on Fiverr →</a></p>
  <h2>Three real builds</h2>
  <h3>PromptForge · Chrome extension · works today</h3><p>Weak prompt in, clear spec out. It scores a rough prompt and rewrites it into a spec you review before anything is sent: 52/100 → 64/100 on a real run.</p>
@@ -364,9 +380,9 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
 
 <!-- the hero lays out when the journey first shows it (keeps the first task short; the loader covers it) -->
 <section class="page" id="p0"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">Immersive web designer + developer</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">Websites with a story · startups, shops, agencies</div><h1>Your product,<br>told in motion.</h1>
-  <p class="sub">I design and build scroll-driven, 3D and illustrated websites that walk people through what you make. Real code, real screens, built for phone and desktop.</p>
+ <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">Immersive web + AI tools</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
+ <div class="copy"><div class="kick">Websites with a story · startups, shops, agencies</div><h1>Weak ideas in.<br>Real products out.</h1>
+  <p class="sub">I turn a rough idea into a scroll-driven, 3D website or AI tool that works. Real code, real screens, built for phone and desktop.</p>
   <div class="ctas"><a class="hire" data-hire href="#">Hire me on Fiverr</a><a class="ghost" href="#pS">See 3 real builds ↓</a></div></div>
  <div class="proof"><div><b>PromptForge</b>Chrome extension · works today</div><div><b>SteadyNest</b>Rental app · in build</div><div><b>Project DO</b>AI assistant · prototype</div></div>
  <div class="pin">PromptForge · prompt score 52 → 64<small>real run</small></div>
@@ -486,13 +502,22 @@ function guy(parent, o) {
   parent.appendChild(g); return g; }
 /* ======================= 00 hero: the three builds on one stage ======================= */
 const st0 = document.querySelector('#p0 .stage');
-const H0 = [device(st0, { src: SCR.pfF, kind: 'win', ar: .42, pos: '0 0', cx: M(1190, 300), cy: M(410, 700), w: M(640, 540), rz: -1.5, ry: -8, z: 4, alt: 'PromptForge, the improved prompt at 64/100' }),
-  device(st0, { src: SCR.snL, kind: 'phone', cx: M(1440, 474), cy: M(590, 960), w: M(190, 150), rz: 4, ry: -12, z: 6, alt: 'SteadyNest listing screen' }),
-  device(st0, { src: SCR.doB, kind: 'tab', cx: M(950, 160), cy: M(690, 1040), w: M(300, 240), rz: -4, ry: 12, z: 5, alt: 'Project DO concept render' })];
-{ const sv = document.createElementNS(NS, 'svg'); sv.setAttribute('class', 'full'); sv.setAttribute('viewBox', `0 0 ${SW} ${SH}`); sv.dataset.depth = '20';
-  sv.innerHTML = `<ellipse cx="${M(1190, 300)}" cy="${M(796, 1180)}" rx="${M(440, 270)}" ry="${M(44, 30)}" fill="none" stroke="#F4F2EC" stroke-width="2"/>`; st0.insertBefore(sv, st0.firstChild); }
-guy(st0, { x: M(748, 22), y: M(752, 1136), s: M(36, 30), act: 'sit wave', z: 7 });
-Object.assign(document.querySelector('#p0 .pin').style, { left: M(1130, 250) + 'px', top: M(232, 520) + 'px' });
+// wall arc + dark floor + the orange track (three flat tones: side, top face, groove), drawn once; carriages ride its centre line
+const TRK = M('M-90 846 C 230 872, 420 706, 640 650 S 1060 612, 1250 432 S 1500 168, 1720 132', 'M-60 1186 C 120 1100, 230 960, 330 900 S 520 800, 560 690 S 600 520, 700 470');
+{ const sv = document.createElementNS(NS, 'svg'); sv.setAttribute('class', 'full'); sv.setAttribute('viewBox', `0 0 ${SW} ${SH}`); sv.setAttribute('aria-hidden', 'true'); sv.dataset.depth = '0';
+  const tw = M(78, 52), td = M(30, 20);
+  sv.innerHTML = `<circle cx="${M(1260, 470)}" cy="${M(380, 560)}" r="${M(430, 300)}" fill="none" stroke="#E5E0D7" stroke-width="${M(120, 80)}"/>
+    <polygon points="${M('560,900 820,694 1600,650 1600,900', '0,1300 0,1160 600,1040 600,1300')}" fill="#151515"/>
+    <path d="${TRK}" transform="translate(0 ${td})" fill="none" stroke="#B54A1C" stroke-width="${tw}" stroke-linecap="round"/>
+    <path d="${TRK}" fill="none" stroke="#EE6B2F" stroke-width="${tw}" stroke-linecap="round"/>
+    <path d="${TRK}" fill="none" stroke="#C9531F" stroke-width="${M(6, 4)}" stroke-dasharray="${M('34 18', '22 12')}"/>`;
+  st0.insertBefore(sv, st0.firstChild); }
+for (let i = 0; i < 7; i++) { const c = document.createElement('div'); c.className = 'car'; c.setAttribute('aria-hidden', 'true'); c.dataset.depth = '0';
+  Object.assign(c.style, { offsetPath: `path('${TRK}')`, animationDelay: `${(-i * .44).toFixed(2)}s` }); st0.appendChild(c); }   // a seven-car train: ideas riding in
+const H0 = [device(st0, { src: SCR.doB, kind: 'tab', cx: M(800, 150), cy: M(668, 990), w: M(300, 230), rz: -3, ry: 10, z: 5, alt: 'Project DO concept render' }),
+  device(st0, { src: SCR.pfF, kind: 'win', ar: .56, pos: '0 0', cx: M(1130, 330), cy: M(640, 900), w: M(430, 300), rz: 0, ry: -4, z: 6, alt: 'PromptForge, the improved prompt at 64/100' }),
+  device(st0, { src: SCR.snL, kind: 'phone', cx: M(1430, 490), cy: M(600, 960), w: M(176, 132), rz: 3, ry: -10, z: 7, alt: 'SteadyNest listing screen' })];
+Object.assign(document.querySelector('#p0 .pin').style, { left: M(990, 210) + 'px', top: M(470, 760) + 'px' });
 { const h = document.querySelector('#p0 h1'); h.innerHTML = h.innerHTML.split('<br>').map(line => [...line].map(ch => ch === ' ' ? ' ' : `<span class="ch">${ch}</span>`).join('')).join('<br>'); }
 await YIELD();
 
@@ -621,7 +646,7 @@ let PICK = 0;   // which storefront the portal opens from
 const PAL = PAGES.map(pg => { const cs = getComputedStyle(pg); return { acc: cs.getPropertyValue('--acc').trim(), key: cs.getPropertyValue('--key').trim(), bg: cs.getPropertyValue('--bg').trim() }; });
 // v15 ribbon spine, re-routed for the v16 layouts: one thick line per scene in its key colour, behind the work, drawn in as the scene arrives,
 // SteadyNest has its street and Process its road, so they get none.
-const RIB = { p0: ['M-60 880 C 260 905, 520 860, 760 720 S 1260 560, 1660 640', 'M-40 1272 C 160 1236, 380 1292, 640 1214'],
+const RIB = {
   pS: ['M-60 868 C 300 820, 560 900, 820 860 S 1380 820, 1660 880', 'M-40 1292 C 200 1274, 420 1302, 640 1284'],
   p1: ['M-60 850 C 260 880, 560 800, 720 640 S 1100 380, 1660 330', 'M-40 1250 C 160 1190, 420 1270, 640 1160'],
   p3: ['M-60 890 C 400 868, 800 906, 1200 880 S 1500 868, 1660 886', 'M-40 1284 C 200 1258, 420 1296, 640 1266'],
@@ -641,6 +666,8 @@ PAGES.forEach((pg, k) => { if (k >= NP - 1) return; const st = pg.querySelector(
   b.addEventListener('click', () => { b.querySelector('.cap').animate([{ translate: '0 0' }, { translate: '0 10px', offset: .25 }, { translate: '0 10px', offset: .6 }, { translate: '0 0' }], { duration: 460, easing: 'ease-out' });
     g.animate([{ transform: 'translate(0,0) rotate(0deg)' }, { transform: 'translate(6px,6px) rotate(14deg)', offset: .3 }, { transform: 'translate(0,0) rotate(0deg)' }], { duration: 460, easing: 'ease-out' });
     if (window.__capT != null) return; setTimeout(() => scrollTo({ top: (k + 1) * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }), RMQ ? 0 : 300); }); });
+PAGES.forEach((pg, k) => { if (!k) return; const h = pg.querySelector('h2'); if (!h) return;
+  h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map(l => `<span class="lr"><span class="li">${l}</span></span>`).join(''); pg._li = [...h.querySelectorAll('.li')]; });
 const LAYERS = PAGES.map(pg => [...pg.querySelector('.stage').children].filter(e => !e.matches('nav')).map((e, i) => {
   const c = e.classList, z = e.style.zIndex ? +e.style.zIndex : 0, hide = e.dataset.mid === 'hide';
   const depth = e.dataset.depth != null ? +e.dataset.depth : c.contains('dev') ? 40 + z * 40 : c.contains('copy') ? 50 : e.matches('svg.full,.ground,.shelf') ? 0 : 110;
@@ -693,11 +720,11 @@ function paint(k, s) { const P = ROPE, W = innerWidth, H = innerHeight;
   P.fl.style.visibility = sw > 0 ? 'visible' : 'hidden'; P.fl.style.zIndex = k * 2 - 1; P.fl.style.transform = `rotate(${P.fR}deg) translateY(${ty.toFixed(1)}px)`; }
 // glass hand-over: a frosted pane slides in carrying the next chapter's name, the chapter changes behind it, then the pane slides away
 const PANE = (() => { const e = document.createElement('div'); e.className = 'pane gl'; e.setAttribute('aria-hidden', 'true'); e.innerHTML = '<span></span><b></b>'; document.body.appendChild(e); return { e, sp: e.querySelector('span'), b: e.querySelector('b'), k: -1 }; })();
-const GSWAP = .5;
-function glassPane(k, s) { const P = PANE; if (k < 1 || TRANS[k] !== 'glass' || s <= 0 || s >= 1) { P.e.style.visibility = 'hidden'; return; }
-  if (P.k !== k) { P.k = k; const pg = PAGES[k], h = pg.querySelector('h1,h2'); P.b.textContent = h ? h.innerHTML.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() : ''; const kk = pg.querySelector('.kick'); P.sp.textContent = kk ? kk.textContent : ''; }
-  const a = eio(cl(s / .45)), b = eio(cl((s - .55) / .42)), x = (1 - a) * 108 - b * 108;
-  P.e.style.visibility = 'visible'; P.e.style.zIndex = k * 2 + 1; P.e.style.transform = `translateX(${x.toFixed(2)}%) rotate(${((1 - a) * -2.5 + b * 2.5).toFixed(2)}deg)`; }
+const GSWAP = .5, GSPAN = .62;   // GSPAN: share of the step the glass band takes to cross the screen
+function glassPane(k, s) { const P = PANE; if (k < 1 || TRANS[k] !== 'glass' || s <= 0 || s >= GSPAN + .02) { P.e.style.visibility = 'hidden'; return; }
+  if (P.k !== k) { P.k = k; const kk = PAGES[k].querySelector('.kick'); P.sp.textContent = kk ? kk.textContent : ''; }
+  const bw = P.e.offsetWidth, x = innerWidth * (1 - eio(cl(s / GSPAN))) - bw / 2;
+  P.e.style.visibility = 'visible'; P.e.style.zIndex = k * 2 + 1; P.e.style.transform = `translateX(${x.toFixed(1)}px)`; }
 function journey(G) {
   const sc = Math.min(innerWidth / SW, innerHeight / SH);
   document.getElementById('prog').style.width = (cl(G / (NP - 1)) * 100).toFixed(2) + '%';
@@ -706,17 +733,18 @@ function journey(G) {
     if (!on0) { pg.style.zIndex = -5; return; }   // pre-warm: painted once, hidden behind the current chapter, so its first real showing has no decode hitch
     const st = pg.querySelector('.stage');
     { const rb = RIBL(k); if (rb) rb.p.style.strokeDashoffset = (rb.L * (d < 0 ? 1 - eo(cl((1 + d) / .9)) : 0)).toFixed(1); }   // the ribbon draws itself in as the scene arrives
-    const pb = d > 0 && d < 1 && (TRANS[k + 1] === 'flood' || TRANS[k + 1] === 'glass') ? eo(cl(d / (TRANS[k + 1] === 'glass' ? GSWAP : COVER))) : 0;   // the chapter being covered pushes back and tilts, like a camera pulling away
+    const pb = d > 0 && d < 1 && (TRANS[k + 1] === 'flood' || TRANS[k + 1] === 'glass') ? (TRANS[k + 1] === 'glass' ? .45 * eo(cl(d / GSPAN)) : eo(cl(d / COVER))) : 0;   /* calmer push-back under the glass band */   // the chapter being covered pushes back and tilts, like a camera pulling away
     st.style.transform = `translate(-50%,-50%) scale(${(sc * (1 - .08 * pb)).toFixed(4)}) rotateX(${(-tilt[1] * 1.6).toFixed(2)}deg) rotateY(${(tilt[0] * 2.2).toFixed(2)}deg) rotateZ(${(-2.4 * pb).toFixed(2)}deg)`;
     if (d !== 0) pg._k = null;
     if (d < 0) {
       const o = ORIGIN[k - 1] || [SW / 2, SH / 2], ox = innerWidth / 2 + (o[0] - SW / 2) * sc, oy = innerHeight / 2 + (o[1] - SH / 2) * sc;
-      const pp = eio(cl((1 + d) / .62)), gls = k > 0 && TRANS[k] === 'glass', fl = k > 0 && (TRANS[k] === 'flood' || gls), cov = gls ? GSWAP : COVER; pg.style.clipPath = k === 0 || fl ? 'none' : clip(TRANS[k], pp, ox, oy, innerWidth, innerHeight, k); if (fl && 1 + d < cov) pg.style.zIndex = k * 2 - 3;
+      const pp = eio(cl((1 + d) / .62)), gls = k > 0 && TRANS[k] === 'glass', fl = k > 0 && TRANS[k] === 'flood', cov = gls ? .12 : COVER; pg.style.clipPath = k === 0 || fl ? 'none' : gls ? `inset(0 0 0 ${(innerWidth * (1 - eio(cl((1 + d) / GSPAN)))).toFixed(1)}px)` : clip(TRANS[k], pp, ox, oy, innerWidth, innerHeight, k); if (fl && 1 + d < cov) pg.style.zIndex = k * 2 - 3;
       LAYERS[k].forEach(L => { if (L.hide) { L.e.style.visibility = d > -.03 ? '' : 'hidden'; return; } if (!L.depth) return;
-        const u = k === 0 ? eo(cl((1 + d) * 1.5 - .3 - L.i * .02)) : fl ? eo(cl(((1 + d) - cov + .04 - L.i * .012) / .42)) : eo(cl(((1 + d) - .35 - L.i * .015) / .55)); L.e.style.visibility = u < .02 && !fl ? 'hidden' : ''; place(L, -(1 - u) * (2600 + L.i * 120), 0, (1 - u) * 40);
+        const u = k === 0 ? eo(cl((1 + d) * 1.5 - .3 - L.i * .02)) : fl || gls ? eo(cl(((1 + d) - cov + .04 - L.i * .012) / .42)) : eo(cl(((1 + d) - .35 - L.i * .015) / .55)); L.e.style.visibility = u < .02 && !fl && !gls ? 'hidden' : ''; place(L, -(1 - u) * (2600 + L.i * 120), 0, (1 - u) * 40);
         if (L.scr && k > 0) L.scr.style.transform = `scaleY(${(1 - eio(cl((u - .45) / .55))).toFixed(3)})`; });   // the screen powers on top to bottom
+      if (pg._li) { const r0 = fl ? cov - .02 : gls ? .2 : .3; pg._li.forEach((e, j) => { const r = eo(cl(((1 + d) - r0 - j * .06) / .32)); e.style.transform = `translateY(${((1 - r) * 108).toFixed(1)}%)`; }); pg._lr = true; }
     } else {
-      pg.style.clipPath = 'none'; const u = eio(cl(d));
+      pg.style.clipPath = 'none'; const u = eio(cl(d)); if (pg._lr) { pg._lr = false; pg._li.forEach(e => { e.style.transform = ''; }); }
       const key = d === 0 ? (MOB ? 'rest' : tilt[0].toFixed(3) + ',' + tilt[1].toFixed(3)) : null; if (key && pg._k === key) return; pg._k = key;
       LAYERS[k].forEach(L => { if (L.hide) { L.e.style.visibility = d < .03 ? '' : 'hidden'; return; } if (!L.depth) return; L.e.style.visibility = ''; if (L.scr) L.scr.style.transform = ''; place(L, u * L.depth * 4, MOB ? 0 : -tilt[0] * L.depth * .05, MOB ? -u * 40 : -tilt[1] * L.depth * .035 - u * 40); }); }
   });
@@ -737,18 +765,23 @@ await YIELD();
 const RET = document.getElementById('ret'), PXY = { x: -999, y: -999 };
 addEventListener('pointermove', e => { PXY.x = e.clientX; PXY.y = e.clientY; }, { passive: true });
 if (matchMedia('(pointer:fine)').matches && T == null) { document.documentElement.classList.add('live'); addEventListener('pointermove', e => { RET.style.visibility = 'visible'; RET.style.transform = `translate(${e.clientX}px,${e.clientY}px)`; }, { passive: true }); }
-const KS = KOF('pS'); let H6 = 0;
+const KS = KOF('pS'); let H6 = 0, GT0 = null;
+const MAG = MOB || RMQ ? [] : [...document.querySelectorAll('#p0 .ctas .hire, #p6 .big')];
 function hoverFx(t, dt, px, py) {
+  if (PAGES[KS].style.visibility !== 'visible') GT0 = null;
   if (PAGES[KS].style.visibility === 'visible') { const big = MOB ? 470 : 520, small = MOB ? 104 : 150, gap = MOB ? 12 : 16, rr = ROW3.getBoundingClientRect(), sc = rr.width / (MOB ? 536 : 852);
     let hov = -1, acc = 0; STORES.forEach((S, i) => { const a0 = acc, a1 = acc + small + (big - small) * S.e; acc = a1 + gap; const u = ((MOB ? py - rr.top : px - rr.left) / sc), v = (MOB ? px - rr.left : py - rr.top) / sc;
       if (u >= a0 && u < a1 && v >= 0 && v <= (MOB ? 536 : 650)) hov = i; });   // hit-test the visible strip of each panel
-    const tgt = hov >= 0 ? hov : Math.floor(t / 3.6) % 3, k = 1 - Math.exp(-dt * 7); acc = 0;
+    if (GT0 == null) GT0 = t; const tgt = hov >= 0 ? hov : Math.floor((t - GT0) / 3.6) % 3, k = 1 - Math.exp(-dt * 7); acc = 0;   // the cycle starts on PromptForge each time you arrive
     STORES.forEach((S, i) => { S.e += ((i === tgt ? 1 : 0) - S.e) * k; const off = acc; acc += small + (big - small) * S.e + gap; const o = cl((S.e - .45) / .45);
       const tr = MOB ? `translateY(${off.toFixed(1)}px)` : `translateX(${off.toFixed(1)}px)`; if (S._tr !== tr) { S._tr = tr; S.a.style.transform = tr; S.a.style.zIndex = i + 1; }
       const os = o.toFixed(2), vs = (1 - cl(S.e / .5)).toFixed(2); if (S._o !== os) { S._o = os; S.bd.style.opacity = os; S.bd.style.transform = `translateY(${((1 - o) * 16).toFixed(1)}px)`; } if (S._v !== vs) { S._v = vs; S.vt.style.opacity = vs; } }); }   // write only on change
   if (PAGES[KOF('p6')].style.visibility === 'visible') { const b = document.querySelector('#p6 .big').getBoundingClientRect(), on = px > b.left - 30 && px < b.right + 30 && py > b.top - 60 && py < b.bottom + 30;
     H6 += ((on ? 1 : 0) - H6) * (1 - Math.exp(-dt * 6)); document.querySelectorAll('#p6 .cheerer').forEach((g, i) => { g.style.transform = `translateY(${(-(.3 + .7 * eo(cl(H6 * 1.3 - i * .15))) * 52).toFixed(1)}px)`; }); }
   if (PAGES[0].style.visibility === 'visible') document.querySelectorAll('#p0 h1 .ch').forEach(c => { const r = c.getBoundingClientRect(); c.classList.toggle('hop', px > r.left - 6 && px < r.right + 6 && py > r.top && py < r.bottom); });
+  MAG.forEach(b => { if (!b.isConnected || b.closest('section').style.visibility !== 'visible') return; const r = b.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, dx = px - cx, dy = py - cy, dd = Math.hypot(dx, dy), f = dd < 140 ? (1 - dd / 140) : 0;
+    b._mx = (b._mx || 0) + (dx * .16 * f - (b._mx || 0)) * (1 - Math.exp(-dt * 10)); b._my = (b._my || 0) + (dy * .2 * f - (b._my || 0)) * (1 - Math.exp(-dt * 10));
+    const tr = `${b._mx.toFixed(1)}px ${b._my.toFixed(1)}px`; if (b._tr !== tr) { b._tr = tr; b.style.translate = tr; } });   // magnetic: the main buttons lean toward the pointer
   const el = document.elementFromPoint(px, py); RET.classList.toggle('big', !!(el && el.closest('a,button'))); }
 // Project DO: a looping simulated run (sample request), so a visitor sees what DO does, not only reads it
 const DOR = { li: [...document.querySelectorAll('#p3 .rail li')], mu: document.querySelector('#p3 .mu'), ma: document.querySelector('#p3 .ma'), mq: document.querySelector('#p3 .mq'), mr: document.querySelector('#p3 .mr'), stt: document.querySelector('#p3 .stt'), on: -1 };
@@ -773,7 +806,7 @@ function trail(dt, px, py) { if (px < -500) return; let x = px, y = py; const pk
 const LD = document.getElementById('loader'), LDN = LD.querySelector('.ln'), LROW = LD.querySelector('.row');
 // v15 loader: ten real screens orbit on a tilted ring and speed up while the counter runs to 100, then pour into the hero and the loader closes there
 const LDC = [SCR.pfF, SCR.snL, SCR.doB, SCR.snT, SCR.pfW, SCR.snD, SCR.pfSet, SCR.snI, SCR.pfS, SCR.snR].map(src => { const c = document.createElement('div'); c.className = 'lc'; c.innerHTML = `<img src="${src}" alt="">`; LD.appendChild(c); return c; });
-let LD1 = null; const C0 = M([1190, 410], [300, 700]);
+let LD1 = null; const C0 = M([1130, 640], [330, 900]);
 function loader(t, ready) { if (LD.style.display === 'none') return true;
   const p = Math.min(cl(t / 1.7), ready ? 1 : .94), eoL = eo(p); LDN.innerHTML = String(Math.floor(eoL * 100)).padStart(2, '0') + '<small>%</small>';
   if (p >= 1 && LD1 == null) LD1 = t;
