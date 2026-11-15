@@ -28,7 +28,7 @@ The folder root is the site. Any static host works: no build command, publish di
 ## Files
 
 - `index.html` – the whole site (styles and script inline). Phone layout below 0.9 width/height; reduced-motion and no-JavaScript versions included.
-- `assets/` – 10 real screen captures used by the site.
+- `assets/` – real screen captures (PromptForge at 2x from the lossless originals, SteadyNest, the DO render) and the Range cards: six earlier builds of this portfolio plus two AI-assisted concept images (`range-gpt1/2`, tagged "Concept art" on the page).
 - `fonts/` – Barlow Condensed ExtraBold, Inter Tight, JetBrains Mono Medium (all SIL Open Font License 1.1; each licence text is included). The JetBrains Mono licence was downloaded on 14 Nov 2026 from https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/OFL.txt.
 - `og.jpg` – link preview image (1200x630). `favicon.svg` – tab icon.
 
