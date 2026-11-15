@@ -341,6 +341,9 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
 .m #p0 h1{font-size:62px}.m #p0 .car{width:94px;height:30px;border-radius:6px}.m #p0 .car::before{top:8px;height:7px;left:8px;right:8px}
 /* chapter titles: each line rises from behind its own mask */
 .lr{display:block;overflow:hidden;padding-bottom:.04em;margin-bottom:-.04em}.li{display:inline-block;will-change:transform}
+/* Motion on/off: a visitor can make the whole site calm in one tap */
+#motion{position:fixed;left:14px;bottom:10px;z-index:130;padding:7px 11px;border-radius:999px;border:1.5px solid rgba(255,255,255,.75);background:rgba(11,12,15,.72);color:#F4F2EC;font:500 11px/1 'JM',monospace;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.calm .stage,.calm .stage *,.calm .stage *::before,.calm .stage *::after{animation-play-state:paused!important}
 .nojs{max-width:760px;margin:0 auto;padding:64px 24px 96px;color:#F4F2EC;font:500 18px/1.6 'IT',sans-serif}
 .nojs h1,.nojs h2{white-space:normal}.nojs h1{margin:16px 0 0;font:800 clamp(52px,11vw,104px)/.9 'BC',sans-serif;text-transform:uppercase}
 .nojs h2{margin:56px 0 0;font:800 40px/1 'BC',sans-serif;text-transform:uppercase}.nojs h3{margin:28px 0 0;font:700 20px/1.3 'IT',sans-serif}
@@ -446,7 +449,7 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
  <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">06 / 06 · Let's build yours</span><span></span></nav>
  <div class="copy"><div class="kick">06 · Let's build yours</div><h2>Available for<br>new work.</h2>
   <p class="sub">Immersive 3D websites, designed and engineered by Yash. Start with a short brief on Fiverr.</p>
-  <ul class="list"><li><span>A scroll story built around your product, shop or service</span></li><li><span>Phone and desktop versions, checked before hand-off</span></li><li><span>The source files and a short written hand-off note</span></li></ul>
+  <ul class="list"><li><span>A scroll story built around your product, shop or service</span></li><li><span>Phone and desktop versions, checked before hand-off</span></li><li><span>The source files and a short written hand-off note</span></li><li><span>Prefer simple? I also build calm, fast sites (see Range)</span></li></ul>
   <span class="hirewrap"><a class="big" id="contact" data-hire href="#">Hire me on Fiverr →</a></span>
   <a class="pk" data-hire href="#">See packages and prices on Fiverr →</a>
   <div class="trust"><span>Checked on this site</span><i>Frame-timed on a 4× slowed phone CPU</i><i>Reduced-motion version</i><i>Works without JavaScript</i><i>Real screens only</i></div></div>
@@ -461,6 +464,7 @@ const MOB = innerWidth / innerHeight < .9, SW = MOB ? 600 : 1600, SH = MOB ? 130
 if (MOB) { const r = document.documentElement; r.classList.add('m'); r.style.setProperty('--sw', SW + 'px'); r.style.setProperty('--sh', SH + 'px'); }
 document.querySelectorAll('svg.full').forEach(e => e.setAttribute('viewBox', `0 0 ${SW} ${SH}`));
 const RMQ = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let CALM = (() => { try { return localStorage.getItem('calm') === '1'; } catch (e) { return false; } })();   // visitor's own Motion on/off choice
 const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, t) => a + (b - a) * t, eo = t => 1 - (1 - t) ** 3, eio = t => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
 const css = t => { const s = document.createElement('style'); s.textContent = t; document.head.appendChild(s); };
 let rs = 20261113; const rn = () => (rs = rs * 16807 % 2147483647) / 2147483647;
@@ -545,7 +549,7 @@ Object.assign(PFP.style, { left: M(1470, 470) + 'px', top: M(208, 626) + 'px' })
 let PF0 = 0; document.getElementById('forge').addEventListener('click', () => { PF0 = NOW; });
 const CF1 = document.getElementById('cf1'), CF1G = CF1.getContext('2d'); CF1.width = SW; CF1.height = SH;
 const CFP = Array.from({ length: 46 }, (_, i) => ({ a: -Math.PI / 2 + (rn() - .5) * 2.4, v: 260 + rn() * 340, s: 5 + rn() * 7, r: rn() * 6, c: i % 3 ? '#F4F2EC' : '#3D6CF0' }));
-function pf(t) { const ph = ((t - PF0) % 10 + 10) % 10, st = ph < 2.2 ? 0 : ph < 3.6 ? 1 : 2;
+function pf(t) { if (RMQ || CALM) t = PF0 + 5; const ph = ((t - PF0) % 10 + 10) % 10, st = ph < 2.2 ? 0 : ph < 3.6 ? 1 : 2;
   { CF1G.clearRect(0, 0, SW, SH); const u = ph - 3.7; if (u > 0 && u < 1.3) { const ox = M(1500, 500), oy = M(228, 646);   // a short burst from the +12 when the score lands
     CFP.forEach(p => { const x = ox + Math.cos(p.a) * p.v * u, y = oy + Math.sin(p.a) * p.v * u + 700 * u * u; CF1G.save(); CF1G.translate(x, y); CF1G.rotate(p.r + u * 8); CF1G.fillStyle = p.c; CF1G.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * .66); CF1G.restore(); }); } }
   PFW.imgs.forEach((im, i) => { im.style.visibility = i === st ? 'visible' : 'hidden'; });
@@ -668,6 +672,9 @@ PAGES.forEach((pg, k) => { if (k >= NP - 1) return; const st = pg.querySelector(
     if (window.__capT != null) return; setTimeout(() => scrollTo({ top: (k + 1) * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }), RMQ ? 0 : 300); }); });
 PAGES.forEach((pg, k) => { if (!k) return; const h = pg.querySelector('h2'); if (!h) return;
   h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map(l => `<span class="lr"><span class="li">${l}</span></span>`).join(''); pg._li = [...h.querySelectorAll('.li')]; });
+if (!RMQ && !CAPQ && T == null) { const mb = document.createElement('button'); mb.id = 'motion'; mb.type = 'button';
+  const paint0 = () => { mb.textContent = 'Motion: ' + (CALM ? 'off' : 'on'); mb.setAttribute('aria-pressed', String(CALM)); document.documentElement.classList.toggle('calm', CALM); };
+  mb.addEventListener('click', () => { CALM = !CALM; try { localStorage.setItem('calm', CALM ? '1' : '0'); } catch (e) {} paint0(); if (CALM) DRAW.forEach(([f]) => f(0)); }); paint0(); document.body.appendChild(mb); }
 const LAYERS = PAGES.map(pg => [...pg.querySelector('.stage').children].filter(e => !e.matches('nav')).map((e, i) => {
   const c = e.classList, z = e.style.zIndex ? +e.style.zIndex : 0, hide = e.dataset.mid === 'hide';
   const depth = e.dataset.depth != null ? +e.dataset.depth : c.contains('dev') ? 40 + z * 40 : c.contains('copy') ? 50 : e.matches('svg.full,.ground,.shelf') ? 0 : 110;
@@ -751,7 +758,7 @@ function journey(G) {
   { const f = Math.floor(G); paint(G === f ? -1 : f + 1, G - f); glassPane(G === f ? -1 : f + 1, G - f); }
 }
 await YIELD();
-const target = () => RMQ ? Math.round(scrollY / UNIT()) : scrollY / UNIT();
+const target = () => RMQ || CALM ? Math.round(scrollY / UNIT()) : scrollY / UNIT();
 document.querySelectorAll('a[href^="#p"]').forEach(a => a.addEventListener('click', ev => { ev.preventDefault(); const k = KOF(a.getAttribute('href').slice(1)), si = STORES.findIndex(S => S.a === a); if (si >= 0) PICK = si; if (k >= 0) scrollTo({ top: k * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }); }));
 let idle = 0; addEventListener('scroll', () => { clearTimeout(idle); idle = setTimeout(() => { const k = Math.round(scrollY / UNIT()); if (Math.abs(scrollY - k * UNIT()) > 4) scrollTo({ top: k * UNIT(), behavior: 'smooth' }); }, 160); }, { passive: true });
 addEventListener('keydown', ev => { const k = Math.round(scrollY / UNIT()), go = n => { ev.preventDefault(); scrollTo({ top: cl(n, 0, NP - 1) * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }); };
@@ -772,7 +779,7 @@ function hoverFx(t, dt, px, py) {
   if (PAGES[KS].style.visibility === 'visible') { const big = MOB ? 470 : 520, small = MOB ? 104 : 150, gap = MOB ? 12 : 16, rr = ROW3.getBoundingClientRect(), sc = rr.width / (MOB ? 536 : 852);
     let hov = -1, acc = 0; STORES.forEach((S, i) => { const a0 = acc, a1 = acc + small + (big - small) * S.e; acc = a1 + gap; const u = ((MOB ? py - rr.top : px - rr.left) / sc), v = (MOB ? px - rr.left : py - rr.top) / sc;
       if (u >= a0 && u < a1 && v >= 0 && v <= (MOB ? 536 : 650)) hov = i; });   // hit-test the visible strip of each panel
-    if (GT0 == null) GT0 = t; const tgt = hov >= 0 ? hov : Math.floor((t - GT0) / 3.6) % 3, k = 1 - Math.exp(-dt * 7); acc = 0;   // the cycle starts on PromptForge each time you arrive
+    if (GT0 == null) GT0 = t; const tgt = hov >= 0 ? hov : CALM ? 0 : Math.floor((t - GT0) / 3.6) % 3, k = 1 - Math.exp(-dt * 7); acc = 0;   // the cycle starts on PromptForge each time you arrive
     STORES.forEach((S, i) => { S.e += ((i === tgt ? 1 : 0) - S.e) * k; const off = acc; acc += small + (big - small) * S.e + gap; const o = cl((S.e - .45) / .45);
       const tr = MOB ? `translateY(${off.toFixed(1)}px)` : `translateX(${off.toFixed(1)}px)`; if (S._tr !== tr) { S._tr = tr; S.a.style.transform = tr; S.a.style.zIndex = i + 1; }
       const os = o.toFixed(2), vs = (1 - cl(S.e / .5)).toFixed(2); if (S._o !== os) { S._o = os; S.bd.style.opacity = os; S.bd.style.transform = `translateY(${((1 - o) * 16).toFixed(1)}px)`; } if (S._v !== vs) { S._v = vs; S.vt.style.opacity = vs; } }); }   // write only on change
@@ -786,7 +793,7 @@ function hoverFx(t, dt, px, py) {
 // Project DO: a looping simulated run (sample request), so a visitor sees what DO does, not only reads it
 const DOR = { li: [...document.querySelectorAll('#p3 .rail li')], mu: document.querySelector('#p3 .mu'), ma: document.querySelector('#p3 .ma'), mq: document.querySelector('#p3 .mq'), mr: document.querySelector('#p3 .mr'), stt: document.querySelector('#p3 .stt'), on: -1 };
 const DOT = { mu: 'Book 30 minutes with my accountant next week.', mq: 'Your accountant is free Tue 4 pm or Wed 11 am. Which one?' };
-function doRun(t) { if (RMQ) t = 9.6; const ph = t % 13, out = 1 - cl((ph - 12.3) / .5), show = (e, a) => { const o = eo(cl(a)) * out; e.style.opacity = o.toFixed(3); e.style.transform = `translateY(${((1 - eo(cl(a))) * 14).toFixed(1)}px)`; };
+function doRun(t) { if (RMQ || CALM) t = 9.6; const ph = t % 13, out = 1 - cl((ph - 12.3) / .5), show = (e, a) => { const o = eo(cl(a)) * out; e.style.opacity = o.toFixed(3); e.style.transform = `translateY(${((1 - eo(cl(a))) * 14).toFixed(1)}px)`; };
   const typ = (e, txt, a) => { const n = Math.round(txt.length * cl(a)); if (e._n !== n) { e._n = n; e.textContent = txt.slice(0, n) + (n < txt.length && n > 0 ? '▍' : ''); } };
   show(DOR.mu, ph / .3); typ(DOR.mu, DOT.mu, (ph - .2) / 2.1);
   show(DOR.ma, (ph - 2.8) / .45); show(DOR.mq, (ph - 4.8) / .3); typ(DOR.mq, DOT.mq, (ph - 5) / 2.2); show(DOR.mr, (ph - 7.7) / .35); show(DOR.stt, (ph - 8.6) / .4);
@@ -822,12 +829,12 @@ function loader(t, ready) { if (LD.style.display === 'none') return true;
 if (T != null || GQ || RMQ) LD.style.display = 'none';
 const imgsReady = () => Promise.all([...document.images].map(i => i.decode().catch(() => {}))).then(() => document.fonts.ready);
 { const t0 = performance.now(); let last = t0, IMG = false, LDONE = RMQ; imgsReady().then(() => { IMG = true; PW = 1; });   // once images are in, warm one chapter every other frame
-  if (RMQ) { DRAW.forEach(([f]) => f(0)); G = target(); }
+  if (RMQ || CALM) { DRAW.forEach(([f]) => f(0)); G = target(); }   // calm: draw the finished states once
   let wf = 0; const loop = n => { if (PW >= 0 && ++wf % 2 === 0) { PW++; if (PW >= NP) PW = -1; } const t = (n - t0) / 1000, dt = Math.min(.1, (n - last) / 1000); last = n; NOW = t;
-    if (!RMQ) DRAW.forEach(([f, k]) => { if (PAGES[k].style.visibility === 'visible') f(t); });
+    if (!RMQ && !CALM) DRAW.forEach(([f, k]) => { if (PAGES[k].style.visibility === 'visible') f(t); });
     if (MOB && !RMQ) ptr = [Math.sin(t * .45) * .3, Math.cos(t * .37) * .2];
     if (!LDONE) LDONE = loader(t, IMG);
-    if (!GQ && LDONE) { const k = RMQ ? 1 : 1 - Math.exp(-dt * 5.5); G += (target() - G) * k; if (Math.abs(target() - G) < 1e-4) G = target(); }
+    if (!GQ && LDONE) { const k = RMQ || CALM ? 1 : 1 - Math.exp(-dt * 5.5); G += (target() - G) * k; if (Math.abs(target() - G) < 1e-4) G = target(); }
     hoverFx(t, dt, PXY.x, PXY.y); rider(G, dt); trail(dt, PXY.x, PXY.y);
     tilt[0] += (ptr[0] - tilt[0]) * (1 - Math.exp(-dt * 4)); tilt[1] += (ptr[1] - tilt[1]) * (1 - Math.exp(-dt * 4)); journey(G); requestAnimationFrame(loop); };
   requestAnimationFrame(loop); window.__ready = true; }
