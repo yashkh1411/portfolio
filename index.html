@@ -341,6 +341,19 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
 .m #p0 h1{font-size:62px}.m #p0 .car{width:94px;height:30px;border-radius:6px}.m #p0 .car::before{top:8px;height:7px;left:8px;right:8px}
 /* chapter titles: each line rises from behind its own mask */
 .lr{display:block;overflow:hidden;padding-bottom:.04em;margin-bottom:-.04em}.li{display:inline-block;will-change:transform}
+/* Motion on/off: a visitor can make the whole site calm in one tap */
+#motion{position:fixed;left:14px;bottom:10px;z-index:130;padding:7px 11px;border-radius:999px;border:1.5px solid rgba(255,255,255,.75);background:rgba(11,12,15,.72);color:#F4F2EC;font:500 11px/1 'JM',monospace;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.calm .stage,.calm .stage *,.calm .stage *::before,.calm .stage *::after{animation-play-state:paused!important}
+/* Hire: the real packages, so price, delivery and revisions are visible before the click */
+.pkgs{position:absolute;left:820px;top:150px;width:720px;z-index:20;display:grid;gap:14px}
+.pkh{font:500 12px/1 'JM',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--on)}
+.pkc{display:block;padding:18px 22px;border-radius:16px;background:#FFF8EA;color:#1A0C0E;text-decoration:none;box-shadow:0 0 0 2px #0B0C0F,0 18px 36px rgba(0,0,0,.18);transition:translate .2s cubic-bezier(.23,1,.32,1)}
+.pkc:hover{translate:0 -3px}
+.pkt{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.pkt b{font:800 30px/1 'BC',sans-serif;text-transform:uppercase}.pp{font:800 30px/1 'BC',sans-serif}
+.pkc p{margin:8px 0 12px;font:500 15px/1.4 'IT',sans-serif}
+.pkm{display:flex;gap:8px}.pkm span{font:600 12.5px/1 'IT',sans-serif;padding:7px 10px;border-radius:999px;background:#0B0C0F;color:#F4F2EC}
+.m .pkgs{left:32px;top:auto;bottom:150px;width:536px;gap:10px}.m .pkc{padding:12px 16px}.m .pkt b,.m .pp{font-size:22px}.m .pkc p{font-size:13px;margin:5px 0 8px}.m .pkm span{font-size:11.5px;padding:6px 8px}
+.shade{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none}   /* tonal background shades */
 .nojs{max-width:760px;margin:0 auto;padding:64px 24px 96px;color:#F4F2EC;font:500 18px/1.6 'IT',sans-serif}
 .nojs h1,.nojs h2{white-space:normal}.nojs h1{margin:16px 0 0;font:800 clamp(52px,11vw,104px)/.9 'BC',sans-serif;text-transform:uppercase}
 .nojs h2{margin:56px 0 0;font:800 40px/1 'BC',sans-serif;text-transform:uppercase}.nojs h3{margin:28px 0 0;font:700 20px/1.3 'IT',sans-serif}
@@ -446,7 +459,7 @@ html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb
  <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">06 / 06 · Let's build yours</span><span></span></nav>
  <div class="copy"><div class="kick">06 · Let's build yours</div><h2>Available for<br>new work.</h2>
   <p class="sub">Immersive 3D websites, designed and engineered by Yash. Start with a short brief on Fiverr.</p>
-  <ul class="list"><li><span>A scroll story built around your product, shop or service</span></li><li><span>Phone and desktop versions, checked before hand-off</span></li><li><span>The source files and a short written hand-off note</span></li></ul>
+  <ul class="list"><li><span>A scroll story built around your product, shop or service</span></li><li><span>Phone and desktop versions, checked before hand-off</span></li><li><span>The source files and a short written hand-off note</span></li><li><span>Prefer simple? I also build calm, fast sites (see Range)</span></li></ul>
   <span class="hirewrap"><a class="big" id="contact" data-hire href="#">Hire me on Fiverr →</a></span>
   <a class="pk" data-hire href="#">See packages and prices on Fiverr →</a>
   <div class="trust"><span>Checked on this site</span><i>Frame-timed on a 4× slowed phone CPU</i><i>Reduced-motion version</i><i>Works without JavaScript</i><i>Real screens only</i></div></div>
@@ -461,6 +474,7 @@ const MOB = innerWidth / innerHeight < .9, SW = MOB ? 600 : 1600, SH = MOB ? 130
 if (MOB) { const r = document.documentElement; r.classList.add('m'); r.style.setProperty('--sw', SW + 'px'); r.style.setProperty('--sh', SH + 'px'); }
 document.querySelectorAll('svg.full').forEach(e => e.setAttribute('viewBox', `0 0 ${SW} ${SH}`));
 const RMQ = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let CALM = (() => { try { return localStorage.getItem('calm') === '1'; } catch (e) { return false; } })();   // visitor's own Motion on/off choice
 const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, t) => a + (b - a) * t, eo = t => 1 - (1 - t) ** 3, eio = t => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
 const css = t => { const s = document.createElement('style'); s.textContent = t; document.head.appendChild(s); };
 let rs = 20261113; const rn = () => (rs = rs * 16807 % 2147483647) / 2147483647;
@@ -545,7 +559,7 @@ Object.assign(PFP.style, { left: M(1470, 470) + 'px', top: M(208, 626) + 'px' })
 let PF0 = 0; document.getElementById('forge').addEventListener('click', () => { PF0 = NOW; });
 const CF1 = document.getElementById('cf1'), CF1G = CF1.getContext('2d'); CF1.width = SW; CF1.height = SH;
 const CFP = Array.from({ length: 46 }, (_, i) => ({ a: -Math.PI / 2 + (rn() - .5) * 2.4, v: 260 + rn() * 340, s: 5 + rn() * 7, r: rn() * 6, c: i % 3 ? '#F4F2EC' : '#3D6CF0' }));
-function pf(t) { const ph = ((t - PF0) % 10 + 10) % 10, st = ph < 2.2 ? 0 : ph < 3.6 ? 1 : 2;
+function pf(t) { if (RMQ || CALM) t = PF0 + 5; const ph = ((t - PF0) % 10 + 10) % 10, st = ph < 2.2 ? 0 : ph < 3.6 ? 1 : 2;
   { CF1G.clearRect(0, 0, SW, SH); const u = ph - 3.7; if (u > 0 && u < 1.3) { const ox = M(1500, 500), oy = M(228, 646);   // a short burst from the +12 when the score lands
     CFP.forEach(p => { const x = ox + Math.cos(p.a) * p.v * u, y = oy + Math.sin(p.a) * p.v * u + 700 * u * u; CF1G.save(); CF1G.translate(x, y); CF1G.rotate(p.r + u * 8); CF1G.fillStyle = p.c; CF1G.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * .66); CF1G.restore(); }); } }
   PFW.imgs.forEach((im, i) => { im.style.visibility = i === st ? 'visible' : 'hidden'; });
@@ -633,7 +647,13 @@ await YIELD();
 /* ======================= 06 Hire: the three builds again, small, beside the offer ======================= */
 const st6 = document.querySelector('#p6 .stage');
 { const w = document.createElement('span'); w.className = 'crowd'; w.setAttribute('aria-hidden', 'true'); document.querySelector('#p6 .hirewrap').appendChild(w); [[4, '#0B0C0F', '#F4F2EC'], [54, '#D4AF5A', '#0B0C0F'], [104, '#0B0C0F', '#F4F2EC']].forEach(([x, fill, line]) => { const g = guy(w, { x, act: 'cheer', fill, line }); g.classList.add('cheerer'); }); }
-if (!MOB) { device(st6, { src: SCR.pfF, kind: 'win', ar: .42, pos: '0 0', cx: 1210, cy: 400, w: 560, rz: -1, ry: -8, z: 4, alt: '' }); device(st6, { src: SCR.snL, kind: 'phone', cx: 1430, cy: 590, w: 170, rz: 4, ry: -10, z: 6, alt: '' }); device(st6, { src: SCR.doB, kind: 'tab', cx: 990, cy: 650, w: 270, rz: -4, ry: 10, z: 5, alt: '' }); }
+// packages, read from the live Fiverr gig on 15 Nov 2026 (prices as Fiverr showed them in INR; Fiverr shows each buyer their own currency)
+{ const PK = [['Starter Portfolio', 'Clean one-page portfolio in Next.js, mobile-friendly, deployed', '₹7,916', '4-day delivery', '1 revision'],
+    ['Pro Portfolio', '4-page portfolio with projects, contact form, fast, hosted', '₹15,832', '6-day delivery', '2 revisions'],
+    ['Portfolio + AI', '6-page portfolio with AI chat about you, blog, full setup', '₹19,790', '10-day delivery', '3 revisions']];
+  const box = document.createElement('div'); box.className = 'pkgs'; box.innerHTML = '<div class="pkh">Packages on Fiverr · prices shown in your currency there</div>' +
+    PK.map(([n, d, p, del, rev]) => `<a class="pkc" data-hire href="${FIVERR}" target="_blank" rel="noopener noreferrer"><div class="pkt"><b>${n}</b><span class="pp">${p}</span></div><p>${d}</p><div class="pkm"><span>${del}</span><span>${rev}</span></div></a>`).join('');
+  st6.appendChild(box); }
 await YIELD();
 
 /* ======================= the journey ======================= */
@@ -651,12 +671,35 @@ const RIB = {
   p1: ['M-60 850 C 260 880, 560 800, 720 640 S 1100 380, 1660 330', 'M-40 1250 C 160 1190, 420 1270, 640 1160'],
   p3: ['M-60 890 C 400 868, 800 906, 1200 880 S 1500 868, 1660 886', 'M-40 1284 C 200 1258, 420 1296, 640 1266'],
   p5: ['M-60 860 C 380 800, 700 900, 1000 850 S 1400 800, 1660 870', 'M-40 1262 C 200 1212, 420 1290, 640 1240'],
-  p6: ['M-60 872 C 260 836, 520 904, 820 866 S 1300 720, 1660 790', 'M-40 1190 C 200 1130, 420 1230, 640 1150'] };
+  p6: ['M-60 912 C 260 896, 520 918, 820 896 S 1300 780, 1660 830', 'M-40 1190 C 200 1130, 420 1230, 640 1150'] };
 css(`@keyframes rwalk{from{offset-distance:0%}to{offset-distance:100%}}`);
 Object.entries(RIB).forEach(([id, d], n) => { const st = document.querySelector('#' + id + ' .stage'), sv = document.createElementNS(NS, 'svg'), pth = document.createElementNS(NS, 'path'), dd = M(d[0], d[1]);
   sv.setAttribute('class', 'full ribbon'); sv.setAttribute('viewBox', `0 0 ${SW} ${SH}`); sv.dataset.depth = '0'; sv.setAttribute('aria-hidden', 'true'); pth.setAttribute('d', dd); pth.setAttribute('stroke-width', M(30, 24)); sv.appendChild(pth); st.insertBefore(sv, st.firstChild);
   });
 const RIBC = {}; const RIBL = k => { if (k in RIBC) return RIBC[k]; const p = PAGES[k].querySelector('.ribbon path'); if (!p) return (RIBC[k] = null); const L = p.getTotalLength(); p.style.strokeDasharray = L; return (RIBC[k] = { p, L }); };
+// background light, after the reference reels: a base tone, one accent light falling in from a side, soft light streaks, darker edges.
+// Painted once per chapter at quarter size with radial gradients (no per-frame cost). Ops: r = glow [x, y, radius, colour, alpha], s = streak [path, width, colour, alpha], v = edge shade [colour, alpha]
+{ const SH = {
+    p0: [['r', 1380, 120, 760, '#FFD2A6', .9], ['r', 1540, 40, 340, '#FF9F63', .55], ['r', 220, 120, 620, '#FFFFFF', .75], ['r', 120, 880, 460, '#F4C3B0', .55], ['v', '#B9A78E', .35]],
+    p1: [['r', 1250, 430, 760, '#1F3A72', .95], ['r', 1440, 170, 400, '#3D6CF0', .5], ['r', 130, 880, 560, '#B8693A', .45], ['r', 640, 60, 420, '#8FA6C8', .2],
+         ['s', 'M-80 760 C 380 560, 900 820, 1700 470', 10, '#BFD0F0', .4], ['s', 'M-80 820 C 420 640, 960 880, 1700 560', 5, '#8FA6C8', .3], ['s', 'M-80 880 C 460 760, 1000 930, 1700 650', 7, '#E09A62', .35], ['v', '#03060D', .65]],
+    p2: [['r', 1380, 170, 600, '#F7AE96', .65], ['r', 1260, 820, 640, '#2C6B5F', .25], ['r', 220, 150, 540, '#FFFFFF', .75], ['r', 90, 880, 460, '#A8D1C2', .45], ['v', '#C9BCA5', .32]],
+    p3: [['r', 1150, 380, 680, '#3E332C', .95], ['r', 1240, 540, 400, '#D08A5E', .42], ['r', 1480, 120, 260, '#E7B48A', .2], ['r', 240, 880, 420, '#8A3322', .55], ['r', 300, 140, 420, '#4A3E36', .5],
+         ['s', 'M-80 860 C 360 760, 800 900, 1700 700', 6, '#D08A5E', .3], ['v', '#000000', .6]],
+    p4: [['r', 820, 600, 820, '#F6A465', .42], ['r', 1460, 90, 460, '#FFE6C8', .7], ['r', 180, 880, 540, '#2E4632', .28], ['r', 160, 140, 420, '#FFFFFF', .55], ['v', '#6E7F62', .28]],
+    p6: [['r', 920, 400, 760, '#FFF1C6', .65], ['r', 1420, 140, 400, '#FFFFFF', .4], ['r', 120, 880, 520, '#8C6420', .4], ['r', 1560, 860, 460, '#A8761F', .5], ['v', '#7A5414', .38]] };
+  const H_ = MOB ? 1300 : 900, mx = x => MOB ? x * .375 : x, my = y => MOB ? y * 1.44 : y, mr = r => MOB ? r * .6 : r;
+  const rgba = (h, a) => `rgba(${parseInt(h.slice(1, 3), 16)},${parseInt(h.slice(3, 5), 16)},${parseInt(h.slice(5, 7), 16)},${a})`;
+  Object.entries(SH).forEach(([id, ops]) => { const st = document.querySelector('#' + id + ' .stage'), cv = document.createElement('canvas'), g = cv.getContext('2d'), W = SW / 4, H = H_ / 4;
+    cv.className = 'shade'; cv.setAttribute('aria-hidden', 'true'); cv.dataset.depth = '0'; cv.width = W; cv.height = H;
+    ops.forEach(o => {
+      if (o[0] === 'r') { const [, x, y, r, c, a] = o, X = mx(x) / 4, Y = my(y) / 4, R = mr(r) / 4, gr = g.createRadialGradient(X, Y, 0, X, Y, R);
+        gr.addColorStop(0, rgba(c, a)); gr.addColorStop(.45, rgba(c, a * .55)); gr.addColorStop(1, rgba(c, 0)); g.filter = 'none'; g.fillStyle = gr; g.fillRect(0, 0, W, H); }
+      else if (o[0] === 's') { const [, d, w, c, a] = o, p = new Path2D(d.replace(/-?\d+(\.\d+)? -?\d+(\.\d+)?/g, m => { const [x, y] = m.split(' ').map(Number); return (mx(x) / 4).toFixed(1) + ' ' + (my(y) / 4).toFixed(1); }));
+        g.filter = 'blur(3px)'; g.strokeStyle = rgba(c, a); g.lineWidth = w / 4 * (MOB ? .8 : 1) + 1; g.lineCap = 'round'; g.stroke(p); }
+      else { const [, c, a] = o, gr = g.createRadialGradient(W / 2, H / 2, Math.min(W, H) * .35, W / 2, H / 2, Math.hypot(W, H) * .58);
+        gr.addColorStop(0, rgba(c, 0)); gr.addColorStop(1, rgba(c, a)); g.filter = 'none'; g.fillStyle = gr; g.fillRect(0, 0, W, H); } });
+    st.insertBefore(cv, st.firstChild); }); }
 document.querySelectorAll('.dev .s').forEach(sc => { const c = document.createElement('i'); c.className = 'boot'; sc.appendChild(c); });
 // "Wanna go next?": on every chapter but the last, a little guy stands at a red arcade button; pressing it carries you on
 PAGES.forEach((pg, k) => { if (k >= NP - 1) return; const st = pg.querySelector('.stage'), b = document.createElement('button');
@@ -668,6 +711,9 @@ PAGES.forEach((pg, k) => { if (k >= NP - 1) return; const st = pg.querySelector(
     if (window.__capT != null) return; setTimeout(() => scrollTo({ top: (k + 1) * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }), RMQ ? 0 : 300); }); });
 PAGES.forEach((pg, k) => { if (!k) return; const h = pg.querySelector('h2'); if (!h) return;
   h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map(l => `<span class="lr"><span class="li">${l}</span></span>`).join(''); pg._li = [...h.querySelectorAll('.li')]; });
+if (!RMQ && !CAPQ && T == null) { const mb = document.createElement('button'); mb.id = 'motion'; mb.type = 'button';
+  const paint0 = () => { mb.textContent = 'Motion: ' + (CALM ? 'off' : 'on'); mb.setAttribute('aria-pressed', String(CALM)); document.documentElement.classList.toggle('calm', CALM); };
+  mb.addEventListener('click', () => { CALM = !CALM; try { localStorage.setItem('calm', CALM ? '1' : '0'); } catch (e) {} paint0(); if (CALM) DRAW.forEach(([f]) => f(0)); }); paint0(); document.body.appendChild(mb); }
 const LAYERS = PAGES.map(pg => [...pg.querySelector('.stage').children].filter(e => !e.matches('nav')).map((e, i) => {
   const c = e.classList, z = e.style.zIndex ? +e.style.zIndex : 0, hide = e.dataset.mid === 'hide';
   const depth = e.dataset.depth != null ? +e.dataset.depth : c.contains('dev') ? 40 + z * 40 : c.contains('copy') ? 50 : e.matches('svg.full,.ground,.shelf') ? 0 : 110;
@@ -751,7 +797,7 @@ function journey(G) {
   { const f = Math.floor(G); paint(G === f ? -1 : f + 1, G - f); glassPane(G === f ? -1 : f + 1, G - f); }
 }
 await YIELD();
-const target = () => RMQ ? Math.round(scrollY / UNIT()) : scrollY / UNIT();
+const target = () => RMQ || CALM ? Math.round(scrollY / UNIT()) : scrollY / UNIT();
 document.querySelectorAll('a[href^="#p"]').forEach(a => a.addEventListener('click', ev => { ev.preventDefault(); const k = KOF(a.getAttribute('href').slice(1)), si = STORES.findIndex(S => S.a === a); if (si >= 0) PICK = si; if (k >= 0) scrollTo({ top: k * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }); }));
 let idle = 0; addEventListener('scroll', () => { clearTimeout(idle); idle = setTimeout(() => { const k = Math.round(scrollY / UNIT()); if (Math.abs(scrollY - k * UNIT()) > 4) scrollTo({ top: k * UNIT(), behavior: 'smooth' }); }, 160); }, { passive: true });
 addEventListener('keydown', ev => { const k = Math.round(scrollY / UNIT()), go = n => { ev.preventDefault(); scrollTo({ top: cl(n, 0, NP - 1) * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }); };
@@ -772,7 +818,7 @@ function hoverFx(t, dt, px, py) {
   if (PAGES[KS].style.visibility === 'visible') { const big = MOB ? 470 : 520, small = MOB ? 104 : 150, gap = MOB ? 12 : 16, rr = ROW3.getBoundingClientRect(), sc = rr.width / (MOB ? 536 : 852);
     let hov = -1, acc = 0; STORES.forEach((S, i) => { const a0 = acc, a1 = acc + small + (big - small) * S.e; acc = a1 + gap; const u = ((MOB ? py - rr.top : px - rr.left) / sc), v = (MOB ? px - rr.left : py - rr.top) / sc;
       if (u >= a0 && u < a1 && v >= 0 && v <= (MOB ? 536 : 650)) hov = i; });   // hit-test the visible strip of each panel
-    if (GT0 == null) GT0 = t; const tgt = hov >= 0 ? hov : Math.floor((t - GT0) / 3.6) % 3, k = 1 - Math.exp(-dt * 7); acc = 0;   // the cycle starts on PromptForge each time you arrive
+    if (GT0 == null) GT0 = t; const tgt = hov >= 0 ? hov : CALM ? 0 : Math.floor((t - GT0) / 3.6) % 3, k = 1 - Math.exp(-dt * 7); acc = 0;   // the cycle starts on PromptForge each time you arrive
     STORES.forEach((S, i) => { S.e += ((i === tgt ? 1 : 0) - S.e) * k; const off = acc; acc += small + (big - small) * S.e + gap; const o = cl((S.e - .45) / .45);
       const tr = MOB ? `translateY(${off.toFixed(1)}px)` : `translateX(${off.toFixed(1)}px)`; if (S._tr !== tr) { S._tr = tr; S.a.style.transform = tr; S.a.style.zIndex = i + 1; }
       const os = o.toFixed(2), vs = (1 - cl(S.e / .5)).toFixed(2); if (S._o !== os) { S._o = os; S.bd.style.opacity = os; S.bd.style.transform = `translateY(${((1 - o) * 16).toFixed(1)}px)`; } if (S._v !== vs) { S._v = vs; S.vt.style.opacity = vs; } }); }   // write only on change
@@ -786,7 +832,7 @@ function hoverFx(t, dt, px, py) {
 // Project DO: a looping simulated run (sample request), so a visitor sees what DO does, not only reads it
 const DOR = { li: [...document.querySelectorAll('#p3 .rail li')], mu: document.querySelector('#p3 .mu'), ma: document.querySelector('#p3 .ma'), mq: document.querySelector('#p3 .mq'), mr: document.querySelector('#p3 .mr'), stt: document.querySelector('#p3 .stt'), on: -1 };
 const DOT = { mu: 'Book 30 minutes with my accountant next week.', mq: 'Your accountant is free Tue 4 pm or Wed 11 am. Which one?' };
-function doRun(t) { if (RMQ) t = 9.6; const ph = t % 13, out = 1 - cl((ph - 12.3) / .5), show = (e, a) => { const o = eo(cl(a)) * out; e.style.opacity = o.toFixed(3); e.style.transform = `translateY(${((1 - eo(cl(a))) * 14).toFixed(1)}px)`; };
+function doRun(t) { if (RMQ || CALM) t = 9.6; const ph = t % 13, out = 1 - cl((ph - 12.3) / .5), show = (e, a) => { const o = eo(cl(a)) * out; e.style.opacity = o.toFixed(3); e.style.transform = `translateY(${((1 - eo(cl(a))) * 14).toFixed(1)}px)`; };
   const typ = (e, txt, a) => { const n = Math.round(txt.length * cl(a)); if (e._n !== n) { e._n = n; e.textContent = txt.slice(0, n) + (n < txt.length && n > 0 ? '▍' : ''); } };
   show(DOR.mu, ph / .3); typ(DOR.mu, DOT.mu, (ph - .2) / 2.1);
   show(DOR.ma, (ph - 2.8) / .45); show(DOR.mq, (ph - 4.8) / .3); typ(DOR.mq, DOT.mq, (ph - 5) / 2.2); show(DOR.mr, (ph - 7.7) / .35); show(DOR.stt, (ph - 8.6) / .4);
@@ -822,12 +868,12 @@ function loader(t, ready) { if (LD.style.display === 'none') return true;
 if (T != null || GQ || RMQ) LD.style.display = 'none';
 const imgsReady = () => Promise.all([...document.images].map(i => i.decode().catch(() => {}))).then(() => document.fonts.ready);
 { const t0 = performance.now(); let last = t0, IMG = false, LDONE = RMQ; imgsReady().then(() => { IMG = true; PW = 1; });   // once images are in, warm one chapter every other frame
-  if (RMQ) { DRAW.forEach(([f]) => f(0)); G = target(); }
+  if (RMQ || CALM) { DRAW.forEach(([f]) => f(0)); G = target(); }   // calm: draw the finished states once
   let wf = 0; const loop = n => { if (PW >= 0 && ++wf % 2 === 0) { PW++; if (PW >= NP) PW = -1; } const t = (n - t0) / 1000, dt = Math.min(.1, (n - last) / 1000); last = n; NOW = t;
-    if (!RMQ) DRAW.forEach(([f, k]) => { if (PAGES[k].style.visibility === 'visible') f(t); });
+    if (!RMQ && !CALM) DRAW.forEach(([f, k]) => { if (PAGES[k].style.visibility === 'visible') f(t); });
     if (MOB && !RMQ) ptr = [Math.sin(t * .45) * .3, Math.cos(t * .37) * .2];
     if (!LDONE) LDONE = loader(t, IMG);
-    if (!GQ && LDONE) { const k = RMQ ? 1 : 1 - Math.exp(-dt * 5.5); G += (target() - G) * k; if (Math.abs(target() - G) < 1e-4) G = target(); }
+    if (!GQ && LDONE) { const k = RMQ || CALM ? 1 : 1 - Math.exp(-dt * 5.5); G += (target() - G) * k; if (Math.abs(target() - G) < 1e-4) G = target(); }
     hoverFx(t, dt, PXY.x, PXY.y); rider(G, dt); trail(dt, PXY.x, PXY.y);
     tilt[0] += (ptr[0] - tilt[0]) * (1 - Math.exp(-dt * 4)); tilt[1] += (ptr[1] - tilt[1]) * (1 - Math.exp(-dt * 4)); journey(G); requestAnimationFrame(loop); };
   requestAnimationFrame(loop); window.__ready = true; }
