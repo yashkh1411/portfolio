@@ -1,0 +1,15 @@
+ROAM entrance photograph: India Gate .jpg by Thebrowniris, 2013.
+Source: https://commons.wikimedia.org/wiki/File:India_Gate_.jpg
+License: Creative Commons Attribution-ShareAlike 3.0 Unported
+https://creativecommons.org/licenses/by-sa/3.0/
+Changes: resized to 1280px and 2560px, encoded as WebP; displayed with responsive cropping and a separate CSS text contrast overlay.
+The derivative photograph assets retain CC BY-SA 3.0.
+
+Map data: OpenStreetMap contributors, ODbL.
+https://www.openstreetmap.org/copyright
+Additional building outlines: 1,595 OpenStreetMap ways retrieved through https://overpass-api.de/api/interpreter on 4 November 2026.
+Source bounding box: 28.589,77.207,28.620,77.237. Geometry is stored in delhi-buildings.geojson.
+Where height metadata is absent, building heights are schematic. Landmark models, raised parks and tree forms are illustrations rather than surveyed 3D models.
+
+Portrait photographs: supplied by Yash Khairwal, displayed in natural colour.
+Closing portrait: supplied by Yash Khairwal on 4 November 2026, 1122 × 1402 pixels. Original monochrome appearance preserved; resized and encoded as responsive WebP assets without cropping or colour grading.

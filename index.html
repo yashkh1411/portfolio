@@ -1,880 +1,398 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Yash Khairwal · Immersive websites for startups, shops and agencies</title>
-<meta name="description" content="Yash Khairwal designs and builds scroll-driven, 3D and illustrated websites for startups, shops and agencies. Real code, real screens, built for phone and desktop.">
-<meta name="theme-color" content="#1C47D0">
-<meta property="og:type" content="website"><meta property="og:title" content="Yash Khairwal · Weak ideas in. Real products out.">
-<meta property="og:description" content="Scroll-driven, 3D and illustrated websites for startups, shops and agencies. Three real builds inside.">
-<meta property="og:image" content="https://yash-khairwal.pages.dev/og.jpg"><meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<style>
-@font-face{font-family:'BC';src:url(fonts/BarlowCondensed-ExtraBold.ttf);font-weight:800}
-@font-face{font-family:'IT';src:url(fonts/InterTight.ttf);font-weight:100 900}
-@font-face{font-family:'JM';src:url(fonts/JetBrainsMono-Medium.ttf);font-weight:500}
-*{box-sizing:border-box}
-html,body{margin:0;background:#0B0C0F;overflow-x:hidden}
-body{min-height:100vh}#spacer{width:1px}
-:root{--gold:#D4AF5A;--ink:#0B0C0F}
-section.page{position:fixed;inset:0;overflow:hidden;visibility:hidden;background:var(--bg);perspective:1800px}
-section.page:not(.warm){content-visibility:hidden}
-section.page.off *,section.page.off *::before,section.page.off *::after{animation-play-state:paused!important}
-.stage{position:absolute;left:50%;top:50%;width:var(--sw,1600px);height:var(--sh,900px);transform-origin:50% 50%;background:var(--bg)}
-svg.full,canvas.full{position:absolute;left:0;top:0;width:var(--sw,1600px);height:var(--sh,900px);pointer-events:none}
-/* per chapter, three flat colours that never blend: --bg (base), --key (second colour on 2-3 key objects), --acc (one small touch); --on is type.
-   Each build gets its own palette, like a client brand; gold stays the one call-to-action colour (Hire buttons). */
-#p0,#pS{--bg:#0B0C0F;--key:#F4F2EC;--on:#F4F2EC;--acc:#D4AF5A}
-#p1{--bg:#0E1624;--key:#A9BCD6;--on:#E9EEF5;--acc:#C97B43}   /* navy / silver blue / copper */
-#p2{--bg:#F1ECE1;--key:#1E4A42;--on:#14211E;--acc:#E2634B}   /* cream / deep teal / coral */
-#p3{--bg:#141312;--key:#D08A5E;--on:#EDE6DA;--acc:#8A3322}   /* graphite / copper / oxblood, with a bone run panel */
-#p4{--bg:#E6EBD3;--key:#2E4632;--on:#1E2B20;--acc:#E07B39}   /* sage ivory / forest / tangerine */
-#p5{--bg:#0E0E10;--key:#9A9CA1;--on:#F1F1EF;--acc:#D22B3F}   /* jet black / smoke grey / cherry */
-#p6{--bg:#FBF1E0;--key:#6F0D17;--on:#2B0A0E;--acc:#D4AF5A}   /* warm ivory / burgundy / gold */
-/* devices: a graphite body with a thin key-colour edge; the real screen inside */
-.dev{position:absolute;animation:float var(--fd,7s) ease-in-out var(--fdl,0s) infinite alternate}
-@keyframes float{from{transform:translateY(calc(var(--fa,6px) * -1))}to{transform:translateY(var(--fa,6px))}}
-.dev .f{position:relative;border-radius:var(--r,24px);background:#141416;padding:var(--b,8px);box-shadow:0 0 0 2px var(--key)}
-.dev .s{position:relative;overflow:hidden;border-radius:calc(var(--r,24px) - var(--b,8px));background:#141416}
-.dev .s img{display:block;width:100%;height:100%;object-fit:cover}
-.win .bar{height:22px;display:flex;align-items:center;gap:6px;padding:0 10px}.win .bar i{width:8px;height:8px;border-radius:50%;background:#3A3A3E}.win .bar i:first-child{background:var(--gold)}
-.win .s{border-radius:0 0 calc(var(--r) - var(--b)) calc(var(--r) - var(--b))}
-/* type */
-nav.top{position:absolute;left:64px;right:64px;top:34px;display:flex;align-items:center;gap:28px;z-index:40}
-.brand{font:800 22px/1 'BC',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:var(--on);text-decoration:none}
-.chap{flex:1;font:500 12.5px/1 'JM',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--on)}
-.hire{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:999px;background:var(--gold);color:var(--ink);font:650 15px/1 'IT',sans-serif;text-decoration:none;white-space:nowrap;transition:translate .15s}
-.hire:hover{translate:0 -2px}
-.kick{font:500 13.5px/1 'JM',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--on)}
-h1,h2{margin:0;white-space:nowrap;font:800 104px/.88 'BC',sans-serif;text-transform:uppercase;letter-spacing:-.005em;color:var(--on)}
-.sub{margin:24px 0 0;max-width:520px;font:500 20px/1.45 'IT',sans-serif;color:var(--on)}
-.ctas{display:flex;gap:14px;align-items:center;margin-top:32px}
-.ghost{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:999px;border:2px solid var(--key);color:var(--on);font:650 15px/1 'IT',sans-serif;text-decoration:none;background:none;cursor:pointer}
-.status{display:inline-block;padding:5px 8px;border-radius:6px;border:1.5px solid currentColor;font:500 10.5px/1 'JM',monospace;letter-spacing:.12em;text-transform:uppercase}
-.list{margin:28px 0 0;padding:0;list-style:none;display:grid;gap:12px;max-width:540px}
-.list li{display:grid;grid-template-columns:22px 1fr;gap:12px;font:500 15px/1.45 'IT',sans-serif;color:var(--on)}
-.list li::before{content:"";width:12px;height:12px;margin-top:5px;border-radius:3px;background:var(--key)}
-.list b{font-weight:700}
-#prog{position:fixed;left:0;top:0;height:4px;width:0;background:var(--gold);z-index:120}
-#ret{position:fixed;left:0;top:0;z-index:100;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:2px solid var(--gold);pointer-events:none;visibility:hidden;transition:width .15s,height .15s,margin .15s}
-#ret.big{width:46px;height:46px;margin:-23px 0 0 -23px}
-@media (pointer:fine){html.live,html.live a,html.live button{cursor:none}}
-@media (prefers-reduced-motion:reduce){.stage *,.stage,.stage *::before,.stage *::after{animation:none!important}}
-.tap{position:fixed;z-index:202;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:3px solid var(--gold);pointer-events:none}
-.bit{position:fixed;z-index:200;pointer-events:none}
-.yay{position:fixed;z-index:201;pointer-events:none;padding:10px 14px;border-radius:999px;background:var(--gold);color:var(--ink);font:700 18px/1 'IT',sans-serif;white-space:nowrap}
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yash Khairwal — Studio V2 | Full-Stack & AI Engineering</title>
+  <meta name="description" content="Yash Khairwal builds AI features that ask before they act, and interfaces people enjoy using. AI engineering, frontend, full-stack and creative development from New Delhi." />
+  <meta name="theme-color" content="#f8f2ec" />
+  <meta property="og:title" content="Yash Khairwal | AI Engineer and Frontend Developer" />
+  <meta property="og:description" content="AI that asks before it acts. Interfaces people enjoy using." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23191817'/%3E%3Ctext x='6' y='22' font-family='Arial' font-weight='700' font-size='15' fill='%23ede7dc'%3EYK%3C/text%3E%3Crect x='25' y='18' width='4' height='4' fill='%23e2643e'/%3E%3C/svg%3E" />
+  <link rel="preload" href="assets/fonts/host-grotesk.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/style.css?v=14" />
+  <link rel="stylesheet" href="css/chapters.css?v=14" />
+  <link rel="stylesheet" href="css/cinematic.css?v=14" />
+  <link rel="stylesheet" href="css/director.css?v=3" />
+  <script>document.documentElement.classList.replace('no-js', 'js'); document.documentElement.classList.add('is-loaded'); if (location.protocol === 'file:') document.documentElement.classList.add('is-file');</script>
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three/build/three.module.js", "three/addons/": "./vendor/three/examples/jsm/", "gsap": "./vendor/gsap.mjs", "gsap/ScrollTrigger": "./vendor/ScrollTrigger.mjs" } }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#work">Skip to the work</a>
+  <p class="filewarn" role="alert">This page is open as a file, so the 3D and animations are switched off by the browser. Open <b>http://127.0.0.1:5510</b> after starting the local server.</p>
 
-/* ===== loader: the three builds switch on one by one while it counts, then the curtain lifts ===== */
-#loader{position:fixed;inset:0;z-index:150;background:#0B0C0F;color:#F4F2EC}
-#loader .lb{position:absolute;left:5vw;top:4.6vh;font:800 22px/1 'BC',sans-serif;letter-spacing:.03em;text-transform:uppercase}
-#loader .hire{position:absolute;right:5vw;top:4vh}
-#loader .row{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:flex-end;gap:28px}
-#loader .ld{position:relative;background:#141416;border-radius:14px;padding:6px;box-shadow:0 0 0 2px #F4F2EC}
-#loader .ld .s{position:relative;overflow:hidden;border-radius:9px;background:#141416}
-#loader .ld img{display:block;width:100%;height:100%;object-fit:cover;object-position:0 0}
-#loader .ld .cv{position:absolute;inset:0;background:#141416}
-#loader .ln{position:absolute;right:5vw;bottom:4vh;font:800 96px/.8 'BC',sans-serif}
-#loader .ll{position:absolute;left:5vw;bottom:5vh;font:500 12px/1.7 'JM',monospace;letter-spacing:.18em;text-transform:uppercase}
-.m #loader .row{gap:14px}.m #loader .ln{font-size:64px}.m #loader .hire{padding:10px 14px;font-size:13px}
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <span class="loader__count" data-count>000</span>
+      <span class="loader__label">Assembling the signal</span>
+    </div>
+  </div>
 
-/* ===== 00 hero: proof first ===== */
-#p0 .copy{position:absolute;left:64px;top:160px;z-index:30}
-#p0 h1{font-size:118px}
-#p0 h1 .ch{display:inline-block;transition:translate .22s cubic-bezier(.3,1.8,.5,1),rotate .22s;text-shadow:1px 1px 0 var(--gold),2px 2px 0 var(--gold),3px 3px 0 var(--gold),4px 4px 0 var(--gold),5px 5px 0 var(--gold),6px 6px 0 var(--gold)}
-#p0 h1 .ch.hop{translate:0 -16px;rotate:-6deg}
-#p0 .proof{position:absolute;left:64px;bottom:56px;z-index:30;display:flex;gap:28px}
-#p0 .proof div{font:500 13px/1.5 'IT',sans-serif;color:var(--on)}#p0 .proof b{display:block;font:800 22px/1 'BC',sans-serif;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px}
-#p0 .pin{position:absolute;z-index:31;padding:9px 13px;border-radius:999px;background:var(--gold);color:var(--ink);font:700 14px/1 'IT',sans-serif;white-space:nowrap}
-#p0 .pin small{font:500 10px/1 'JM',monospace;letter-spacing:.1em;text-transform:uppercase;margin-left:8px}
+  <canvas id="stage" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
 
-/* ===== level select: three storefronts, each shaped like its own device; the shutter rolls up to show the real screen ===== */
-#pS .copy{position:absolute;left:64px;top:160px;z-index:30}
-.store{position:absolute;z-index:10;text-decoration:none;color:var(--on);display:block}
-.store .sign{position:absolute;left:0;right:0;bottom:calc(100% + 14px);display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px;background:var(--key);color:var(--ink);font:800 20px/1 'BC',sans-serif;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
-.store .sign i{font-style:normal;width:10px;height:10px;border-radius:50%;background:var(--gold)}
-.store .f{position:relative;border-radius:var(--r);background:#141416;padding:var(--b);box-shadow:0 0 0 2px var(--key)}
-.store .bar{height:20px;display:flex;align-items:center;gap:6px;padding:0 8px}.store .bar i{width:7px;height:7px;border-radius:50%;background:#3A3A3E}
-.store .scr{position:relative;overflow:hidden;border-radius:calc(var(--r) - var(--b));background:#141416}
-.store .scr img{display:block;width:100%;height:100%;object-fit:cover}
-.store .shutter{position:absolute;inset:0;background:repeating-linear-gradient(180deg,var(--key) 0 12px,#141416 12px 15px);will-change:transform}
-.store .shutter::after{content:"";position:absolute;left:50%;bottom:8px;width:36px;height:6px;margin-left:-18px;border-radius:3px;background:var(--gold)}
-.store .meta{position:absolute;left:0;top:calc(100% + 18px);font:500 14px/1.6 'IT',sans-serif;color:var(--on);white-space:nowrap}
-.store .meta .status{margin-left:8px;color:var(--on)}
-#pS .shelf{position:absolute;height:4px;background:var(--key);z-index:9}
+  <header class="nav" data-nav>
+    <a class="nav__brand" href="#top" aria-label="Yash Khairwal, back to top">
+      <span class="nav__name">Yash Khairwal</span>
+      <span class="nav__role">Full-stack / AI product</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav__links">
+        <li><a href="#work" data-link="work">Work</a></li>
+        <li><a href="#craft" data-link="craft">Skills</a></li>
+        <li><a href="#about" data-link="about">About</a></li>
+        <li><a href="#contact" data-link="contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--light btn--sm" href="#contact">Let’s talk</a>
+  </header>
 
-/* ===== 01 PromptForge: the extension itself, big; the score climbs 52 -> 64 ===== */
-#p1 .copy{position:absolute;left:64px;top:150px;z-index:30}
-#p1 h2{font-size:92px}
-#forge{display:inline-flex;align-items:center;gap:10px;margin-top:30px;padding:13px 20px;border-radius:999px;border:0;background:var(--key);color:var(--ink);font:650 15px/1 'IT',sans-serif;cursor:pointer}
-#p1 .meter{position:absolute;z-index:20;display:grid;grid-template-columns:auto 1fr;align-items:end;column-gap:22px;row-gap:12px}
-#p1 .meter .lab{grid-column:1/3;font:500 12px/1 'JM',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--on)}
-#p1 .meter .num{font:800 120px/.78 'BC',sans-serif;color:var(--on)}#p1 .meter .num small{font-size:.32em;margin-left:6px}
-#p1 .meter .trk{height:14px;border-radius:7px;box-shadow:inset 0 0 0 2px var(--key);margin-bottom:10px;overflow:hidden}#p1 .meter .fil{height:100%;width:52%;background:var(--key)}
-#p1 .plus{position:absolute;z-index:22;padding:10px 14px;border-radius:999px;background:var(--acc);color:var(--bg);font:800 26px/1 'BC',sans-serif;visibility:hidden}
-#p1 .state{position:absolute;z-index:22;font:500 12px/1 'JM',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--on)}
+  <div class="hud" aria-hidden="true">
+    <span class="hud__index" data-hud-index>00</span>
+    <span class="hud__name" data-hud-name>Intro</span>
+    <span class="hud__bar"><i data-hud-bar></i></span>
+  </div>
 
-/* ===== 02 SteadyNest ===== */
-#p2 .copy{position:absolute;left:64px;top:150px;z-index:30}
-#p2 .ground{position:absolute;left:-600px;right:-600px;top:780px;bottom:-600px;background:var(--key);z-index:6}
-#p2 .foot{position:absolute;left:64px;bottom:24px;z-index:7;font:500 12.5px/1 'JM',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--bg)}
-#p2 .arc{z-index:9}#p2 .arc path{animation:flow 1.8s linear infinite}@keyframes flow{to{stroke-dashoffset:-48}}
-#p2 .who{position:absolute;z-index:12;padding:7px 10px;border-radius:999px;background:var(--key);color:var(--bg);font:500 11px/1 'JM',monospace;letter-spacing:.14em;text-transform:uppercase}
-#p2 .note{position:absolute;z-index:12;padding:12px 16px;border-radius:12px;background:var(--acc);color:var(--on);font:700 20px/1.1 'IT',sans-serif;rotate:-3deg}
-#p2 .note span{display:block;margin-top:5px;font:500 10.5px/1.3 'JM',monospace;letter-spacing:.08em;text-transform:uppercase}
+  <main id="main">
+    <!-- Proof rises from water; scroll or use the direct work links. -->
+    <section class="hero cinema-hero" id="top" data-bg="#f3ddd0" data-shape="none" data-label="Introduction">
+      <div class="hero__stage">
+        <canvas id="hero-water" aria-hidden="true"></canvas>
+        <div class="hero__fallback" aria-hidden="true"><span>PROMPTFORGE</span><strong>52 <i>to</i> 64</strong><img src="assets/proof/14-retry-final-composer.png" alt="" /><small>REAL BUILD. REAL PROOF.</small></div>
+        <div class="hero__meta wrap"><p class="mono">AI engineer &amp; frontend developer</p><p class="mono">New Delhi / Available for roles &amp; internships</p></div>
+        <div class="hero__main wrap">
+          <div class="hero__intro">
+            <p class="eyebrow">Yash Khairwal / Engineering with intention</p>
+            <h1 class="hero__title">Ideas become<br /><em>working proof.</em></h1>
+            <p class="hero__lead">Full-stack systems, thoughtful AI, and interfaces you can actually try. Follow the evidence from first idea to working product.</p>
+            <div class="cta"><a class="btn btn--light" href="#promptforge" data-door="pf">Enter the work</a><a class="hero__index-link" href="#work">Browse all projects</a></div>
+            <p class="hero__credentials">B.Tech AI &amp; Data Science, 2026<br />React / TypeScript / Python / three.js</p>
+          </div>
+          <p class="hero__hint mono">PromptForge / Real extension, real capture</p>
+        </div>
+        <div class="hero__foot wrap"><span class="mono">Scroll into the work</span><span class="hero__line" aria-hidden="true"></span><span class="mono">From intent to evidence</span></div>
+      </div>
+    </section>
 
-/* ===== 03 Project DO ===== */
-#p3 .copy{position:absolute;left:64px;top:150px;z-index:30}
-#p3 h2{font-size:92px}
-#p3 .proto{display:inline-block;margin-top:22px;padding:9px 12px;border-radius:8px;border:2px solid var(--key);font:500 11.5px/1.3 'JM',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--on)}
-#p3 .chips{position:absolute;z-index:31;display:flex;gap:10px;flex-wrap:wrap}
-#p3 .chip{padding:10px 13px;border-radius:999px;background:var(--key);color:var(--bg);font:500 13px/1.2 'JM',monospace;letter-spacing:.08em;text-transform:uppercase}
-#p3 .chip.pend{background:none;color:var(--on);box-shadow:inset 0 0 0 2px var(--on)}
-#p3 .chip.pend i{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--acc);animation:blink 1.2s steps(1) infinite}@keyframes blink{50%{opacity:0}}
-#p3 .node{position:absolute;z-index:9;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--key)}
-#p3 .cap{position:absolute;z-index:12;font:500 12.5px/1 'JM',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--on)}
+    <!-- 02 WORK INDEX -->
+    <section data-bg="#f2f0eb" class="sec work" id="work" data-shape="none" data-label="Selected work">
+      <div class="wrap">
+        <div class="work__head">
+          <p class="kicker" data-reveal><span>02</span> Selected work</p>
+          <h2 class="h2 split">Different problems.<br /><em>One way of thinking.</em></h2>
+          <p class="lede" data-reveal>Four different challenges. One approach: find the human problem, build the system, and leave proof you can inspect.</p>
+        </div>
+        <ol class="index">
+          <li data-reveal>
+            <a class="index__row" href="#promptforge" data-door="pf">
+              <span class="index__n mono">01</span>
+              <span class="index__title">PromptForge</span>
+              <span class="index__desc">Scores a prompt inside the chat box, improves it with a local model, never presses Send.</span>
+              <span class="index__tag mono">Chrome extension &middot; tested</span>
+              <span class="door door--sm" aria-hidden="true"><i></i><b></b></span>
+            </a>
+          </li>
+          <li data-reveal>
+            <a class="index__row" href="#do" data-door="do">
+              <span class="index__n mono">02</span>
+              <span class="index__title">DO</span>
+              <span class="index__desc">An assistant that turns a request into a plan, then waits for your approval.</span>
+              <span class="index__tag mono">Agent UX &middot; simulation</span>
+              <span class="door door--sm" aria-hidden="true"><i></i><b></b></span>
+            </a>
+          </li>
+          <li data-reveal>
+            <a class="index__row" href="#finpulse" data-door="fin">
+              <span class="index__n mono">03</span>
+              <span class="index__title">FinPulse X</span>
+              <span class="index__desc">One week of spending. One number first, and every view adds up to it.</span>
+              <span class="index__tag mono">Data UI &middot; illustrative</span>
+              <span class="door door--sm" aria-hidden="true"><i></i><b></b></span>
+            </a>
+          </li>
+          <li data-reveal>
+            <a class="index__row" href="#roam" data-door="roam">
+              <span class="index__n mono">04</span>
+              <span class="index__title">SteadyNest</span>
+              <span class="index__desc">An exploratory Delhi atlas: real mapped footprints, illustrative heights and an interactive route study.</span>
+              <span class="index__tag mono">3D atlas &middot; concept</span>
+              <span class="door door--sm" aria-hidden="true"><i></i><b></b></span>
+            </a>
+          </li>
+        </ol>
+      </div>
+    </section>
 
-/* ===== 04 Process ===== */
-#p4 .copy{position:absolute;left:64px;top:150px;z-index:30}
-#p4 .node{position:absolute;z-index:12;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:var(--key);display:grid;place-items:center}
-#p4 .node i{width:30px;height:30px;border-radius:50%;background:var(--acc)}#p4 .node b{position:absolute;font:800 20px/1 'BC',sans-serif;color:var(--bg)}
-#p4 .card{position:absolute;z-index:13;width:250px;padding:14px 16px 16px;border-radius:14px;background:var(--key);color:var(--bg)}
-#p4 .card h3{margin:0;font:800 28px/1 'BC',sans-serif;text-transform:uppercase}#p4 .card p{margin:8px 0 0;font:500 14px/1.4 'IT',sans-serif}
-#p4 .mk{position:absolute;z-index:14;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px var(--key);offset-rotate:0deg;offset-anchor:50% 50%}
+    <!-- 03 PROMPTFORGE -->
+    <section data-bg="#f7f0e9" class="sec project pf" id="promptforge" data-shape="chip" data-label="PromptForge"
+             data-x="3.3" data-y="0.3" data-s="1" data-my="2.35" data-ms="0.5">
+      <div class="wrap split-grid">
+        <div class="col">
+          <p class="kicker" data-reveal><span>03</span> PromptForge &middot; Chrome extension</p>
+          <h2 class="h2 split">Weak prompt in. <em>Sharper prompt out.</em></h2>
+          <p class="lede" data-reveal>PromptForge sits under ChatGPT-style chat boxes. It scores your draft as you type, rewrites it on request with a local model or your own provider, and then stops. You review it. You press Send.</p><dl class="project-brief"><div><dt>The problem</dt><dd>A vague prompt gives the model too little to work with.</dd></div><div><dt>What I built</dt><dd>An in-composer scorer and opt-in rewrite flow, with local-model support.</dd></div><div><dt>The evidence</dt><dd>52 to 64 on the captured draft. 473 of 475 tests passing on the last recorded run.</dd></div></dl>
 
-/* ===== 05 Work ===== */
-#p5 .copy{position:absolute;left:64px;top:150px;z-index:30}
-#p5 .tunnel{position:absolute;left:770px;top:140px;width:830px;height:760px;perspective:900px;perspective-origin:50% 45%;z-index:10;overflow:hidden}
-#p5 .ring{position:absolute;left:50%;top:50%;transform-style:preserve-3d;animation:spin 46s linear infinite}
-@keyframes spin{from{transform:rotateY(0)}to{transform:rotateY(-360deg)}}
-#p5 .tc{position:absolute;left:-150px;top:-210px;width:300px;height:420px;backface-visibility:hidden}
-#p5 .tc .in{position:absolute;inset:0;border-radius:18px;background:#141416;padding:9px;box-shadow:0 0 0 2px var(--key)}
-#p5 .tc img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0;border-radius:11px}
+          <dl class="stats" data-reveal>
+            <div><dt>475</dt><dd>automated tests in the suite</dd></div>
+            <div><dt>473/475</dt><dd>passing on the last recorded run, 10 Nov 2026</dd></div>
+            <div><dt>52 &rarr; 64</dt><dd>prompt score on a sample draft after Improve</dd></div>
+            <div><dt>0</dt><dd>messages sent for you. Send stays yours.</dd></div>
+          </dl>
 
-/* ===== 06 Hire ===== */
-#p6 .copy{position:absolute;left:64px;top:150px;z-index:30}
-#p6 h2{font-size:132px}
-#p6 .big{display:inline-flex;align-items:center;gap:14px;margin-top:34px;padding:20px 30px;border-radius:999px;background:var(--gold);color:var(--ink);font:700 22px/1 'IT',sans-serif;text-decoration:none;animation:throb 2.6s ease-in-out infinite}
-@keyframes throb{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
-#p6 .list li::before{background:var(--key)}
+          <figure class="compare card" data-reveal data-compare>
+            <div class="compare__frame">
+              <img src="assets/proof/10-retry-weak-prompt-score.png" alt="PromptForge chip under a draft that reads help me plan a picnic, showing prompt score 52 out of 100" width="1440" height="900" loading="lazy" />
+              <div class="compare__after" data-compare-after>
+                <img src="assets/proof/14-retry-final-composer.png" alt="The same draft after Improve, rewritten with role, mission and requirements, showing prompt score 64 out of 100" width="1440" height="900" loading="lazy" />
+              </div>
+              <span class="compare__line" data-compare-line aria-hidden="true"></span>
+              <span class="compare__label compare__label--l mono">Before &middot; 52</span>
+              <span class="compare__label compare__label--r mono">After &middot; 64</span>
+            </div>
+            <label class="compare__control">
+              <span class="sr-only">Drag to compare before and after</span>
+              <input type="range" min="0" max="100" value="50" data-compare-range />
+            </label>
+            <figcaption class="mono">Real captures, local test page, 10 Nov 2026. Model: qwen2.5:3b via Ollama. Nothing was sent.</figcaption>
+          </figure>
 
-/* ===== v16 fun layer: one small mascot family, used where it points at the work, never on top of it ===== */
-.guy{position:absolute;width:var(--gs,40px);height:calc(var(--gs,40px) * 1.75);z-index:var(--gz,25);pointer-events:none}
-.guy svg{width:100%;height:100%;overflow:visible}
-.guy .lim{transform-box:fill-box;transform-origin:50% 8%}
-.guy.walk .lL,.guy.walk .aR{animation:swing .45s ease-in-out infinite alternate}.guy.walk .lR,.guy.walk .aL{animation:swing .45s ease-in-out infinite alternate-reverse}
-.guy.walk .bod{animation:bob .22s ease-in-out infinite alternate}
-@keyframes swing{from{transform:rotate(-26deg)}to{transform:rotate(26deg)}}@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-2px)}}
-.guy.sit .lL,.guy.sit .lR{animation:dangle 1.4s ease-in-out infinite alternate}.guy.sit .lR{animation-delay:-.7s}
-@keyframes dangle{from{transform:rotate(-86deg)}to{transform:rotate(-58deg)}}
-.guy.wave .aR{animation:wave .45s ease-in-out infinite alternate}@keyframes wave{from{transform:rotate(-150deg)}to{transform:rotate(-115deg)}}
-.guy.cheer .aR,.guy.cheer .aL{animation:cheer .4s ease-in-out infinite alternate}.guy.cheer .aL{animation-direction:alternate-reverse}
-@keyframes cheer{from{transform:rotate(-165deg)}to{transform:rotate(-140deg)}}
-.guy.cheer .bod{animation:hop .4s ease-in-out infinite alternate}@keyframes hop{from{transform:translateY(0)}to{transform:translateY(-4px)}}
-#rider{position:fixed;top:6px;left:0;z-index:121;--gs:16px}
-html.m #rider{display:none}   /* phone: the nav band has no free room under the bar */
-@media (prefers-reduced-motion:reduce){#rider *{animation:none!important}}
-.trail{position:fixed;left:0;top:0;z-index:99;border-radius:50%;background:var(--gold);pointer-events:none;visibility:hidden}
-/* storefront: a hanging OPEN / CLOSED tag and a shopkeeper who pops up behind the sign */
-.store .sign{z-index:3}
-.store .tagx{position:absolute;right:16px;top:calc(100% + 2px);z-index:4;padding:5px 8px;border-radius:5px;font:700 10px/1 'JM',monospace;letter-spacing:.14em;transform-origin:50% -10px;background:#141416;color:var(--key);box-shadow:0 0 0 1.5px var(--key)}
-.store .tagx.open{background:var(--gold);color:var(--ink);box-shadow:none}
-.store .tagx::before{content:"";position:absolute;left:50%;top:-12px;width:1.5px;height:12px;background:var(--key)}
-.store .keeper{position:absolute;z-index:2;right:22px;--gs:30px}
-/* PromptForge confetti canvas; SteadyNest rupee coin on the rent arc; Hire: three cheerers pop up beside the button, never over the copy */
-#p2 .coin{position:absolute;left:0;top:0;z-index:11;width:34px;height:34px;border-radius:50%;background:var(--acc);color:var(--on);display:grid;place-items:center;font:800 20px/1 'BC',sans-serif;offset-rotate:0deg;offset-anchor:50% 50%;box-shadow:0 0 0 3px var(--key)}
-#p4 .flag{position:absolute;z-index:14;width:4px;height:48px;margin:-74px 0 0 16px;background:var(--key);transform-origin:50% 100%}
-#p4 .flag::after{content:"";position:absolute;left:4px;top:0;width:32px;height:20px;background:var(--acc);clip-path:polygon(0 0,100% 0,78% 50%,100% 100%,0 100%)}
-.hirewrap{position:relative;display:inline-block}.hirewrap .big{position:relative;z-index:2}
-.hirewrap .crowd{position:absolute;left:100%;bottom:0;margin-left:18px;width:146px;height:56px;overflow:hidden;pointer-events:none}.hirewrap .crowd .guy{top:100%;--gs:28px}
-/* design-engineering details: quick ease-out on hover, a small press, a visible focus ring */
-.hire,.ghost,#forge,#p6 .big{transition:translate .22s cubic-bezier(.23,1,.32,1),scale .14s cubic-bezier(.23,1,.32,1),background-color .22s}
-.hire:hover,.ghost:hover,#forge:hover,#p6 .big:hover{translate:0 -2px}
-.hire:active,.ghost:active,#forge:active,#p6 .big:active{scale:.96}
-.store{transition:translate .26s cubic-bezier(.23,1,.32,1)}.store:hover{translate:0 -6px}
-a:focus-visible,button:focus-visible{outline:2px solid var(--acc,#D4AF5A);outline-offset:4px;border-radius:999px}
-.trail{transition:background-color .3s}#ret{transition:width .15s,height .15s,margin .15s,border-color .3s}
-/* ===== v15 energy on v16: bold flat backgrounds, chunky hard-shadow buttons and frames, the ribbon spine, the orbit-ring loader ===== */
-#p0{--bg:#1C47D0;--key:#0B0C0F;--on:#F4F2EC;--acc:#D4AF5A}   /* cobalt / ink / gold */
-#p1{--bg:#0D1528;--key:#3D6CF0;--on:#EEF1F8;--acc:#F4F2EC}   /* deep ink / cobalt (PromptForge's own colour) / pearl */
-#p6{--bg:#D4AF5A;--key:#0B0C0F;--on:#0B0C0F;--acc:#F4F2EC}   /* gold / ink / pearl */
-.hire,.ghost,#forge,#p6 .big{border-radius:12px;border:3px solid var(--key);box-shadow:5px 5px 0 var(--key)}
-.ghost{background:var(--bg)}
-#forge{background:var(--acc);color:var(--key);font-weight:700}
-#p6 .big{background:var(--acc);color:var(--key)}
-.hire:active,.ghost:active,#forge:active,#p6 .big:active{scale:1;translate:4px 4px;box-shadow:1px 1px 0 var(--key)}
-.dev .f,.store .f{box-shadow:0 0 0 2px var(--key),10px 10px 0 var(--key)}
-#p1 .plus{border-radius:12px;border:3px solid var(--key);box-shadow:5px 5px 0 var(--key)}
-#p2 .note{box-shadow:6px 6px 0 var(--key)}
-#p0 .pin{border:3px solid var(--key);box-shadow:4px 4px 0 var(--key);border-radius:10px}
-.ribbon{pointer-events:none}.ribbon path{fill:none;stroke:var(--key);stroke-linecap:round}
-.rw{--gs:30px;offset-rotate:0deg;offset-anchor:50% 100%;translate:0 -12px}
-#loader{background:#1C47D0;overflow:hidden;--key:#0B0C0F;--bg:#1C47D0}
-#loader .row{display:none}
-#loader .lc{position:absolute;left:0;top:0;width:var(--lw,270px);height:var(--lh,172px);border-radius:12px;background:#0B0C0F;padding:6px;box-shadow:8px 8px 0 #0B0C0F;will-change:transform}
-#loader .lc img{width:100%;height:100%;object-fit:cover;object-position:50% 0;border-radius:7px;display:block}
-#loader .ln{font:800 min(22vw,240px)/.8 'BC',sans-serif;color:#F4F2EC;text-shadow:10px 10px 0 #0B0C0F;z-index:120}
-#loader .ln small{font-size:.32em;margin-left:.08em}
-#loader .lb,#loader .ll,#loader .hire{z-index:120}
-.m #loader .lc{--lw:150px;--lh:96px}.m #loader .ln{font-size:120px}.m #loader .ll{bottom:auto;top:12vh}
-/* client review fixes: the storefronts show their real screens at all times (hover lifts the shop and its keeper pops up) */
-.store .shutter,.store .tagx{display:none}
-/* Project DO: the prototype's flow is the hero (honest, labelled simulated); the concept render steps back to a small, captioned tile */
-#p3 .chips{display:none}
-#p3 .flow{position:absolute;left:842px;top:170px;width:700px;z-index:20;padding:22px 24px;border-radius:16px;background:#14150F;border:3px solid var(--key);box-shadow:10px 10px 0 var(--key);box-sizing:border-box}
-#p3 .fh{font:500 13px/1 'JM',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--key);margin-bottom:8px}
-#p3 .st{display:flex;align-items:center;gap:18px;padding:13px 0;border-top:2px solid #2A2C1F}#p3 .fh + .st{border-top:0}
-#p3 .st b{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--key);color:var(--bg);font:800 24px/1 'BC',sans-serif;animation:stp 6s steps(1) infinite}
-@keyframes stp{0%{background:var(--acc)}25%,100%{background:var(--key)}}
-#p3 .st h4{margin:0;font:800 30px/1 'BC',sans-serif;text-transform:uppercase;color:var(--on)}
-#p3 .st p{margin:5px 0 0;font:500 16px/1.35 'IT',sans-serif;color:var(--on)}
-#p3 .st .pd{margin-left:auto;padding:8px 12px;border-radius:999px;box-shadow:inset 0 0 0 2px var(--on);font:500 12px/1 'JM',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--on);white-space:nowrap}
-#p3 .st .pd i{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--acc);animation:blink 1.2s steps(1) infinite}
-.m #p3 .flow{left:32px;top:520px;width:536px;padding:18px 20px}.m #p3 .st h4{font-size:25px}.m #p3 .st p{font-size:14.5px}.m #p3 .st b{width:40px;height:40px;font-size:21px}
-/* hand-over: the next chapter's ribbon streaks across, its colour band follows and floods the screen */
-.paint{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;visibility:hidden}
-/* "Wanna go next?": a little guy hits a red arcade button and the rope carries you to the next chapter */
-.nextb{position:absolute;z-index:45;right:40px;bottom:24px;display:flex;align-items:flex-end;gap:4px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit}
-.nextb .bub{position:absolute;right:-4px;bottom:100%;margin-bottom:12px;white-space:nowrap;padding:9px 13px;border-radius:10px;background:#F4F2EC;color:#0B0C0F;border:3px solid #0B0C0F;box-shadow:4px 4px 0 #0B0C0F;font:700 15px/1 'IT',sans-serif;animation:bub 1.6s ease-in-out infinite alternate}
-.nextb .bub::after{content:"";position:absolute;right:24px;top:100%;border:8px solid transparent;border-top-color:#0B0C0F}
-@keyframes bub{from{translate:0 0}to{translate:0 -5px}}
-.nextb .rb{position:relative;width:66px;height:42px;flex:none}
-.nextb .rb::before{content:"";position:absolute;left:0;right:0;bottom:0;height:24px;border-radius:50%;background:#7A1A12;border:3px solid #0B0C0F;box-sizing:border-box}
-.nextb .cap{position:absolute;left:9px;right:9px;bottom:11px;height:28px;border-radius:50%;background:#E5402F;border:3px solid #0B0C0F;box-sizing:border-box;transition:translate .12s}
-.nextb:hover .cap{translate:0 3px}.nextb:focus-visible{outline:3px solid var(--acc,#D4AF5A);outline-offset:6px;border-radius:12px}
-.nextb .guy{position:relative;--gs:30px;flex:none;margin-bottom:2px}
-html:not(.m) .nextb .bub{font-size:18px;padding:11px 15px}html:not(.m) .nextb .rb{width:80px;height:50px}html:not(.m) .nextb .rb::before{height:28px}html:not(.m) .nextb .cap{left:11px;right:11px;bottom:13px;height:33px}html:not(.m) .nextb .guy{--gs:36px}
-html:not(.m) #p4 .nextb{bottom:auto;top:430px}   /* Process: keep clear of the SHIP card */
-/* desktop: the bubble sits beside the guy, so it never covers a device; PromptForge and Process have open space above, so theirs sits on top */
-html:not(.m) .nextb .bub{right:100%;bottom:18px;margin:0 16px 0 0}
-html:not(.m) .nextb .bub::after{right:auto;left:100%;top:50%;margin-top:-8px;border-top-color:transparent;border-left-color:#0B0C0F}
-html:not(.m) #p1 .nextb,html:not(.m) #p4 .nextb{--x:0}
-html:not(.m) #p1 .nextb .bub,html:not(.m) #p4 .nextb .bub{bottom:100%;margin:0 0 12px}html:not(.m) #p4 .nextb .bub{right:-4px}
-html:not(.m) #p1 .nextb .bub::after,html:not(.m) #p4 .nextb .bub::after{left:auto;right:24px;top:100%;margin-top:0;border-left-color:transparent;border-top-color:#0B0C0F}
-html:not(.m) #p1 .nextb{right:auto;left:64px;bottom:40px}html:not(.m) #p1 .nextb .bub{right:auto;left:-4px}html:not(.m) #p1 .nextb .bub::after{right:auto;left:24px}   /* PromptForge: under Run it again, clear of the screen */
-.m .nextb{right:22px;bottom:22px}.m .nextb .bub{font-size:14px}
-/* the rope that carries you between chapters */
-.rope{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;visibility:hidden}
-.flood{position:fixed;left:50%;top:50%;pointer-events:none;visibility:hidden;will-change:transform;overflow:visible}   /* the flood is a pre-drawn wavy curtain that only slides: no repaint per frame */
-.dev .s .boot{position:absolute;inset:0;z-index:2;background:#141416;transform:scaleY(0);transform-origin:50% 100%;will-change:transform}
-/* frosted glass (from the Glassy Dashboard reference): milky tint, a soft blur of whatever is behind, a thin bright edge */
-.gl{background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.07) 55%);border:1.5px solid rgba(255,255,255,.38);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 24px 60px rgba(0,0,0,.35)}   /* faded glass without live blur: what sits behind is blurred once (see .blobs), never per frame */
-/* glass hand-over: a frosted pane carries the next chapter's name across the screen */
-.pane{position:fixed;left:0;top:0;height:100%;width:var(--bw,15vw);min-width:120px;visibility:hidden;pointer-events:none;display:flex;align-items:center;justify-content:center;will-change:transform;color:#0B0C0F}
-.pane.gl{background:linear-gradient(180deg,rgba(250,249,245,.62),rgba(236,234,228,.5));border-left:1.5px solid rgba(255,255,255,.85);border-right:1.5px solid rgba(255,255,255,.85);box-shadow:inset 0 0 40px rgba(255,255,255,.35),0 0 60px rgba(0,0,0,.18)}
-.pane span{writing-mode:vertical-rl;transform:rotate(180deg);font:500 12px/1 'JM',monospace;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;opacity:.8}
-.pane b{display:none}
-/* 05 Range: four real earlier directions on frosted glass cards over flat colour shapes; one comes forward at a time */
-#p5 .blobs{position:absolute;left:0;top:0;width:100%;height:100%;z-index:5}   /* colour shapes blurred once into a canvas at load: moving it never re-blurs, and the cards above read as frosted glass */
-#p5 .deck{position:absolute;inset:0;z-index:20}
-#p5 .rc{position:absolute;left:0;top:0;width:560px;margin:0;padding:12px;border-radius:22px;transform-origin:50% 50%;will-change:transform;box-sizing:border-box}
-#p5 .rc.gl{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 14px 30px rgba(0,0,0,.3)}
-#p5 .rc img{display:block;width:100%;aspect-ratio:16/9;border-radius:12px;object-fit:cover}
-#p5 .rc figcaption{display:flex;flex-direction:column;gap:6px;padding:12px 6px 4px;color:#F4F2EC}
-#p5 .rc b{font:800 30px/1 'BC',sans-serif;text-transform:uppercase}#p5 .rc figcaption span{font:500 15px/1.35 'IT',sans-serif}
-#p5 .tag5{position:absolute;z-index:30;font:500 12.5px/1 'JM',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--on)}
-/* 03 DO: a live simulated run beside the four steps */
-#p3 .fr{display:grid;grid-template-columns:160px 1fr;gap:18px}
-#p3 .rail{list-style:none;margin:0;padding:0;display:grid;gap:10px;align-content:start}
-#p3 .rail li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;font:800 21px/1 'BC',sans-serif;text-transform:uppercase;color:var(--on);box-shadow:inset 0 0 0 2px #2A2C1F}
-#p3 .rail li b{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--key);color:var(--bg);font-size:17px}
-#p3 .rail li.on{background:var(--key);color:var(--bg);box-shadow:none}#p3 .rail li.on b{background:var(--acc)}
-#p3 .run{position:relative;height:318px;display:flex;flex-direction:column;gap:11px;padding:16px;border-radius:14px;background:#0B0C09;box-shadow:inset 0 0 0 2px #2A2C1F;box-sizing:border-box;overflow:hidden}
-#p3 .run>div{opacity:0}
-#p3 .mu{align-self:flex-end;max-width:82%;min-height:20px;padding:11px 14px;border-radius:14px 14px 4px 14px;background:#E4E2D6;color:#0F100D;font:600 15px/1.35 'IT',sans-serif}
-#p3 .ma{align-self:flex-start;max-width:88%;padding:10px 14px;border-radius:12px;background:var(--key);color:#0F100D;font:700 15px/1.35 'IT',sans-serif}
-#p3 .ma small{display:block;font:500 10.5px/1 'JM',monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
-#p3 .mq{align-self:flex-start;max-width:88%;min-height:20px;padding:11px 14px;border-radius:14px 14px 14px 4px;background:#20221A;color:var(--on);font:500 15px/1.35 'IT',sans-serif;box-shadow:inset 0 0 0 1.5px var(--key)}
-#p3 .mr{align-self:flex-end;padding:8px 14px;border-radius:999px;background:var(--acc);color:#0F100D;font:700 14px/1 'IT',sans-serif}
-#p3 .stt{margin-top:auto;font:500 11.5px/1.45 'JM',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--on)}
-#p3 .stt i{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--acc);animation:blink 1.2s steps(1) infinite}
-.m #p3 .fr{grid-template-columns:1fr;gap:12px}.m #p3 .rail{grid-template-columns:repeat(4,1fr);gap:6px}.m #p3 .rail li{font-size:15px;padding:8px 6px;gap:6px;justify-content:center}.m #p3 .rail li b{width:22px;height:22px;font-size:13px}.m #p3 .run{height:300px}
-/* 06 Hire: what was actually checked on this site */
-.trust{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:28px;max-width:640px}
-.trust span{font:500 12px/1 'JM',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--on);margin-right:4px}
-.trust i{font:600 13px/1 'IT',sans-serif;font-style:normal;padding:8px 11px;border-radius:999px;box-shadow:inset 0 0 0 2px var(--key);color:var(--on)}
-.m .trust{max-width:536px}.m .trust i{font-size:12px}
-/* ===== premium middle: the product chapters drop the chunky hard shadows for hairline frames and deep soft shadows (the front stays playful) ===== */
-#p1 .dev .f,#p2 .dev .f,#p3 .dev .f,#p4 .dev .f,#p5 .dev .f{box-shadow:0 0 0 1.5px var(--key),0 34px 70px rgba(0,0,0,.38),0 8px 18px rgba(0,0,0,.22)}
-#p1 .plus{box-shadow:0 12px 26px rgba(0,0,0,.28);border-width:2px}#p2 .note{box-shadow:0 14px 30px rgba(20,33,30,.28)}
-#p3 .flow{background:#1B1917;border:1.5px solid var(--key);box-shadow:0 40px 80px rgba(0,0,0,.5),0 10px 22px rgba(0,0,0,.3)}
-#p3 .rail li{box-shadow:inset 0 0 0 1.5px #3A3530}#p3 .rail li.on{background:var(--key);color:#141312}#p3 .rail li.on b{background:var(--acc);color:var(--on)}
-#p3 .run{background:var(--on);box-shadow:inset 0 0 0 1px rgba(20,19,18,.12)}
-#p3 .mu{background:var(--acc);color:var(--on)}
-#p3 .ma{background:var(--key);color:#141312}
-#p3 .mq{background:#FBF7F0;color:#141312;box-shadow:inset 0 0 0 1.5px var(--key)}
-#p3 .mr{background:#141312;color:var(--on)}
-#p3 .stt{color:#141312}#p3 .stt i{background:var(--acc)}
-#p3 .proto{border-width:1.5px}
-/* ===== gate: three glass panels, one open at a time ===== */
-#pS .blobsS{position:absolute;left:0;top:0;width:100%;height:100%;z-index:5}
-#pS .row3{position:absolute;left:640px;top:150px;width:852px;height:650px;z-index:20;overflow:hidden;border-radius:24px}
-#pS .store{position:absolute;left:0;top:0;height:100%;display:block;width:520px;translate:none;will-change:transform}
-#pS .store:hover{translate:none}
-#pS .pn{position:relative;height:100%;border-radius:24px;overflow:hidden;box-sizing:border-box;padding:22px}
-#pS .no{position:absolute;left:20px;top:16px;font:800 46px/1 'BC',sans-serif}
-#pS .vt{position:absolute;left:75px;bottom:28px;writing-mode:vertical-rl;transform:translateX(-50%) rotate(180deg);font:800 34px/1 'BC',sans-serif;text-transform:uppercase;letter-spacing:.02em;color:#F4F2EC;white-space:nowrap}
-#pS .bd{position:absolute;left:22px;top:74px;width:430px;height:554px;display:flex;flex-direction:column;gap:10px;opacity:0;will-change:opacity,transform}
-#pS .nm{font:800 40px/1 'BC',sans-serif;text-transform:uppercase;color:#F4F2EC}
-#pS .ln{font:500 12.5px/1 'JM',monospace;letter-spacing:.12em;text-transform:uppercase;color:#F4F2EC}
-#pS .scr{position:relative;flex:1;min-height:0;border-radius:14px;overflow:hidden;background:#141416;box-shadow:0 0 0 1.5px rgba(255,255,255,.35)}
-#pS .scr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-#pS .why{margin:2px 0 0;font:600 17px/1.35 'IT',sans-serif;color:#F4F2EC}#pS .why em{display:block;font:500 11px/1 'JM',monospace;font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:#D4AF5A;margin-bottom:6px}
-#pS .go{font:700 14px/1 'IT',sans-serif;color:#D4AF5A}
-.m #pS .row3{left:32px;top:430px;width:536px;height:702px}
-.m #pS .store{width:536px;height:470px}.m #pS .vt{writing-mode:horizontal-tb;transform:none;left:86px;bottom:auto;top:34px;font-size:30px}
-.m #pS .bd{width:auto;right:22px;top:66px;bottom:auto;height:380px}   /* fixed height: opening a panel reveals the screen, it never re-scales it */.m #pS .nm{font-size:30px}.m #pS .why{font-size:15px}
-/* Range: a chip says whether a card is a real build or AI-assisted concept art */
-#p5 .rc em{align-self:flex-start;font:600 11px/1 'JM',monospace;font-style:normal;letter-spacing:.12em;text-transform:uppercase;padding:6px 8px;border-radius:6px;background:#F4F2EC;color:#0B0C0F}
-#p5 .rc em.ca{background:#D4AF5A}
-/* Hire: point to the real prices */
-.pk{display:block;width:max-content;margin-top:18px;font:600 15px/1 'IT',sans-serif;color:var(--on);text-decoration:underline;text-underline-offset:4px}
-/* ===== hero, "Track" direction: warm wall, dark floor, an orange 3D track with carriages riding it, the real screens in front ===== */
-#p0{--bg:#F3F0EA;--key:#111111;--on:#111111;--acc:#EE6B2F}
-#p0 .proof{display:none}   /* the gate right after shows the three builds; here the track runs through this corner */
-#p0 h1{font-size:122px;line-height:.86}#p0 h1 .ch{text-shadow:none}
-#p0 .copy{top:130px}
-#p0 nav .hire{background:#111;color:#F3F0EA;border-color:#111;box-shadow:none;border-radius:999px}
-#p0 .ctas .hire{background:var(--acc);color:#111}
-#p0 .pin{background:#111;color:#F3F0EA;border-color:#111;box-shadow:0 10px 24px rgba(0,0,0,.25);border-radius:999px}
-#p0 .pin small{color:#EE6B2F}
-#p0 .dev .f{box-shadow:0 0 0 1.5px #111,0 34px 60px rgba(0,0,0,.32),0 8px 16px rgba(0,0,0,.2)}
-#p0 .car{position:absolute;left:0;top:0;width:150px;height:46px;border-radius:9px;background:#E2622A;box-shadow:inset 0 -12px 0 #B54A1C,inset 0 5px 0 #F38A55;offset-rotate:auto;offset-anchor:50% 62%;z-index:3;animation:ride 12s linear infinite}
-#p0 .car::before{content:"";position:absolute;left:12px;right:12px;top:13px;height:11px;border-radius:3px;background:repeating-linear-gradient(90deg,#3A2216 0 15px,transparent 15px 22px)}
-@keyframes ride{from{offset-distance:0%}to{offset-distance:100%}}
-.m #p0 h1{font-size:62px}.m #p0 .car{width:94px;height:30px;border-radius:6px}.m #p0 .car::before{top:8px;height:7px;left:8px;right:8px}
-/* chapter titles: each line rises from behind its own mask */
-.lr{display:block;overflow:hidden;padding-bottom:.04em;margin-bottom:-.04em}.li{display:inline-block;will-change:transform}
-/* Motion on/off: a visitor can make the whole site calm in one tap */
-#motion{position:fixed;left:14px;bottom:10px;z-index:130;padding:7px 11px;border-radius:999px;border:1.5px solid rgba(255,255,255,.75);background:rgba(11,12,15,.72);color:#F4F2EC;font:500 11px/1 'JM',monospace;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
-.calm .stage,.calm .stage *,.calm .stage *::before,.calm .stage *::after{animation-play-state:paused!important}
-/* Hire: the real packages, so price, delivery and revisions are visible before the click */
-.pkgs{position:absolute;left:820px;top:150px;width:720px;z-index:20;display:grid;gap:14px}
-.pkh{font:500 12px/1 'JM',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--on)}
-.pkc{display:block;padding:18px 22px;border-radius:16px;background:#FFF8EA;color:#1A0C0E;text-decoration:none;box-shadow:0 0 0 2px #0B0C0F,0 18px 36px rgba(0,0,0,.18);transition:translate .2s cubic-bezier(.23,1,.32,1)}
-.pkc:hover{translate:0 -3px}
-.pkt{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.pkt b{font:800 30px/1 'BC',sans-serif;text-transform:uppercase}.pp{font:800 30px/1 'BC',sans-serif}
-.pkc p{margin:8px 0 12px;font:500 15px/1.4 'IT',sans-serif}
-.pkm{display:flex;gap:8px}.pkm span{font:600 12.5px/1 'IT',sans-serif;padding:7px 10px;border-radius:999px;background:#0B0C0F;color:#F4F2EC}
-.m .pkgs{left:32px;top:auto;bottom:150px;width:536px;gap:10px}.m .pkc{padding:12px 16px}.m .pkt b,.m .pp{font-size:22px}.m .pkc p{font-size:13px;margin:5px 0 8px}.m .pkm span{font-size:11.5px;padding:6px 8px}
-.shade{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none}   /* tonal background shades */
-.nojs{max-width:760px;margin:0 auto;padding:64px 24px 96px;color:#F4F2EC;font:500 18px/1.6 'IT',sans-serif}
-.nojs h1,.nojs h2{white-space:normal}.nojs h1{margin:16px 0 0;font:800 clamp(52px,11vw,104px)/.9 'BC',sans-serif;text-transform:uppercase}
-.nojs h2{margin:56px 0 0;font:800 40px/1 'BC',sans-serif;text-transform:uppercase}.nojs h3{margin:28px 0 0;font:700 20px/1.3 'IT',sans-serif}
-.nojs .k{font:500 12px/1.6 'JM',monospace;letter-spacing:.16em;text-transform:uppercase}
-.nojs .cta{display:inline-block;margin-top:8px;padding:14px 22px;border-radius:12px;background:#D4AF5A;color:#0B0C0F;font-weight:700;text-decoration:none}
-/* ===== phone layouts (600 x 1300 stage) ===== */
-.m nav.top{left:32px;right:32px;top:28px;gap:14px}.m .brand{font-size:19px}.m .chap{display:none}.m .hire{padding:10px 14px;font-size:13px}
-.m .sub{font-size:17px;max-width:536px}.m .ctas{margin-top:24px}
-.m #p0 .copy,.m #pS .copy,.m #p1 .copy,.m #p2 .copy,.m #p3 .copy,.m #p4 .copy,.m #p5 .copy,.m #p6 .copy{left:32px;top:112px}
-.m #p0 h1{font-size:62px}.m h2,.m #p1 h2,.m #p3 h2{font-size:68px}.m #p6 h2{font-size:84px}
-.m #p0 .proof{display:none}.m .list{display:none}.m #p6 .list{display:grid}.m #p6 .list li{font-size:14px}
-.m #p2 .ground{top:1180px}.m .store .meta .ln{display:none}.m .store .meta .status{margin-left:0}.m .store .sign{font-size:15px;padding:8px 9px}.m .store .meta{font-size:11.5px}
-.m #p5 .tunnel{left:0;top:340px;width:600px;height:820px;perspective:700px}.m #p5 .tc{left:-105px;top:-150px;width:210px;height:300px}
-.m #p1 .meter .num{font-size:84px}
-</style></head><body>
-<noscript><style>section.page,#loader,#prog,#ret{display:none!important}html,body{overflow:auto!important}</style>
-<main class="nojs">
- <p class="k">Yash Khairwal · immersive web designer + developer</p>
- <h1>Weak ideas in. Real products out.</h1>
- <p>I turn a rough idea into a scroll-driven, 3D website or AI tool that works. Real code, real screens, built for phone and desktop. For startups, shops and agencies.</p>
- <p><a class="cta" href="https://www.fiverr.com/s/ZozlZwa" target="_blank" rel="noopener noreferrer">Hire me on Fiverr →</a></p>
- <h2>Three real builds</h2>
- <h3>PromptForge · Chrome extension · works today</h3><p>Weak prompt in, clear spec out. It scores a rough prompt and rewrites it into a spec you review before anything is sent: 52/100 → 64/100 on a real run.</p>
- <h3>SteadyNest · rental app · in build</h3><p>Rent, recorded, never held. A rental app for landlords and tenants in India: rent goes from tenant to landlord over UPI, never through the app. In build, not launched.</p>
- <h3>Project DO · AI assistant · prototype</h3><p>Done means checked, not claimed. An assistant that turns a request into one plan and marks it handled only after the calendar confirms it. Prototype · simulated run · calendar proof pending · not live.</p>
- <h2>How your site gets built</h2>
- <ol><li><b>Plan</b> · One short brief, a storyboard and a locked spec before any code.</li><li><b>Build</b> · Real code: scroll motion, 3D scenes and your real content.</li><li><b>Test</b> · Checked at phone and desktop sizes, with a reduced-motion version.</li><li><b>Secure</b> · Keys and secrets stay out of the code.</li><li><b>Ship</b> · Your files and a short written hand-off note.</li></ol>
- <h2>Available for new work</h2>
- <ul><li>A scroll story built around your product, shop or service</li><li>Phone and desktop versions, checked before hand-off</li><li>The source files and a short written hand-off note</li></ul>
- <p><a class="cta" href="https://www.fiverr.com/s/ZozlZwa" target="_blank" rel="noopener noreferrer">Hire me on Fiverr →</a></p>
- <p class="k">Turn on JavaScript to see the full interactive version.</p>
-</main></noscript>
+          <div class="scorer card" data-reveal data-scorer>
+            <div class="scorer__head">
+              <p class="mono">Try the idea</p>
+              <p class="mono scorer__note">Demo scorer for this page, not the extension</p>
+            </div>
+            <label class="sr-only" for="scorer-input">Write a prompt draft</label>
+            <textarea id="scorer-input" rows="3" spellcheck="false" data-scorer-input>help me plan a picnic</textarea>
+            <div class="scorer__out">
+              <div class="scorer__ring" aria-hidden="true">
+                <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" /><circle class="fill" cx="22" cy="22" r="19" data-scorer-arc /></svg>
+                <span data-scorer-score>0</span>
+              </div>
+              <ul class="slots" data-scorer-slots>
+                <li data-slot="role">Role</li><li data-slot="task">Task</li><li data-slot="context">Context</li>
+                <li data-slot="limits">Limits</li><li data-slot="format">Format</li><li data-slot="example">Example</li>
+              </ul>
+            </div>
+            <p class="scorer__hint" aria-live="polite" data-scorer-hint></p>
+            <button class="btn btn--ghost btn--sm" type="button" data-scorer-fill>Show a stronger draft</button>
+          </div>
 
-<div id="prog"></div>
-<div id="loader" aria-hidden="true"><div class="lb">Yash Khairwal</div><a class="hire" data-hire href="#">Hire me on Fiverr</a>
- <div class="row"></div><div class="ll">Immersive websites<br>3 real builds</div><div class="ln">00</div></div>
+          <p class="chips" data-reveal><span>TypeScript</span><span>WXT</span><span>Chrome MV3</span><span>Ollama</span><span>Streaming</span></p>
+        </div>
+        <aside class="project-visual pf__visual" data-reveal aria-label="Real PromptForge product screenshot">
+          <div class="pf__screen">
+            <div class="pf__screen-top"><span class="pf__light"></span><span>PromptForge / actual extension capture</span><span>10 NOV 2026</span></div>
+            <div class="pf__screen-crop"><img src="assets/proof/14-retry-final-composer.png" width="1440" height="900" alt="Actual PromptForge extension inside a chat composer with a rewritten prompt and score 64 out of 100" loading="lazy" /></div>
+            <div class="pf__screen-bottom"><strong>52 <em>to</em> 64</strong><p>In-composer scoring. Local rewrite. <b>Send stays yours.</b></p></div>
+          </div>
+          <span class="pf__visual-note">The actual build, not a rendered fantasy interface.</span>
+        </aside>
+      </div>
+    </section>
 
-<!-- the hero lays out when the journey first shows it (keeps the first task short; the loader covers it) -->
-<section class="page" id="p0"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">Immersive web + AI tools</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">Websites with a story · startups, shops, agencies</div><h1>Weak ideas in.<br>Real products out.</h1>
-  <p class="sub">I turn a rough idea into a scroll-driven, 3D website or AI tool that works. Real code, real screens, built for phone and desktop.</p>
-  <div class="ctas"><a class="hire" data-hire href="#">Hire me on Fiverr</a><a class="ghost" href="#pS">See 3 real builds ↓</a></div></div>
- <div class="proof"><div><b>PromptForge</b>Chrome extension · works today</div><div><b>SteadyNest</b>Rental app · in build</div><div><b>Project DO</b>AI assistant · prototype</div></div>
- <div class="pin">PromptForge · prompt score 52 → 64<small>real run</small></div>
-</div></section>
+    <!-- 04 DO -->
+    <section data-bg="#f4e4e2" class="sec project do" id="do" data-shape="braid" data-label="DO"
+             data-x="2.7" data-y="0.1" data-s="0.78" data-my="2.35" data-ms="0.4">
+      <div class="wrap split-grid">
+        <div class="col">
+          <p class="kicker" data-reveal><span>04</span> DO &middot; Agent UX</p>
+          <h2 class="h2 split">AI can answer. <em>Can it act, with your say?</em></h2>
+          <p class="lede" data-reveal>Six loose asks become one braided plan. DO shows every step before anything runs, then waits. Hold to approve, let go to cancel, and the receipt says exactly what happened.</p><dl class="project-brief"><div><dt>The problem</dt><dd>An assistant that acts too early takes control away from its user.</dd></div><div><dt>What I built</dt><dd>A plan, an explicit approval gate, cancellation, and a receipt.</dd></div><div><dt>The evidence</dt><dd>Try the browser simulation below. Release early and the action stays cancelled.</dd></div></dl>
 
-<section class="page" id="pS"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">The work · pick a build</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">Three real builds</div><h2>Step inside<br>one.</h2>
-  <p class="sub">Three things I built, and what each one proves I can build for you. Hover a panel to open it, click to walk inside.</p></div>
- <div class="row3"></div>
-</div></section>
+          <div class="sim card" data-reveal data-do data-state="idle">
+            <div class="sim__bar mono"><span>DO</span><span>Simulation &middot; runs in your browser</span></div>
+            <div class="sim__request">
+              <span class="mono">Request</span>
+              <p>&ldquo;Pay the electricity bill.&rdquo;</p>
+            </div>
+            <ol class="sim__plan" data-do-plan>
+              <li><i></i>Read the last bill amount <span class="mono">&#8377;1,240 &middot; sample</span></li>
+              <li><i></i>Use the saved payment method <span class="mono">UPI &middot; sample</span></li>
+              <li><i></i>Wait for the receipt <span class="mono">then stop</span></li>
+            </ol>
+            <div class="sim__actions">
+              <button class="btn btn--light" type="button" data-do-run>Make a plan</button>
+              <button class="hold" type="button" data-do-hold aria-describedby="hold-help" disabled>
+                <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21" /><circle class="fill" cx="24" cy="24" r="21" data-do-ring /></svg>
+                <span data-do-hold-label>Hold to approve</span>
+              </button>
+              <button class="btn btn--ghost btn--sm" type="button" data-do-reset>Reset</button>
+            </div>
+            <p id="hold-help" class="sr-only">Press and hold for about one second. Releasing early cancels. Keyboard: hold Space or Enter.</p>
+            <div class="sim__receipt" data-do-receipt aria-live="polite"></div>
+          </div>
 
-<section class="page" id="p1"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">01 / 06 · PromptForge</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">01 · PromptForge · Chrome extension</div><h2>Weak prompt in.<br>Clear spec out.</h2>
-  <p class="sub">A browser extension that scores a rough prompt and rewrites it into a spec you review before anything is sent.</p>
-  <ul class="list"><li><span><b>52/100</b> · the draft “help me plan a picnic”, scored</span></li><li><span><b>Streamed</b> · the rewrite arrives line by line</span></li><li><span><b>64/100</b> · Role, Mission, Requirements. Nothing is sent until you send it.</span></li></ul>
-  <button id="forge" type="button">▶ Run it again</button></div>
- <div class="meter"><div class="lab">Prompt score · real run</div><div class="num">52<small>/100</small></div><div class="trk"><div class="fil"></div></div></div>
- <div class="plus">+12</div><canvas class="full" id="cf1" width="1600" height="900" style="z-index:23"></canvas><div class="state">Scoring the draft</div>
-</div></section>
+          <p class="chips" data-reveal><span>Intent parsing</span><span>Plan preview</span><span>Explicit approval</span><span>Cancel-safe</span></p>
+        </div>
+        <aside class="project-visual do__visual" data-reveal aria-label="Six-step agent plan converging on an explicit approval gate">
+          <p class="do__visual-kicker">DO / Agent with a brake pedal</p>
+          <h3>Six threads.<br /><em>One decision.</em></h3>
+          <div class="do__threads" aria-hidden="true">
+            <span>01 / Interpret</span><span>02 / Retrieve</span><span>03 / Validate</span>
+            <span>04 / Sequence</span><span>05 / Confirm</span><span>06 / Record</span>
+          </div>
+          <div class="do__gate" aria-hidden="true"><span>Human approval</span><strong>YOU DECIDE</strong><small>One clear gate before action.</small></div>
+          <p class="do__visual-foot">PLAN → REVIEW → APPROVE <span>Simulated action. No real funds move.</span></p>
+        </aside>
+      </div>
+    </section>
 
-<section class="page" id="p2"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">02 / 06 · SteadyNest</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">02 · SteadyNest · rental app · in build</div><h2>Rent, recorded.<br>Never held.</h2>
-  <p class="sub">A rental app for landlords and tenants in India. Rent goes from tenant to landlord over UPI, never through the app.</p>
-  <ul class="list"><li><span><b>Remind</b> · SteadyNest sends the reminder</span></li><li><span><b>Pay direct</b> · the tenant pays from their own UPI app</span></li><li><span><b>Record</b> · the app keeps the record and holds no money</span></li></ul></div>
- <svg class="full arc" viewBox="0 0 1600 900" data-depth="170"><path fill="none" stroke="#121114" stroke-width="4" stroke-linecap="round" stroke-dasharray="20 20"/></svg>
- <div class="note">Tenant → landlord<span>rent over their own UPI app · never through SteadyNest</span></div>
- <div class="coin" data-depth="170" aria-hidden="true">₹</div>
- <div class="ground"></div><div class="foot">In build, not launched · Android emulator · sample listings · stock photos</div>
-</div></section>
+    <!-- 05 FINPULSE: ported from the earlier portfolio, rendered by js/chapters/finpulse.js -->
+    <section id="finpulse" data-bg="#442734" data-shape="none" data-label="FinPulse X" data-pin tabindex="-1">
+      <noscript><h2>FinPulse X: what did this week cost?</h2><p>&#8377;4,840 across seven illustrative days. Illustrative data, no bank connection.</p></noscript>
+    </section>
 
-<section class="page" id="p3"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">03 / 06 · Project DO</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">03 · Project DO · AI assistant</div><h2>Done means<br>checked,<br>not claimed.</h2>
-  <p class="sub">An assistant that turns a request into one plan and marks it handled only after the calendar confirms it.</p>
-  <div class="proto">Prototype · simulated run · calendar proof pending · not live</div></div>
- <svg class="full" id="str3" viewBox="0 0 1600 900" data-mid="hide"></svg>
- <div class="chips"><div class="chip">1 request → 1 plan</div><div class="chip">asks 1 question</div><div class="chip pend"><i></i>calendar read-back · pending</div></div>
- <div class="flow" data-depth="60"><div class="fh">Project DO · simulated run · sample request · not live</div>
-  <div class="fr"><ol class="rail"><li><b>1</b>Request</li><li><b>2</b>Plan</li><li><b>3</b>Question</li><li><b>4</b>Confirm</li></ol>
-   <div class="run"><div class="mu"></div><div class="ma"><small>One plan</small><span>Tue · 4:00–4:30 pm · Call with accountant</span></div><div class="mq"></div><div class="mr">Tue 4 pm</div>
-    <div class="stt"><i></i>Sent to the calendar · waiting for its read-back · not marked done</div></div></div></div>
-</div></section>
+    <!-- 06 STEADYNEST: map story ported from the earlier portfolio, rendered by js/chapters/roam.js -->
+    <section id="roam" data-bg="#faf4e5" data-shape="none" data-label="SteadyNest" data-pin tabindex="-1">
+      <noscript><h2>SteadyNest: find your way</h2><p>India Gate, National Museum and Lodhi Gardens on a 3D map of central Delhi from OpenStreetMap data.</p></noscript>
+    </section>
 
-<section class="page" id="p4"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">04 / 06 · How I work</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">04 · How I work</div><h2>How your site<br>gets built.</h2></div>
- <svg class="full" id="map4" viewBox="0 0 1600 900" data-depth="110"></svg>
-</div></section>
+    <!-- 01 CRAFT -->
+    <section data-bg="#f2f0eb" class="sec craft" id="craft" data-shape="lattice" data-label="What I do"
+             data-x="3.2" data-y="0" data-s="1" data-my="2.35" data-ms="0.55">
+      <div class="wrap split-grid">
+        <div class="col">
+          <p class="kicker" data-reveal><span>01</span> What I do</p>
+          <h2 class="h2 split">One person. <em>The whole stack</em> of an idea.</h2>
+          <p class="lede" data-reveal>From the model call to the last pixel. I scope it, design it, build it, test it, and hand it over with proof of what works and what does not yet.</p>
 
-<section class="page" id="p5"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">05 / 06 · Range</span><a class="hire" data-hire href="#">Hire me on Fiverr</a></nav>
- <div class="copy"><div class="kick">05 · Range · same products, other styles</div><h2>Not just<br>one style.</h2>
-  <p class="sub">Before this version I built six other directions for this same portfolio, from calm editorial to cinematic 3D. Two cards are the AI-assisted concept art I started from, and they say so. Your site gets the style your customers need.</p></div>
- <div class="deck"></div>
-</div></section>
+          <ol class="disc">
+            <li class="disc__item" data-reveal>
+              <span class="disc__n">A</span>
+              <div>
+                <h3>AI engineering</h3>
+                <p>LLM features that stay useful and safe: local models through Ollama, OpenAI-compatible APIs, prompt scoring, speech, and approval gates before any action.</p>
+                <p class="tags">Python &middot; TypeScript &middot; Ollama &middot; Groq &middot; Whisper</p>
+              </div>
+            </li>
+            <li class="disc__item" data-reveal>
+              <span class="disc__n">B</span>
+              <div>
+                <h3>Frontend engineering</h3>
+                <p>Interfaces with care in the details: typed components, keyboard and touch paths, reduced-motion versions, and motion that explains instead of decorates.</p>
+                <p class="tags">React &middot; TypeScript &middot; CSS &middot; GSAP &middot; Vite</p>
+              </div>
+            </li>
+            <li class="disc__item" data-reveal>
+              <span class="disc__n">C</span>
+              <div>
+                <h3>Creative development</h3>
+                <p>3D and scroll stories on the web. The floating objects on this page are built in three.js from my own project data: real Delhi footprints, the real 52 to 64 score, a live spending chart.</p>
+                <p class="tags">three.js &middot; GLSL &middot; Canvas &middot; Lenis</p>
+              </div>
+            </li>
+            <li class="disc__item" data-reveal>
+              <span class="disc__n">D</span>
+              <div>
+                <h3>Full-stack and tooling</h3>
+                <p>APIs, browser extensions and the unglamorous parts done properly: tests, builds, deploy previews and a handoff someone else can run.</p>
+                <p class="tags">Node.js &middot; Chrome MV3 &middot; WXT &middot; Git &middot; Cloudflare Pages</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <aside class="craft__evidence" aria-label="Evidence from the projects" data-reveal>
+          <div class="craft__proof-frame">
+            <div class="craft__proof-top"><span>01 / REAL CAPTURE</span><span>PromptForge</span></div>
+            <img src="assets/proof/14-retry-final-composer.png" alt="PromptForge extension improving a draft inside a real composer" width="1440" height="900" loading="lazy" />
+            <div class="craft__proof-bottom"><strong>52 <em>to</em> 64</strong><span>Better prompt. Human presses Send.</span></div>
+          </div>
+          <div class="craft__receipt"><span>02 / VERIFY THE BUILD</span><strong>473<span>/475</span></strong><p>Passing tests in the recorded PromptForge run.</p></div>
+          <p class="craft__annotation">The important part isn't the animation. It's the product decision behind it.</p>
+        </aside>
+      </div>
+    </section>
 
-<section class="page" id="p6"><div class="stage">
- <nav class="top"><a class="brand" href="#p0">Yash Khairwal</a><span class="chap">06 / 06 · Let's build yours</span><span></span></nav>
- <div class="copy"><div class="kick">06 · Let's build yours</div><h2>Available for<br>new work.</h2>
-  <p class="sub">Immersive 3D websites, designed and engineered by Yash. Start with a short brief on Fiverr.</p>
-  <ul class="list"><li><span>A scroll story built around your product, shop or service</span></li><li><span>Phone and desktop versions, checked before hand-off</span></li><li><span>The source files and a short written hand-off note</span></li><li><span>Prefer simple? I also build calm, fast sites (see Range)</span></li></ul>
-  <span class="hirewrap"><a class="big" id="contact" data-hire href="#">Hire me on Fiverr →</a></span>
-  <a class="pk" data-hire href="#">See packages and prices on Fiverr →</a>
-  <div class="trust"><span>Checked on this site</span><i>Frame-timed on a 4× slowed phone CPU</i><i>Reduced-motion version</i><i>Works without JavaScript</i><i>Real screens only</i></div></div>
-</div></section>
+    <!-- 07 PROCESS -->
+    <section class="sec process" id="process" data-bg="#f2f0eb" data-shape="rail" data-label="How I work"
+             data-x="3.4" data-y="1.6" data-s="0.7" data-my="2.35" data-ms="0.45">
+      <div class="wrap">
+        <p class="kicker" data-reveal><span>07</span> How I work</p>
+        <h2 class="h2 split">From brief <em>to build,</em> with proof.</h2>
+        <ol class="steps">
+          <li data-reveal><span class="mono">01</span><h3>Scope</h3><p>A one-page brief: who it is for, what done means, what is out.</p></li>
+          <li data-reveal><span class="mono">02</span><h3>Design</h3><p>The story and every state, including empty, error and slow, before the pixels.</p></li>
+          <li data-reveal><span class="mono">03</span><h3>Build</h3><p>Small slices, each one working end to end, in a branch you can preview.</p></li>
+          <li data-reveal><span class="mono">04</span><h3>Prove</h3><p>Tests, captures and honest notes on what is not done yet.</p></li>
+          <li data-reveal><span class="mono">05</span><h3>Hand over</h3><p>Files, run steps and a decision log, so nothing depends on me.</p></li>
+        </ol>
+      </div>
+    </section>
 
-<div id="spacer"></div>
-<div id="ret" aria-hidden="true"></div>
-<script type="module">
-let YN = 0; const YIELD = () => { performance.mark('build-' + (YN++)); return new Promise(r => setTimeout(r, 0)); };
-const T = null, CAPQ = false, GQ = false;
-const MOB = innerWidth / innerHeight < .9, SW = MOB ? 600 : 1600, SH = MOB ? 1300 : 900, M = (d, m) => MOB ? m : d, NS = 'http://www.w3.org/2000/svg';
-if (MOB) { const r = document.documentElement; r.classList.add('m'); r.style.setProperty('--sw', SW + 'px'); r.style.setProperty('--sh', SH + 'px'); }
-document.querySelectorAll('svg.full').forEach(e => e.setAttribute('viewBox', `0 0 ${SW} ${SH}`));
-const RMQ = matchMedia('(prefers-reduced-motion: reduce)').matches;
-let CALM = (() => { try { return localStorage.getItem('calm') === '1'; } catch (e) { return false; } })();   // visitor's own Motion on/off choice
-const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, t) => a + (b - a) * t, eo = t => 1 - (1 - t) ** 3, eio = t => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
-const css = t => { const s = document.createElement('style'); s.textContent = t; document.head.appendChild(s); };
-let rs = 20261113; const rn = () => (rs = rs * 16807 % 2147483647) / 2147483647;
-let NOW = 0;   // the page clock (s): live time, or the recorder's t
+    <!-- 08 STACK -->
+    <section data-bg="#f2f0eb" class="sec stack" id="stack" data-shape="none" data-label="Toolbelt">
+      <div class="wrap">
+        <p class="kicker" data-reveal><span>08</span> Toolbelt</p>
+        <h2 class="h2 split">Tools I have <em>shipped with.</em></h2>
+        <div class="belt" data-reveal>
+          <div class="belt__group"><h3 class="mono">Languages</h3><p>Python, TypeScript, JavaScript, HTML, CSS, GLSL</p></div>
+          <div class="belt__group"><h3 class="mono">AI</h3><p>Ollama and local models, Groq and OpenAI-compatible APIs, Whisper speech-to-text, prompt scoring and evaluation</p></div>
+          <div class="belt__group"><h3 class="mono">Frontend</h3><p>React, Vite, three.js, GSAP, Lenis, accessible components, responsive layout</p></div>
+          <div class="belt__group"><h3 class="mono">Platform</h3><p>Node.js, Chrome extensions (MV3, WXT), Git and GitHub, Cloudflare Pages</p></div>
+        </div>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Python</span><span>TypeScript</span><span>React</span><span>three.js</span><span>GLSL</span><span>Ollama</span><span>Whisper</span><span>Chrome MV3</span><span>GSAP</span><span>Node.js</span>
+          <span>Python</span><span>TypeScript</span><span>React</span><span>three.js</span><span>GLSL</span><span>Ollama</span><span>Whisper</span><span>Chrome MV3</span><span>GSAP</span><span>Node.js</span>
+        </div>
+      </div>
+    </section>
 
-/* ---------- Hire: one link for every button; click = press + a short gold burst, then the link opens ---------- */
-const FIVERR = 'https://www.fiverr.com/s/ZozlZwa';   // Yash's Fiverr gig (short link); swap it here (one line)
-document.querySelectorAll('a[data-hire]').forEach(a => { a.href = FIVERR; a.target = '_blank'; a.rel = 'noopener noreferrer';
-  a.addEventListener('click', ev => { if (RMQ) return; ev.preventDefault(); const r = a.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    a.animate([{ transform: 'scale(1)' }, { transform: 'scale(.93)', offset: .3 }, { transform: 'scale(1.05)', offset: .7 }, { transform: 'scale(1)' }], { duration: 420 }).__t0 = window.__capT;
-    for (let i = 0; i < 18; i++) { const b = document.createElement('div'), sz = 6 + Math.random() * 8, an = Math.random() * Math.PI * 2, dist = 60 + Math.random() * 110;
-      b.className = 'bit'; Object.assign(b.style, { left: cx - sz / 2 + 'px', top: cy - sz / 2 + 'px', width: sz + 'px', height: sz + 'px', background: i % 2 ? '#D4AF5A' : '#0B0C0F', borderRadius: '2px' }); document.body.appendChild(b); b.__t0 = window.__capT;
-      b.animate([{ transform: 'translate(0,0) rotate(0) scale(.5)' }, { transform: `translate(${Math.cos(an) * dist}px,${Math.sin(an) * dist}px) rotate(${(Math.random() - .5) * 400}deg) scale(1)`, offset: .6 }, { transform: `translate(${Math.cos(an) * dist * 1.1}px,${Math.sin(an) * dist + 90}px) rotate(${(Math.random() - .5) * 700}deg) scale(0)` }], { duration: 850, easing: 'cubic-bezier(.2,.8,.3,1)' }).onfinish = () => b.remove(); }
-    const y = document.createElement('div'); y.className = 'yay'; y.textContent = "Let's build yours"; const dn = 1; Object.assign(y.style, { left: cx + 'px', top: (dn > 0 ? r.bottom + 8 : r.top - 16) + 'px' }); document.body.appendChild(y); y.__t0 = window.__capT;
-    y.animate([{ transform: 'translate(-50%,0) scale(0)' }, { transform: `translate(-50%,${44 * dn}px) scale(1.08)`, offset: .2 }, { transform: `translate(-50%,${52 * dn}px) scale(1)`, offset: .3 }, { transform: `translate(-50%,${60 * dn}px) scale(1)`, offset: .82 }, { transform: `translate(-50%,${70 * dn}px) scale(0)` }], { duration: 1150 }).onfinish = () => y.remove();
-    if (window.__capT == null) setTimeout(() => window.open(FIVERR, '_blank', 'noopener'), 600); }); });
-await YIELD();
+    <!-- 09 ABOUT -->
+    <section data-bg="#f2f0eb" class="sec about" id="about" data-shape="none" data-label="About"
+             data-x="3.4" data-y="0" data-s="1" data-my="2.35" data-ms="0.5">
+      <div class="wrap split-grid">
+        <div class="col">
+          <p class="kicker" data-reveal><span>09</span> About</p>
+          <h2 class="h2 split">Hi, I am Yash. <em>I like ideas that work.</em></h2>
+          <p class="lede" data-reveal>I am a final-year B.Tech student in AI and Data Science at GTBIT (GGSIPU), New Delhi. The part I enjoy most is the moment a vague idea turns into something a person can actually use: an assistant that waits for your yes, a chart that adds up, an extension that improves a prompt without sending it.</p>
+          <p class="body" data-reveal>I work as a solo builder with AI tools in the loop, and I keep myself honest with tests, screenshots and plain notes on what is unfinished. I would rather show a working simulation clearly labelled than a mockup that pretends.</p>
 
-/* ---------- device ---------- */
-function device(stage, a) {
-  const d = document.createElement('div'); d.className = 'dev' + (a.kind === 'win' ? ' win' : '');
-  const r = a.kind === 'phone' ? Math.round(a.w * .13) : a.kind === 'tab' ? 18 : 14, b = a.kind === 'phone' ? Math.max(5, Math.round(a.w * .045)) : a.kind === 'tab' ? 11 : 6;
-  d.style.setProperty('--r', r + 'px'); d.style.setProperty('--b', b + 'px'); d.style.setProperty('--fd', (6 + rn() * 3).toFixed(2) + 's'); d.style.setProperty('--fdl', (-rn() * 6).toFixed(2) + 's'); d.style.setProperty('--fa', (a.fa ?? 5).toFixed(1) + 'px');
-  const sw = a.w - 2 * b, sh = a.kind === 'phone' ? sw * 2400 / 1080 : a.kind === 'tab' ? sw * 720 / 1280 : sw * a.ar;
-  d.innerHTML = `<div class="f" style="transform:perspective(1400px) rotateZ(${a.rz || 0}deg) rotateY(${a.ry || 0}deg)">${a.kind === 'win' ? '<div class="bar"><i></i><i></i><i></i></div>' : ''}<div class="s" style="width:${sw}px;height:${sh}px">${(a.srcs || [a.src]).map((s, i) => `<img src="${s}" alt="${(a.alts || [a.alt])[i] || ''}" style="object-position:${a.pos || '50% 0'};${i ? 'position:absolute;inset:0;visibility:hidden' : ''}">`).join('')}</div></div>`;
-  const h = sh + 2 * b + (a.kind === 'win' ? 22 : 0); d.style.left = (a.cx - a.w / 2) + 'px'; d.style.top = (a.cy - h / 2) + 'px'; d.style.zIndex = a.z || 5;
-  stage.appendChild(d); a.h = h; a.d = d; a.imgs = [...d.querySelectorAll('img')]; return a;
-}
-const SCR = { pfW: 'assets/pf-weak-2x.jpg', pfS: 'assets/pf-stream-2x.jpg', pfF: 'assets/pf-final-2x.jpg', snL: 'assets/sn-04-listing-detail.jpg', snD: 'assets/sn-03-tenant-discovery-list.jpg', snT: 'assets/sn-06-tira-chat.jpg', snR: 'assets/sn-02-role-selection.jpg', snI: 'assets/sn-01-login.jpg', doB: 'assets/do-braid.jpg', pfSet: 'assets/pf-settings.jpg' };
+          <div class="about__row" data-reveal>
+            <dl class="facts">
+              <div><dt class="mono">Based in</dt><dd>New Delhi, India (IST)</dd></div>
+              <div><dt class="mono">Education</dt><dd>B.Tech, AI and Data Science, GTBIT / GGSIPU, 2022 to 2026</dd></div>
+              <div><dt class="mono">Looking for</dt><dd>AI engineer, frontend and full-stack roles, and internships</dd></div>
+              <div><dt class="mono">Works best on</dt><dd>AI features with real UX, interactive web, 3D and motion</dd></div>
+            </dl>
+          </div>
+        </div>
+        <aside class="about__visual" data-reveal aria-label="Portrait of Yash Khairwal">
+          <img src="assets/img/yash-studio-1122.webp" width="1122" height="1402" alt="Black-and-white side-profile studio portrait of Yash Khairwal" loading="lazy" />
+        </aside>
+      </div>
+    </section>
 
-/* ---------- mascot: an original little flat figure (fill + outline); walk / sit / wave / cheer ---------- */
-function guy(parent, o) {
-  const g = document.createElement('div'); g.className = 'guy ' + (o.act || ''); const fill = o.fill || '#F4F2EC', line = o.line || '#0B0C0F';
-  g.innerHTML = `<svg viewBox="0 0 40 70" aria-hidden="true"><g class="bod" fill="${fill}" stroke="${line}" stroke-width="2.4" stroke-linejoin="round">
-    <rect class="lim lL" x="13.5" y="44" width="6" height="22" rx="3"/><rect class="lim lR" x="20.5" y="44" width="6" height="22" rx="3"/>
-    <rect class="lim aL" x="6.5" y="24" width="5.5" height="19" rx="2.75"/><rect class="lim aR" x="28" y="24" width="5.5" height="19" rx="2.75"/>
-    <rect x="11" y="22" width="18" height="27" rx="9"/><circle cx="20" cy="12.5" r="10"/></g></svg>`;
-  if (o.x != null) g.style.left = o.x + 'px'; if (o.y != null) g.style.top = o.y + 'px'; if (o.s) g.style.setProperty('--gs', o.s + 'px'); if (o.z) g.style.setProperty('--gz', o.z);
-  parent.appendChild(g); return g; }
-/* ======================= 00 hero: the three builds on one stage ======================= */
-const st0 = document.querySelector('#p0 .stage');
-// wall arc + dark floor + the orange track (three flat tones: side, top face, groove), drawn once; carriages ride its centre line
-const TRK = M('M-90 846 C 230 872, 420 706, 640 650 S 1060 612, 1250 432 S 1500 168, 1720 132', 'M-60 1186 C 120 1100, 230 960, 330 900 S 520 800, 560 690 S 600 520, 700 470');
-{ const sv = document.createElementNS(NS, 'svg'); sv.setAttribute('class', 'full'); sv.setAttribute('viewBox', `0 0 ${SW} ${SH}`); sv.setAttribute('aria-hidden', 'true'); sv.dataset.depth = '0';
-  const tw = M(78, 52), td = M(30, 20);
-  sv.innerHTML = `<circle cx="${M(1260, 470)}" cy="${M(380, 560)}" r="${M(430, 300)}" fill="none" stroke="#E5E0D7" stroke-width="${M(120, 80)}"/>
-    <polygon points="${M('560,900 820,694 1600,650 1600,900', '0,1300 0,1160 600,1040 600,1300')}" fill="#151515"/>
-    <path d="${TRK}" transform="translate(0 ${td})" fill="none" stroke="#B54A1C" stroke-width="${tw}" stroke-linecap="round"/>
-    <path d="${TRK}" fill="none" stroke="#EE6B2F" stroke-width="${tw}" stroke-linecap="round"/>
-    <path d="${TRK}" fill="none" stroke="#C9531F" stroke-width="${M(6, 4)}" stroke-dasharray="${M('34 18', '22 12')}"/>`;
-  st0.insertBefore(sv, st0.firstChild); }
-for (let i = 0; i < 7; i++) { const c = document.createElement('div'); c.className = 'car'; c.setAttribute('aria-hidden', 'true'); c.dataset.depth = '0';
-  Object.assign(c.style, { offsetPath: `path('${TRK}')`, animationDelay: `${(-i * .44).toFixed(2)}s` }); st0.appendChild(c); }   // a seven-car train: ideas riding in
-const H0 = [device(st0, { src: SCR.doB, kind: 'tab', cx: M(800, 150), cy: M(668, 990), w: M(300, 230), rz: -3, ry: 10, z: 5, alt: 'Project DO concept render' }),
-  device(st0, { src: SCR.pfF, kind: 'win', ar: .56, pos: '0 0', cx: M(1130, 330), cy: M(640, 900), w: M(430, 300), rz: 0, ry: -4, z: 6, alt: 'PromptForge, the improved prompt at 64/100' }),
-  device(st0, { src: SCR.snL, kind: 'phone', cx: M(1430, 490), cy: M(600, 960), w: M(176, 132), rz: 3, ry: -10, z: 7, alt: 'SteadyNest listing screen' })];
-Object.assign(document.querySelector('#p0 .pin').style, { left: M(990, 210) + 'px', top: M(470, 760) + 'px' });
-{ const h = document.querySelector('#p0 h1'); h.innerHTML = h.innerHTML.split('<br>').map(line => [...line].map(ch => ch === ' ' ? ' ' : `<span class="ch">${ch}</span>`).join('')).join('<br>'); }
-await YIELD();
+    <!-- 10 CONTACT: dark portrait sign-off -->
+    <section class="sec signoff" id="contact" data-bg="#0b0b0c" data-shape="none" data-label="Contact">
+      <div class="signoff__ghost" aria-hidden="true"><span>think deep</span><span>build better</span></div>
+      <div class="signoff__inner wrap">
+        <div class="signoff__copy">
+          <p class="mono signoff__eyebrow" data-reveal><span class="dot dot--signal"></span>A conversation is a good beginning.</p>
+          <h2 class="signoff__title split">Let&rsquo;s build <em>what&rsquo;s next.</em></h2>
+          <p class="signoff__lede" data-reveal>A difficult problem. A detail worth getting right. From the first question to a working product. Hiring for an AI, frontend or full-stack role, or an internship? Send me a message.</p>
+          <div class="signoff__cta" data-reveal>
+            <a class="btn signoff__btn" href="https://www.linkedin.com/in/yash-khairwal-80530b276/" target="_blank" rel="noopener">Message me on LinkedIn <span aria-hidden="true">&#8599;</span></a>
+            <a class="signoff__link" href="https://github.com/yashkh1411" target="_blank" rel="noopener">Explore my GitHub <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </div>
+      </div>
+      <footer class="foot wrap">
+        <p class="mono">From intent to <em>a working system.</em></p>
+        <p class="mono">&copy; <span data-year>2026</span> Yash Khairwal &middot; Map data &copy; OpenStreetMap contributors (ODbL) &middot; India Gate photo by Thebrowniris, CC BY-SA 3.0</p>
+        <a class="mono foot__top" href="#top">Back to the beginning &#8593;</a>
+      </footer>
+    </section>
+  </main>
 
-/* ======================= level select: three storefronts ======================= */
-const stS = document.querySelector('#pS .stage');
-{ const cv = document.createElement('canvas'), g = cv.getContext('2d'); cv.className = 'blobsS'; cv.setAttribute('aria-hidden', 'true'); cv.width = SW / 4; cv.height = SH / 4; g.filter = 'blur(11px)';   // quarter size: it is blurred anyway, and costs ~16x less to draw
-  M([[820, 360, 200, '#3D6CF0'], [1130, 620, 190, '#1E4A42'], [1440, 330, 180, '#D08A5E']], [[170, 640, 150, '#3D6CF0'], [440, 900, 150, '#1E4A42'], [200, 1130, 140, '#D08A5E']])
-    .forEach(([x, y, r, c]) => { g.fillStyle = c; g.beginPath(); g.arc(x / 4, y / 4, r / 4, 0, Math.PI * 2); g.fill(); }); stS.appendChild(cv); }
-const ROW3 = document.querySelector('#pS .row3');
-const STORES = [['p1', '01', 'PromptForge', 'Chrome extension · works today', SCR.pfF, '0 0', 'Browser tools and AI features, shipped and working today.'],
-  ['p2', '02', 'SteadyNest', 'Rental app for India · in build', SCR.snL, '50% 16%', 'Full mobile apps with real flows, made for real users.'],
-  ['p3', '03', 'Project DO', 'AI assistant · prototype · concept render', SCR.doB, '30% 50%', 'AI assistants that show their work, prototyped honestly.']]
- .map(([id, no, name, line, src, pos, why], i) => { const a = document.createElement('a'); a.className = 'store'; a.href = '#' + id; a.setAttribute('aria-label', `Open ${name}`);
-   a.innerHTML = `<div class="pn gl"><span class="no">${no}</span><span class="vt">${name}</span><div class="bd"><b class="nm">${name}</b><span class="ln">${line}</span><div class="scr"><img src="${src}" alt="${name} screen" style="object-position:${pos}"></div><p class="why"><em>Proves</em>${why}</p><span class="go">Walk inside →</span></div></div>`;
-   a.querySelector('.no').style.color = getComputedStyle(document.getElementById(id)).getPropertyValue('--key'); ROW3.appendChild(a);
-   return { a, pn: a.querySelector('.pn'), bd: a.querySelector('.bd'), vt: a.querySelector('.vt'), e: i === 0 ? 1 : 0, i, scr: a.querySelector('.scr') }; });
-await YIELD();
 
-/* ======================= 01 PromptForge ======================= */
-const st1 = document.querySelector('#p1 .stage');
-const PFW = device(st1, { srcs: [SCR.pfW, SCR.pfS, SCR.pfF], alts: ['PromptForge: the weak draft scored 52/100', 'PromptForge: improving the draft', 'PromptForge: the improved prompt scored 64/100'], kind: 'win', ar: .42, pos: '0 0', cx: M(1140, 300), cy: M(560, 900), w: M(820, 560), rz: 0, ry: -6, z: 5, fa: 3 });
-Object.assign(document.querySelector('#p1 .meter').style, { left: M(740, 32) + 'px', top: M(200, 620) + 'px', width: M(800, 536) + 'px' });
-const PFN = document.querySelector('#p1 .meter .num'), PFB = document.querySelector('#p1 .meter .fil'), PFP = document.querySelector('#p1 .plus'), PFS = document.querySelector('#p1 .state');
-Object.assign(PFP.style, { left: M(1470, 470) + 'px', top: M(208, 626) + 'px' }); Object.assign(PFS.style, { left: M(740, 32) + 'px', top: M(778, 1130) + 'px' });
-let PF0 = 0; document.getElementById('forge').addEventListener('click', () => { PF0 = NOW; });
-const CF1 = document.getElementById('cf1'), CF1G = CF1.getContext('2d'); CF1.width = SW; CF1.height = SH;
-const CFP = Array.from({ length: 46 }, (_, i) => ({ a: -Math.PI / 2 + (rn() - .5) * 2.4, v: 260 + rn() * 340, s: 5 + rn() * 7, r: rn() * 6, c: i % 3 ? '#F4F2EC' : '#3D6CF0' }));
-function pf(t) { if (RMQ || CALM) t = PF0 + 5; const ph = ((t - PF0) % 10 + 10) % 10, st = ph < 2.2 ? 0 : ph < 3.6 ? 1 : 2;
-  { CF1G.clearRect(0, 0, SW, SH); const u = ph - 3.7; if (u > 0 && u < 1.3) { const ox = M(1500, 500), oy = M(228, 646);   // a short burst from the +12 when the score lands
-    CFP.forEach(p => { const x = ox + Math.cos(p.a) * p.v * u, y = oy + Math.sin(p.a) * p.v * u + 700 * u * u; CF1G.save(); CF1G.translate(x, y); CF1G.rotate(p.r + u * 8); CF1G.fillStyle = p.c; CF1G.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * .66); CF1G.restore(); }); } }
-  PFW.imgs.forEach((im, i) => { im.style.visibility = i === st ? 'visible' : 'hidden'; });
-  const sc = st < 2 ? 52 : Math.round(52 + 12 * eo(cl((ph - 3.6) / .6))); PFN.innerHTML = sc + '<small>/100</small>'; PFB.style.width = (st === 1 ? 52 + Math.sin(ph * 9) * 3 : sc) + '%';
-  const pp = cl((ph - 3.7) / .3); PFP.style.visibility = st === 2 && ph < 6.9 ? 'visible' : 'hidden'; PFP.style.transform = `scale(${(pp < 1 ? .4 + .8 * Math.sin(pp * Math.PI / 2) * (1 + .15 * Math.sin(pp * Math.PI)) : 1).toFixed(3)})`;
-  PFS.textContent = ['Scoring the draft', 'Rewriting · streamed line by line', 'Improved · review before sending'][st]; }
-await YIELD();
-
-/* ======================= 02 SteadyNest ======================= */
-const st2 = document.querySelector('#p2 .stage'), GND = M(780, 1180);
-const onG = w => { const b = Math.max(5, Math.round(w * .045)); return GND - ((w - 2 * b) * 2400 / 1080 + 2 * b) / 2; };
-(MOB ? [[SCR.snD, 104, 150, -3], [SCR.snL, 300, 180, 0], [SCR.snT, 496, 150, 3]] : [[SCR.snD, 850, 190, -3], [SCR.snL, 1090, 240, 0], [SCR.snT, 1330, 190, 3], [SCR.snR, 1505, 150, 0]])
- .forEach(([src, cx, w, rz], i) => device(st2, { src, kind: 'phone', cx, cy: onG(w), w, rz, z: 5 + (i === 1 ? 1 : 0), fa: 0, alt: 'SteadyNest screen' }));
-document.querySelector('#p2 .arc path').setAttribute('d', M('M850 330 C 980 120, 1380 120, 1505 440', 'M104 850 C 170 690, 430 690, 496 840'));
-[['Tenant', M(808, 70), M(296, 820)], ['Landlord', M(1460, 444), M(404, 810)]].forEach(([t, x, y]) => { const e = document.createElement('div'); e.className = 'who'; e.textContent = t; Object.assign(e.style, { left: x + 'px', top: y + 'px' }); st2.appendChild(e); });
-{ const coin = document.querySelector('#p2 .coin'); coin.style.offsetPath = `path('${M('M850 330 C 980 120, 1380 120, 1505 440', 'M104 850 C 170 690, 430 690, 496 840')}')`;
-  css(`@keyframes rent{0%,12%{offset-distance:0%;transform:scale(.6)}20%{transform:scale(1)}78%{offset-distance:100%;transform:scale(1)}86%,100%{offset-distance:100%;transform:scale(.6)}}`); coin.style.animation = 'rent 3.6s cubic-bezier(.45,0,.55,1) infinite'; }
-Object.assign(document.querySelector('#p2 .note').style, { left: M(1010, 96) + 'px', top: M(126, 610) + 'px' });
-await YIELD();
-
-/* ======================= 03 Project DO: five strands weave into one braid as they reach the plan ======================= */
-const st3 = document.querySelector('#p3 .stage');
-if (!MOB) { device(st3, { src: SCR.doB, kind: 'tab', cx: 1180, cy: 722, w: 330, rz: -2, ry: -8, z: 6, fa: 4, alt: 'Project DO concept render: strands braided into one' });
-  const c = document.createElement('div'); c.className = 'cap'; c.textContent = 'Concept render · not a product screen'; Object.assign(c.style, { left: '1015px', top: '846px' }); st3.appendChild(c); }
-Object.assign(document.querySelector('#p3 .chips').style, { left: M(842, 32) + 'px', top: M(700, 1190) + 'px', right: M('auto', '32px') });
-const XS3 = M([600, 640, 680, 720, 760], [120, 210, 300, 390, 480]), STR3 = XS3.map(x => { const o = document.createElementNS(NS, 'path'), c = document.createElementNS(NS, 'path');
-  o.setAttribute('stroke', '#141312'); o.setAttribute('stroke-width', M(14, 12)); c.setAttribute('stroke', '#D08A5E'); c.setAttribute('stroke-width', M(8, 7));
-  [o, c].forEach(p => { p.setAttribute('fill', 'none'); p.setAttribute('stroke-linecap', 'round'); document.getElementById('str3').appendChild(p); });
-  const n = document.createElement('div'); n.className = 'node'; Object.assign(n.style, { left: x + 'px', top: M(800, 1180) + 'px' }); st3.appendChild(n); return [o, c]; });
-const B3 = M({ a: [680, 800], b: [760, 720], c: [770, 400], e: [842, 370], amp: 14 }, { a: [300, 1180], b: [300, 1120], c: [300, 1060], e: [300, 1000], amp: 10 });
-const bez = s => { const u = 1 - s; return [0, 1].map(j => u * u * u * B3.a[j] + 3 * u * u * s * B3.b[j] + 3 * u * s * s * B3.c[j] + s * s * s * B3.e[j]); };
-function weave3(t) { const n = 30; STR3.forEach(([o, c], i) => { let d = ''; const sx = XS3[i] - B3.a[0];
-  for (let k = 0; k <= n; k++) { const s = k / n, p = bez(s), q = bez(Math.min(1, s + .01)), tx = q[0] - p[0], ty = q[1] - p[1], L = Math.hypot(tx, ty) || 1, nx = -ty / L, ny = tx / L;
-    const w = s < .75 ? (s / .75) * (s / .75) * (3 - 2 * s / .75) : 1, osc = Math.sin(Math.PI * 2 * (2.2 * s - .7 * t) + i * 2 * Math.PI / 5) * B3.amp * w;
-    d += (k ? 'L' : 'M') + (p[0] + sx * (1 - w) + nx * osc).toFixed(1) + ' ' + (p[1] + ny * osc).toFixed(1); }
-  o.setAttribute('d', d); c.setAttribute('d', d); }); }
-await YIELD();
-
-/* ======================= 04 Process: five stops on one road; a gold marker travels it ======================= */
-const st4 = document.querySelector('#p4 .stage');
-const STEP = [['Plan', 'One short brief, a storyboard and a locked spec before any code.'], ['Build', 'Real code: scroll motion, 3D scenes and your real content.'], ['Test', 'Checked at phone and desktop sizes, with a reduced-motion version.'], ['Secure', 'Keys and secrets stay out of the code.'], ['Ship', 'Your files and a short written hand-off note.']];
-const N4 = M([[150, 690], [470, 590], [790, 715], [1110, 570], [1440, 660]], [[110, 420], [480, 570], [120, 740], [480, 900], [140, 1080]]);
-{ const pts = M([[-60, 760], ...N4, [1680, 610]], [[-60, 330], ...N4, [680, 1170]]); let d = `M${pts[0][0]} ${pts[0][1]}`;
-  for (let i = 0; i < pts.length - 1; i++) { const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
-    d += ` C ${p1[0] + (p2[0] - p0[0]) / 6} ${p1[1] + (p2[1] - p0[1]) / 6}, ${p2[0] - (p3[0] - p1[0]) / 6} ${p2[1] - (p3[1] - p1[1]) / 6}, ${p2[0]} ${p2[1]}`; }
-  const S = document.getElementById('map4'), mk = (w, c, dash) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', c); p.setAttribute('stroke-width', w); p.setAttribute('stroke-linecap', 'round'); if (dash) p.setAttribute('stroke-dasharray', dash); S.appendChild(p); return p; };
-  const road = mk(18, '#2E4632'); mk(3, '#E6EBD3', '14 14');
-  const LEN = road.getTotalLength(), DUR = 11, SMP = Array.from({ length: 41 }, (_, j) => { const q = road.getPointAtLength(LEN * j / 40); return [q.x, q.y]; });
-  const frac = N4.map(([x, y]) => { let best = 0, bd = 1e9; SMP.forEach(([qx, qy], j) => { const dd = (qx - x) ** 2 + (qy - y) ** 2; if (dd < bd) { bd = dd; best = j; } }); return best / 40; });
-  let kf = '';
-  N4.forEach(([x, y], i) => { const f = (frac[i] * 100).toFixed(1), f2 = Math.min(99.9, frac[i] * 100 + 2).toFixed(1);
-    kf += `@keyframes reach${i}{0%{opacity:0}${f}%{opacity:0}${f2}%{opacity:1}97%{opacity:1}100%{opacity:0}}@keyframes flag${i}{0%{transform:scale(0)}${f}%{transform:scale(0)}${f2}%{transform:scale(1.18)}${Math.min(99.9, frac[i] * 100 + 4).toFixed(1)}%{transform:scale(1)}97%{transform:scale(1)}100%{transform:scale(0)}}`;
-    { const fl = document.createElement('div'); fl.className = 'flag'; Object.assign(fl.style, { left: x + 'px', top: y + 'px', animation: `flag${i} ${DUR}s linear infinite` }); st4.appendChild(fl); }
-    const n = document.createElement('div'); n.className = 'node'; Object.assign(n.style, { left: x + 'px', top: y + 'px' }); n.innerHTML = `<i style="animation:reach${i} ${DUR}s linear infinite"></i><b>${i + 1}</b>`; st4.appendChild(n);
-    const c = document.createElement('div'); c.className = 'card'; c.innerHTML = `<h3>${STEP[i][0]}</h3><p>${STEP[i][1]}</p>`; st4.appendChild(c);
-    if (MOB) { c.style.width = '220px'; c.style.left = (x < 300 ? x + 46 : x - 46 - 220) + 'px'; c.style.top = (y - 56) + 'px'; }
-    else { const up = i % 2 === 1; c.style.left = Math.min(1600 - 64 - 250, Math.max(64, x - 125)) + 'px'; c.style.top = (up ? y - 196 : y + 44) + 'px'; } });
-  css(kf + `@keyframes trek{from{offset-distance:0%}to{offset-distance:100%}}`);
-  const mkr = document.createElement('div'); mkr.className = 'mk'; mkr.dataset.depth = '110'; mkr.style.offsetPath = `path('${d}')`; mkr.style.animation = `trek ${DUR}s linear infinite`; st4.appendChild(mkr); }
-await YIELD();
-
-/* ======================= 05 Range: four earlier directions for this portfolio, on frosted glass ======================= */
-const st5 = document.querySelector('#p5 .stage');
-{ const cv = document.createElement('canvas'), g = cv.getContext('2d'); cv.className = 'blobs'; cv.setAttribute('aria-hidden', 'true'); cv.width = SW / 4; cv.height = SH / 4; g.filter = 'blur(9.5px)';   // quarter size, scaled up by CSS
-  M([[1000, 290, 230, '#1C47D0'], [1400, 560, 210, '#D22B3F'], [1130, 790, 170, '#D4AF5A'], [800, 620, 150, '#8C9A5B']], [[150, 560, 170, '#1C47D0'], [470, 760, 160, '#D22B3F'], [330, 1060, 150, '#D4AF5A'], [110, 980, 120, '#8C9A5B']])
-    .forEach(([x, y, r, c]) => { g.fillStyle = c; g.beginPath(); g.arc(x / 4, y / 4, r / 4, 0, Math.PI * 2); g.fill(); });
-  st5.insertBefore(cv, document.querySelector('#p5 .deck')); }
-const R5C = [['range-editorial', 'Calm editorial', 'Serif type, quiet colour · shops, brands, bakeries', 'Built'], ['range-minimal', 'Clean minimal', 'Dark, precise, product-first · startups', 'Built'],
-  ['range-gpt1', 'Burst', 'Where the bold direction started · AI-assisted image', 'Concept art'], ['range-3d', 'Cinematic 3D', 'A 3D scene you scroll through · launches', 'Built'],
-  ['range-3dring', 'Premium 3D', 'A gold ring and real screens in a 3D room · premium brands', 'Built'], ['range-illustrated', 'Bold illustrated', 'Flat colour and characters · playful brands', 'Built'],
-  ['range-gpt2', 'Track', 'A product-on-a-track idea · AI-assisted image', 'Concept art'], ['range-ember', 'Cinematic product', 'Warm light on the real product · tools and SaaS', 'Built']];
-const RC5 = R5C.map(([img, t, d, tag]) => { const c = document.createElement('figure'); c.className = 'rc gl'; c.innerHTML = `<img src="assets/${img}.jpg" alt="${t}: ${tag === 'Built' ? 'an earlier build of this portfolio' : 'AI-assisted concept image'}" loading="eager"><figcaption><em class="${tag === 'Built' ? '' : 'ca'}">${tag}</em><b>${t}</b><span>${d}</span></figcaption>`; document.querySelector('#p5 .deck').appendChild(c); return c; });
-{ const t = document.createElement('div'); t.className = 'tag5'; t.textContent = 'Built = a real earlier build · Concept art = AI-assisted image'; Object.assign(t.style, { left: M(64, 32) + 'px', top: M(560, 470) + 'px' }); st5.appendChild(t); }
-// slot 0 is the featured card; the others wait in a row below. Every 3.4 s the next card glides forward (a shared-layout style morph)
-const SL5 = M([[1130, 380, 1], [760, 740, .38], [980, 740, .38], [1200, 740, .38]], [[300, 700, .95], [112, 1080, .3], [300, 1080, .3], [488, 1080, .3]]);
-const SLH = M([1420, 740, .2, 0], [600, 1080, .15, 0]);   // waiting cards rest out of sight to the right of the row
-const slot = r => r < 4 ? SL5[r] : SLH;
-function range5(t) { const per = 3.4, N = RC5.length, f = Math.floor(t / per), u = eio(cl((t - f * per) / .9));
-  RC5.forEach((c, i) => { const ra = ((i - f + 1) % N + N) % N, rb = ((i - f) % N + N) % N, a = slot(ra), b = slot(rb), x = a[0] + (b[0] - a[0]) * u, y = a[1] + (b[1] - a[1]) * u, k = a[2] + (b[2] - a[2]) * u;
-    const op = (ra < 4 ? 1 : 0) + ((rb < 4 ? 1 : 0) - (ra < 4 ? 1 : 0)) * u; if (c._op !== op.toFixed(2)) { c._op = op.toFixed(2); c.style.opacity = c._op; }
-    const tr = `translate(${(x - 280).toFixed(1)}px,${(y - 210).toFixed(1)}px) scale(${k.toFixed(4)})`, z = b[2] === 1 ? '4' : '1';
-    if (c._tr !== tr) { c._tr = tr; c.style.transform = tr; } if (c._z !== z) { c._z = z; c.style.zIndex = z; } }); }   // write only what changed: between morphs the deck costs nothing
-await YIELD();
-
-/* ======================= 06 Hire: the three builds again, small, beside the offer ======================= */
-const st6 = document.querySelector('#p6 .stage');
-{ const w = document.createElement('span'); w.className = 'crowd'; w.setAttribute('aria-hidden', 'true'); document.querySelector('#p6 .hirewrap').appendChild(w); [[4, '#0B0C0F', '#F4F2EC'], [54, '#D4AF5A', '#0B0C0F'], [104, '#0B0C0F', '#F4F2EC']].forEach(([x, fill, line]) => { const g = guy(w, { x, act: 'cheer', fill, line }); g.classList.add('cheerer'); }); }
-// packages, read from the live Fiverr gig on 15 Nov 2026 (prices as Fiverr showed them in INR; Fiverr shows each buyer their own currency)
-{ const PK = [['Starter Portfolio', 'Clean one-page portfolio in Next.js, mobile-friendly, deployed', '₹7,916', '4-day delivery', '1 revision'],
-    ['Pro Portfolio', '4-page portfolio with projects, contact form, fast, hosted', '₹15,832', '6-day delivery', '2 revisions'],
-    ['Portfolio + AI', '6-page portfolio with AI chat about you, blog, full setup', '₹19,790', '10-day delivery', '3 revisions']];
-  const box = document.createElement('div'); box.className = 'pkgs'; box.innerHTML = '<div class="pkh">Packages on Fiverr · prices shown in your currency there</div>' +
-    PK.map(([n, d, p, del, rev]) => `<a class="pkc" data-hire href="${FIVERR}" target="_blank" rel="noopener noreferrer"><div class="pkt"><b>${n}</b><span class="pp">${p}</span></div><p>${d}</p><div class="pkm"><span>${del}</span><span>${rev}</span></div></a>`).join('');
-  st6.appendChild(box); }
-await YIELD();
-
-/* ======================= the journey ======================= */
-const PAGES = [...document.querySelectorAll('section.page')], NP = PAGES.length, UNIT = () => innerHeight * 1.25, KOF = id => PAGES.findIndex(p => p.id === id);
-// one language: each chapter floods in from the previous scene's key object; out of the level select you walk through the storefront you picked
-const TRANS = ['none', 'glass', 'portal', 'flood', 'glass', 'flood', 'glass', 'flood'];   // rope ('flood') and frosted glass take turns; the storefront keeps its portal
-const ORIGIN = M([[1190, 410], null, [1140, 560], [1090, 520], [1150, 430], [1440, 660], [1180, 520]], [[300, 700], null, [300, 900], [300, 980], [300, 790], [140, 1080], [300, 750]]);
-let PICK = 0;   // which storefront the portal opens from
-// the three flat colours of every chapter, read once from CSS (drives the cursor tail and the reticle)
-const PAL = PAGES.map(pg => { const cs = getComputedStyle(pg); return { acc: cs.getPropertyValue('--acc').trim(), key: cs.getPropertyValue('--key').trim(), bg: cs.getPropertyValue('--bg').trim() }; });
-// v15 ribbon spine, re-routed for the v16 layouts: one thick line per scene in its key colour, behind the work, drawn in as the scene arrives,
-// SteadyNest has its street and Process its road, so they get none.
-const RIB = {
-  pS: ['M-60 868 C 300 820, 560 900, 820 860 S 1380 820, 1660 880', 'M-40 1292 C 200 1274, 420 1302, 640 1284'],
-  p1: ['M-60 850 C 260 880, 560 800, 720 640 S 1100 380, 1660 330', 'M-40 1250 C 160 1190, 420 1270, 640 1160'],
-  p3: ['M-60 890 C 400 868, 800 906, 1200 880 S 1500 868, 1660 886', 'M-40 1284 C 200 1258, 420 1296, 640 1266'],
-  p5: ['M-60 860 C 380 800, 700 900, 1000 850 S 1400 800, 1660 870', 'M-40 1262 C 200 1212, 420 1290, 640 1240'],
-  p6: ['M-60 912 C 260 896, 520 918, 820 896 S 1300 780, 1660 830', 'M-40 1190 C 200 1130, 420 1230, 640 1150'] };
-css(`@keyframes rwalk{from{offset-distance:0%}to{offset-distance:100%}}`);
-Object.entries(RIB).forEach(([id, d], n) => { const st = document.querySelector('#' + id + ' .stage'), sv = document.createElementNS(NS, 'svg'), pth = document.createElementNS(NS, 'path'), dd = M(d[0], d[1]);
-  sv.setAttribute('class', 'full ribbon'); sv.setAttribute('viewBox', `0 0 ${SW} ${SH}`); sv.dataset.depth = '0'; sv.setAttribute('aria-hidden', 'true'); pth.setAttribute('d', dd); pth.setAttribute('stroke-width', M(30, 24)); sv.appendChild(pth); st.insertBefore(sv, st.firstChild);
-  });
-const RIBC = {}; const RIBL = k => { if (k in RIBC) return RIBC[k]; const p = PAGES[k].querySelector('.ribbon path'); if (!p) return (RIBC[k] = null); const L = p.getTotalLength(); p.style.strokeDasharray = L; return (RIBC[k] = { p, L }); };
-// background light, after the reference reels: a base tone, one accent light falling in from a side, soft light streaks, darker edges.
-// Painted once per chapter at quarter size with radial gradients (no per-frame cost). Ops: r = glow [x, y, radius, colour, alpha], s = streak [path, width, colour, alpha], v = edge shade [colour, alpha]
-{ const SH = {
-    p0: [['r', 1380, 120, 760, '#FFD2A6', .9], ['r', 1540, 40, 340, '#FF9F63', .55], ['r', 220, 120, 620, '#FFFFFF', .75], ['r', 120, 880, 460, '#F4C3B0', .55], ['v', '#B9A78E', .35]],
-    p1: [['r', 1250, 430, 760, '#1F3A72', .95], ['r', 1440, 170, 400, '#3D6CF0', .5], ['r', 130, 880, 560, '#B8693A', .45], ['r', 640, 60, 420, '#8FA6C8', .2],
-         ['s', 'M-80 760 C 380 560, 900 820, 1700 470', 10, '#BFD0F0', .4], ['s', 'M-80 820 C 420 640, 960 880, 1700 560', 5, '#8FA6C8', .3], ['s', 'M-80 880 C 460 760, 1000 930, 1700 650', 7, '#E09A62', .35], ['v', '#03060D', .65]],
-    p2: [['r', 1380, 170, 600, '#F7AE96', .65], ['r', 1260, 820, 640, '#2C6B5F', .25], ['r', 220, 150, 540, '#FFFFFF', .75], ['r', 90, 880, 460, '#A8D1C2', .45], ['v', '#C9BCA5', .32]],
-    p3: [['r', 1150, 380, 680, '#3E332C', .95], ['r', 1240, 540, 400, '#D08A5E', .42], ['r', 1480, 120, 260, '#E7B48A', .2], ['r', 240, 880, 420, '#8A3322', .55], ['r', 300, 140, 420, '#4A3E36', .5],
-         ['s', 'M-80 860 C 360 760, 800 900, 1700 700', 6, '#D08A5E', .3], ['v', '#000000', .6]],
-    p4: [['r', 820, 600, 820, '#F6A465', .42], ['r', 1460, 90, 460, '#FFE6C8', .7], ['r', 180, 880, 540, '#2E4632', .28], ['r', 160, 140, 420, '#FFFFFF', .55], ['v', '#6E7F62', .28]],
-    p6: [['r', 920, 400, 760, '#FFF1C6', .65], ['r', 1420, 140, 400, '#FFFFFF', .4], ['r', 120, 880, 520, '#8C6420', .4], ['r', 1560, 860, 460, '#A8761F', .5], ['v', '#7A5414', .38]] };
-  const H_ = MOB ? 1300 : 900, mx = x => MOB ? x * .375 : x, my = y => MOB ? y * 1.44 : y, mr = r => MOB ? r * .6 : r;
-  const rgba = (h, a) => `rgba(${parseInt(h.slice(1, 3), 16)},${parseInt(h.slice(3, 5), 16)},${parseInt(h.slice(5, 7), 16)},${a})`;
-  Object.entries(SH).forEach(([id, ops]) => { const st = document.querySelector('#' + id + ' .stage'), cv = document.createElement('canvas'), g = cv.getContext('2d'), W = SW / 4, H = H_ / 4;
-    cv.className = 'shade'; cv.setAttribute('aria-hidden', 'true'); cv.dataset.depth = '0'; cv.width = W; cv.height = H;
-    ops.forEach(o => {
-      if (o[0] === 'r') { const [, x, y, r, c, a] = o, X = mx(x) / 4, Y = my(y) / 4, R = mr(r) / 4, gr = g.createRadialGradient(X, Y, 0, X, Y, R);
-        gr.addColorStop(0, rgba(c, a)); gr.addColorStop(.45, rgba(c, a * .55)); gr.addColorStop(1, rgba(c, 0)); g.filter = 'none'; g.fillStyle = gr; g.fillRect(0, 0, W, H); }
-      else if (o[0] === 's') { const [, d, w, c, a] = o, p = new Path2D(d.replace(/-?\d+(\.\d+)? -?\d+(\.\d+)?/g, m => { const [x, y] = m.split(' ').map(Number); return (mx(x) / 4).toFixed(1) + ' ' + (my(y) / 4).toFixed(1); }));
-        g.filter = 'blur(3px)'; g.strokeStyle = rgba(c, a); g.lineWidth = w / 4 * (MOB ? .8 : 1) + 1; g.lineCap = 'round'; g.stroke(p); }
-      else { const [, c, a] = o, gr = g.createRadialGradient(W / 2, H / 2, Math.min(W, H) * .35, W / 2, H / 2, Math.hypot(W, H) * .58);
-        gr.addColorStop(0, rgba(c, 0)); gr.addColorStop(1, rgba(c, a)); g.filter = 'none'; g.fillStyle = gr; g.fillRect(0, 0, W, H); } });
-    st.insertBefore(cv, st.firstChild); }); }
-document.querySelectorAll('.dev .s').forEach(sc => { const c = document.createElement('i'); c.className = 'boot'; sc.appendChild(c); });
-// "Wanna go next?": on every chapter but the last, a little guy stands at a red arcade button; pressing it carries you on
-PAGES.forEach((pg, k) => { if (k >= NP - 1) return; const st = pg.querySelector('.stage'), b = document.createElement('button');
-  b.type = 'button'; b.className = 'nextb'; b.dataset.depth = '0'; b.setAttribute('aria-label', 'Next chapter');
-  b.innerHTML = '<span class="bub">Wanna go next? →</span><span class="rb"><span class="cap"></span></span>'; st.appendChild(b);
-  const g = guy(b, { act: 'wave', fill: '#F4F2EC', line: '#0B0C0F' }); b.insertBefore(g, b.querySelector('.rb'));
-  b.addEventListener('click', () => { b.querySelector('.cap').animate([{ translate: '0 0' }, { translate: '0 10px', offset: .25 }, { translate: '0 10px', offset: .6 }, { translate: '0 0' }], { duration: 460, easing: 'ease-out' });
-    g.animate([{ transform: 'translate(0,0) rotate(0deg)' }, { transform: 'translate(6px,6px) rotate(14deg)', offset: .3 }, { transform: 'translate(0,0) rotate(0deg)' }], { duration: 460, easing: 'ease-out' });
-    if (window.__capT != null) return; setTimeout(() => scrollTo({ top: (k + 1) * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }), RMQ ? 0 : 300); }); });
-PAGES.forEach((pg, k) => { if (!k) return; const h = pg.querySelector('h2'); if (!h) return;
-  h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map(l => `<span class="lr"><span class="li">${l}</span></span>`).join(''); pg._li = [...h.querySelectorAll('.li')]; });
-if (!RMQ && !CAPQ && T == null) { const mb = document.createElement('button'); mb.id = 'motion'; mb.type = 'button';
-  const paint0 = () => { mb.textContent = 'Motion: ' + (CALM ? 'off' : 'on'); mb.setAttribute('aria-pressed', String(CALM)); document.documentElement.classList.toggle('calm', CALM); };
-  mb.addEventListener('click', () => { CALM = !CALM; try { localStorage.setItem('calm', CALM ? '1' : '0'); } catch (e) {} paint0(); if (CALM) DRAW.forEach(([f]) => f(0)); }); paint0(); document.body.appendChild(mb); }
-const LAYERS = PAGES.map(pg => [...pg.querySelector('.stage').children].filter(e => !e.matches('nav')).map((e, i) => {
-  const c = e.classList, z = e.style.zIndex ? +e.style.zIndex : 0, hide = e.dataset.mid === 'hide';
-  const depth = e.dataset.depth != null ? +e.dataset.depth : c.contains('dev') ? 40 + z * 40 : c.contains('copy') ? 50 : e.matches('svg.full,.ground,.shelf') ? 0 : 110;
-  return { e, depth: hide ? 0 : depth, i, hide, scr: e.matches('.dev') ? e.querySelector('.s .boot') : null }; }));
-document.getElementById('spacer').style.height = ((NP - 1) * UNIT() + innerHeight) + 'px';
-let PW = -1, G = -.6, tilt = [0, 0], ptr = [0, 0];
-addEventListener('pointermove', e => { ptr = [e.clientX / innerWidth * 2 - 1, e.clientY / innerHeight * 2 - 1]; }, { passive: true });
-const PERS = 1800;
-function place(L, z, px = 0, py = 0) {
-  if (L.cx == null) { const e = L.e; if (e.matches('svg.full')) { L.cx = SW / 2; L.cy = SH / 2; } else { L.cx = (e.offsetLeft || 0) + (e.offsetWidth || 0) / 2; L.cy = (e.offsetTop || 0) + (e.offsetHeight || 0) / 2; } }
-  const f = PERS / (PERS - Math.min(z, PERS * .82)); L.e.style.translate = `${((L.cx - SW / 2) * (f - 1) + px).toFixed(1)}px ${((L.cy - SH / 2) * (f - 1) + py).toFixed(1)}px`; L.e.style.scale = f.toFixed(4); }
-function clip(kind, p, ox, oy, W, H, k) {
-  if (kind === 'flood') return `circle(${(p * Math.hypot(W, H)).toFixed(1)}px at ${ox.toFixed(1)}px ${oy.toFixed(1)}px)`;
-  if (kind === 'portal') { const r = STORES[PICK].scr.getBoundingClientRect(), q = p; return `inset(${(r.top * (1 - q)).toFixed(1)}px ${((W - r.right) * (1 - q)).toFixed(1)}px ${((H - r.bottom) * (1 - q)).toFixed(1)}px ${(r.left * (1 - q)).toFixed(1)}px round ${(14 * (1 - q)).toFixed(1)}px)`; }
-  return 'none'; }
-// signature hand-over: a three-strand rope (the next chapter's key colour, its accent and its background) braids across the screen,
-// twisting as it travels; then the background strand swells until it floods the screen and the new chapter is revealed under it
-const ROPE = (() => { const sv = document.createElementNS(NS, 'svg'); sv.setAttribute('class', 'rope'); sv.setAttribute('aria-hidden', 'true');
-  const base = document.createElementNS(NS, 'path'), str = [0, 1, 2].map(() => { const p = document.createElementNS(NS, 'path'); p.setAttribute('fill', 'none'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); return p; });
-  [str[2], str[0], str[1]].forEach(p => sv.appendChild(p)); base.setAttribute('fill', 'none'); sv.appendChild(base);   // background strand sits under the two coloured strands
-  const fl = document.createElementNS(NS, 'svg'), flp = document.createElementNS(NS, 'path'); fl.setAttribute('class', 'flood'); fl.setAttribute('aria-hidden', 'true'); fl.appendChild(flp);
-  document.body.appendChild(sv); document.body.appendChild(fl); return { sv, base, str, fl, flp, sig: '', pts: [] }; })();
-const COVER = .56, RN = 64;   // COVER: share of the step at which the rope has flooded the screen
-function paint(k, s) { const P = ROPE, W = innerWidth, H = innerHeight;
-  if (k < 1 || TRANS[k] !== 'flood' || s <= 0 || s >= COVER + .02) { P.sv.style.visibility = P.fl.style.visibility = 'hidden'; return; }
-  const sig = k + ':' + W + 'x' + H; if (P.sig !== sig) { P.sig = sig; const f = k % 2 ? x => W - x : x => x;
-    const seg = [[[-.14, .9], [.26, 1.1], [.36, .1], [.6, .38]], [[.6, .38], [.84, .66], [.95, .1], [1.16, .04]]].map(q => q.map(([x, y]) => [f(x * W), y * H]));
-    const bz = (q, t) => { const u = 1 - t; return [0, 1].map(j => u * u * u * q[0][j] + 3 * u * u * t * q[1][j] + 3 * u * t * t * q[2][j] + t * t * t * q[3][j]); };
-    const dz = (q, t) => { const u = 1 - t; return [0, 1].map(j => 3 * u * u * (q[1][j] - q[0][j]) + 6 * u * t * (q[2][j] - q[1][j]) + 3 * t * t * (q[3][j] - q[2][j])); };
-    P.sv.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    P.pts = Array.from({ length: RN + 1 }, (_, i) => { const g = i / RN * 2, q = seg[g < 1 ? 0 : 1], t = g < 1 ? g : Math.min(1, g - 1), [x, y] = bz(q, t), [dx, dy] = dz(q, t), l = Math.hypot(dx, dy) || 1; return [x, y, -dy / l, dx / l]; });
-    [PAL[k].key, PAL[k].acc, PAL[k].bg].forEach((c, j) => P.str[j].setAttribute('stroke', c));
-    // the curtain: a square 1.15x the screen diagonal whose leading edge is a wave, filled with the new chapter's background
-    const dg = Math.hypot(W, H), S = Math.ceil(dg * 1.15), amp = dg * .035, wl = dg / 2.6; let e = `M0 ${S} L0 ${amp.toFixed(1)}`;
-    for (let x = 0; x <= S; x += 24) e += ` L${x} ${(amp + Math.sin(x / wl * Math.PI * 2) * amp).toFixed(1)}`; e += ` L${S} ${S} Z`;
-    P.flp.setAttribute('d', e); P.flp.setAttribute('fill', PAL[k].bg); P.fl.setAttribute('viewBox', `0 0 ${S} ${S}`);
-    Object.assign(P.fl.style, { width: S + 'px', height: S + 'px', margin: -S / 2 + 'px 0 0 ' + -S / 2 + 'px' }); P.fS = S; P.fA = amp; P.fR = k % 2 ? 18 : -18; P.fE = (W * Math.sin(Math.PI / 10) + H * Math.cos(Math.PI / 10)) / 2; }   // fE: how far the screen reaches along the curtain's travel
-  const m = Math.min(W, H), sw = eio(cl((s - .26) / (COVER - .26))), ph = s * 10, A = m * .07 * (1 - sw);
-  const draw = [eo(cl(s / .3)), eo(cl((s - .03) / .3)), eo(cl((s - .06) / .3))];
-  P.sv.style.visibility = 'visible'; P.sv.style.zIndex = k * 2 - 1;
-  // each strand's head moves continuously (interpolated between samples), so the rope glides instead of stepping
-  const at = (u, j) => { const t = u * RN, i = Math.min(RN - 1, Math.floor(t)), f = t - i, a = P.pts[i], b = P.pts[i + 1], x = a[0] + (b[0] - a[0]) * f, y = a[1] + (b[1] - a[1]) * f,
-    o = Math.sin(t / RN * Math.PI * 2 * 2.6 - ph + j * Math.PI * 2 / 3) * A; return (x + a[2] * o).toFixed(1) + ' ' + (y + a[3] * o).toFixed(1); };
-  P.str.forEach((p, j) => { const e = draw[j]; if (e * RN < .5) { p.setAttribute('d', ''); return; } let d = 'M' + at(0, j); const n = Math.floor(e * RN);
-    for (let i = 1; i <= n; i++) d += 'L' + at(i / RN, j); d += 'L' + at(e, j);
-    p.setAttribute('d', d); p.setAttribute('stroke-width', (m * (j < 2 ? .06 : .075) * (1 - sw * (j < 2 ? 1 : .5))).toFixed(1)); });
-  // then the background colour floods out from the middle of the screen as a scaling disc (compositor only)
-  // ...then the curtain rises along the rope's angle: its wavy edge starts just below the screen and ends just above it
-  const ty = (P.fS / 2 + P.fE) + (-P.fE * 2 - P.fA * 2 - 6) * sw;
-  P.fl.style.visibility = sw > 0 ? 'visible' : 'hidden'; P.fl.style.zIndex = k * 2 - 1; P.fl.style.transform = `rotate(${P.fR}deg) translateY(${ty.toFixed(1)}px)`; }
-// glass hand-over: a frosted pane slides in carrying the next chapter's name, the chapter changes behind it, then the pane slides away
-const PANE = (() => { const e = document.createElement('div'); e.className = 'pane gl'; e.setAttribute('aria-hidden', 'true'); e.innerHTML = '<span></span><b></b>'; document.body.appendChild(e); return { e, sp: e.querySelector('span'), b: e.querySelector('b'), k: -1 }; })();
-const GSWAP = .5, GSPAN = .62;   // GSPAN: share of the step the glass band takes to cross the screen
-function glassPane(k, s) { const P = PANE; if (k < 1 || TRANS[k] !== 'glass' || s <= 0 || s >= GSPAN + .02) { P.e.style.visibility = 'hidden'; return; }
-  if (P.k !== k) { P.k = k; const kk = PAGES[k].querySelector('.kick'); P.sp.textContent = kk ? kk.textContent : ''; }
-  const bw = P.e.offsetWidth, x = innerWidth * (1 - eio(cl(s / GSPAN))) - bw / 2;
-  P.e.style.visibility = 'visible'; P.e.style.zIndex = k * 2 + 1; P.e.style.transform = `translateX(${x.toFixed(1)}px)`; }
-function journey(G) {
-  const sc = Math.min(innerWidth / SW, innerHeight / SH);
-  document.getElementById('prog').style.width = (cl(G / (NP - 1)) * 100).toFixed(2) + '%';
-  PAGES.forEach((pg, k) => { const d = G - k, on0 = d > -1 && d < 1 || (k === NP - 1 && d >= 1), on = on0 || k === PW;
-    pg.style.visibility = on ? 'visible' : 'hidden'; pg.style.zIndex = k * 2; pg.classList.toggle('off', !on); if (!on) return; pg.classList.add('warm');
-    if (!on0) { pg.style.zIndex = -5; return; }   // pre-warm: painted once, hidden behind the current chapter, so its first real showing has no decode hitch
-    const st = pg.querySelector('.stage');
-    { const rb = RIBL(k); if (rb) rb.p.style.strokeDashoffset = (rb.L * (d < 0 ? 1 - eo(cl((1 + d) / .9)) : 0)).toFixed(1); }   // the ribbon draws itself in as the scene arrives
-    const pb = d > 0 && d < 1 && (TRANS[k + 1] === 'flood' || TRANS[k + 1] === 'glass') ? (TRANS[k + 1] === 'glass' ? .45 * eo(cl(d / GSPAN)) : eo(cl(d / COVER))) : 0;   /* calmer push-back under the glass band */   // the chapter being covered pushes back and tilts, like a camera pulling away
-    st.style.transform = `translate(-50%,-50%) scale(${(sc * (1 - .08 * pb)).toFixed(4)}) rotateX(${(-tilt[1] * 1.6).toFixed(2)}deg) rotateY(${(tilt[0] * 2.2).toFixed(2)}deg) rotateZ(${(-2.4 * pb).toFixed(2)}deg)`;
-    if (d !== 0) pg._k = null;
-    if (d < 0) {
-      const o = ORIGIN[k - 1] || [SW / 2, SH / 2], ox = innerWidth / 2 + (o[0] - SW / 2) * sc, oy = innerHeight / 2 + (o[1] - SH / 2) * sc;
-      const pp = eio(cl((1 + d) / .62)), gls = k > 0 && TRANS[k] === 'glass', fl = k > 0 && TRANS[k] === 'flood', cov = gls ? .12 : COVER; pg.style.clipPath = k === 0 || fl ? 'none' : gls ? `inset(0 0 0 ${(innerWidth * (1 - eio(cl((1 + d) / GSPAN)))).toFixed(1)}px)` : clip(TRANS[k], pp, ox, oy, innerWidth, innerHeight, k); if (fl && 1 + d < cov) pg.style.zIndex = k * 2 - 3;
-      LAYERS[k].forEach(L => { if (L.hide) { L.e.style.visibility = d > -.03 ? '' : 'hidden'; return; } if (!L.depth) return;
-        const u = k === 0 ? eo(cl((1 + d) * 1.5 - .3 - L.i * .02)) : fl || gls ? eo(cl(((1 + d) - cov + .04 - L.i * .012) / .42)) : eo(cl(((1 + d) - .35 - L.i * .015) / .55)); L.e.style.visibility = u < .02 && !fl && !gls ? 'hidden' : ''; place(L, -(1 - u) * (2600 + L.i * 120), 0, (1 - u) * 40);
-        if (L.scr && k > 0) L.scr.style.transform = `scaleY(${(1 - eio(cl((u - .45) / .55))).toFixed(3)})`; });   // the screen powers on top to bottom
-      if (pg._li) { const r0 = fl ? cov - .02 : gls ? .2 : .3; pg._li.forEach((e, j) => { const r = eo(cl(((1 + d) - r0 - j * .06) / .32)); e.style.transform = `translateY(${((1 - r) * 108).toFixed(1)}%)`; }); pg._lr = true; }
-    } else {
-      pg.style.clipPath = 'none'; const u = eio(cl(d)); if (pg._lr) { pg._lr = false; pg._li.forEach(e => { e.style.transform = ''; }); }
-      const key = d === 0 ? (MOB ? 'rest' : tilt[0].toFixed(3) + ',' + tilt[1].toFixed(3)) : null; if (key && pg._k === key) return; pg._k = key;
-      LAYERS[k].forEach(L => { if (L.hide) { L.e.style.visibility = d < .03 ? '' : 'hidden'; return; } if (!L.depth) return; L.e.style.visibility = ''; if (L.scr) L.scr.style.transform = ''; place(L, u * L.depth * 4, MOB ? 0 : -tilt[0] * L.depth * .05, MOB ? -u * 40 : -tilt[1] * L.depth * .035 - u * 40); }); }
-  });
-  { const f = Math.floor(G); paint(G === f ? -1 : f + 1, G - f); glassPane(G === f ? -1 : f + 1, G - f); }
-}
-await YIELD();
-const target = () => RMQ || CALM ? Math.round(scrollY / UNIT()) : scrollY / UNIT();
-document.querySelectorAll('a[href^="#p"]').forEach(a => a.addEventListener('click', ev => { ev.preventDefault(); const k = KOF(a.getAttribute('href').slice(1)), si = STORES.findIndex(S => S.a === a); if (si >= 0) PICK = si; if (k >= 0) scrollTo({ top: k * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }); }));
-let idle = 0; addEventListener('scroll', () => { clearTimeout(idle); idle = setTimeout(() => { const k = Math.round(scrollY / UNIT()); if (Math.abs(scrollY - k * UNIT()) > 4) scrollTo({ top: k * UNIT(), behavior: 'smooth' }); }, 160); }, { passive: true });
-addEventListener('keydown', ev => { const k = Math.round(scrollY / UNIT()), go = n => { ev.preventDefault(); scrollTo({ top: cl(n, 0, NP - 1) * UNIT(), behavior: RMQ ? 'auto' : 'smooth' }); };
-  if (['ArrowDown', 'PageDown', ' '].includes(ev.key)) go(k + 1); else if (['ArrowUp', 'PageUp'].includes(ev.key)) go(k - 1); else if (ev.key === 'Home') go(0); else if (ev.key === 'End') go(NP - 1); });
-journey(G);
-await YIELD();
-// warm-up: lay out the remaining chapters one per task in the background (all at once for recordings and stills)
-{ const cold = PAGES.filter(p => !p.classList.contains('warm')); if (CAPQ || T != null || GQ) cold.forEach(p => p.classList.add('warm'));
-  else { const next = () => { const p = cold.shift(); if (!p) return; p.classList.add('warm'); void p.offsetWidth; setTimeout(next, 60); }; setTimeout(next, 200); } }
-/* ---------- pointer: storefront shutters roll up, hero letters hop, the reticle grows over anything clickable ---------- */
-const RET = document.getElementById('ret'), PXY = { x: -999, y: -999 };
-addEventListener('pointermove', e => { PXY.x = e.clientX; PXY.y = e.clientY; }, { passive: true });
-if (matchMedia('(pointer:fine)').matches && T == null) { document.documentElement.classList.add('live'); addEventListener('pointermove', e => { RET.style.visibility = 'visible'; RET.style.transform = `translate(${e.clientX}px,${e.clientY}px)`; }, { passive: true }); }
-const KS = KOF('pS'); let H6 = 0, GT0 = null;
-const MAG = MOB || RMQ ? [] : [...document.querySelectorAll('#p0 .ctas .hire, #p6 .big')];
-function hoverFx(t, dt, px, py) {
-  if (PAGES[KS].style.visibility !== 'visible') GT0 = null;
-  if (PAGES[KS].style.visibility === 'visible') { const big = MOB ? 470 : 520, small = MOB ? 104 : 150, gap = MOB ? 12 : 16, rr = ROW3.getBoundingClientRect(), sc = rr.width / (MOB ? 536 : 852);
-    let hov = -1, acc = 0; STORES.forEach((S, i) => { const a0 = acc, a1 = acc + small + (big - small) * S.e; acc = a1 + gap; const u = ((MOB ? py - rr.top : px - rr.left) / sc), v = (MOB ? px - rr.left : py - rr.top) / sc;
-      if (u >= a0 && u < a1 && v >= 0 && v <= (MOB ? 536 : 650)) hov = i; });   // hit-test the visible strip of each panel
-    if (GT0 == null) GT0 = t; const tgt = hov >= 0 ? hov : CALM ? 0 : Math.floor((t - GT0) / 3.6) % 3, k = 1 - Math.exp(-dt * 7); acc = 0;   // the cycle starts on PromptForge each time you arrive
-    STORES.forEach((S, i) => { S.e += ((i === tgt ? 1 : 0) - S.e) * k; const off = acc; acc += small + (big - small) * S.e + gap; const o = cl((S.e - .45) / .45);
-      const tr = MOB ? `translateY(${off.toFixed(1)}px)` : `translateX(${off.toFixed(1)}px)`; if (S._tr !== tr) { S._tr = tr; S.a.style.transform = tr; S.a.style.zIndex = i + 1; }
-      const os = o.toFixed(2), vs = (1 - cl(S.e / .5)).toFixed(2); if (S._o !== os) { S._o = os; S.bd.style.opacity = os; S.bd.style.transform = `translateY(${((1 - o) * 16).toFixed(1)}px)`; } if (S._v !== vs) { S._v = vs; S.vt.style.opacity = vs; } }); }   // write only on change
-  if (PAGES[KOF('p6')].style.visibility === 'visible') { const b = document.querySelector('#p6 .big').getBoundingClientRect(), on = px > b.left - 30 && px < b.right + 30 && py > b.top - 60 && py < b.bottom + 30;
-    H6 += ((on ? 1 : 0) - H6) * (1 - Math.exp(-dt * 6)); document.querySelectorAll('#p6 .cheerer').forEach((g, i) => { g.style.transform = `translateY(${(-(.3 + .7 * eo(cl(H6 * 1.3 - i * .15))) * 52).toFixed(1)}px)`; }); }
-  if (PAGES[0].style.visibility === 'visible') document.querySelectorAll('#p0 h1 .ch').forEach(c => { const r = c.getBoundingClientRect(); c.classList.toggle('hop', px > r.left - 6 && px < r.right + 6 && py > r.top && py < r.bottom); });
-  MAG.forEach(b => { if (!b.isConnected || b.closest('section').style.visibility !== 'visible') return; const r = b.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, dx = px - cx, dy = py - cy, dd = Math.hypot(dx, dy), f = dd < 140 ? (1 - dd / 140) : 0;
-    b._mx = (b._mx || 0) + (dx * .16 * f - (b._mx || 0)) * (1 - Math.exp(-dt * 10)); b._my = (b._my || 0) + (dy * .2 * f - (b._my || 0)) * (1 - Math.exp(-dt * 10));
-    const tr = `${b._mx.toFixed(1)}px ${b._my.toFixed(1)}px`; if (b._tr !== tr) { b._tr = tr; b.style.translate = tr; } });   // magnetic: the main buttons lean toward the pointer
-  const el = document.elementFromPoint(px, py); RET.classList.toggle('big', !!(el && el.closest('a,button'))); }
-// Project DO: a looping simulated run (sample request), so a visitor sees what DO does, not only reads it
-const DOR = { li: [...document.querySelectorAll('#p3 .rail li')], mu: document.querySelector('#p3 .mu'), ma: document.querySelector('#p3 .ma'), mq: document.querySelector('#p3 .mq'), mr: document.querySelector('#p3 .mr'), stt: document.querySelector('#p3 .stt'), on: -1 };
-const DOT = { mu: 'Book 30 minutes with my accountant next week.', mq: 'Your accountant is free Tue 4 pm or Wed 11 am. Which one?' };
-function doRun(t) { if (RMQ || CALM) t = 9.6; const ph = t % 13, out = 1 - cl((ph - 12.3) / .5), show = (e, a) => { const o = eo(cl(a)) * out; e.style.opacity = o.toFixed(3); e.style.transform = `translateY(${((1 - eo(cl(a))) * 14).toFixed(1)}px)`; };
-  const typ = (e, txt, a) => { const n = Math.round(txt.length * cl(a)); if (e._n !== n) { e._n = n; e.textContent = txt.slice(0, n) + (n < txt.length && n > 0 ? '▍' : ''); } };
-  show(DOR.mu, ph / .3); typ(DOR.mu, DOT.mu, (ph - .2) / 2.1);
-  show(DOR.ma, (ph - 2.8) / .45); show(DOR.mq, (ph - 4.8) / .3); typ(DOR.mq, DOT.mq, (ph - 5) / 2.2); show(DOR.mr, (ph - 7.7) / .35); show(DOR.stt, (ph - 8.6) / .4);
-  const on = ph < 2.8 ? 0 : ph < 4.8 ? 1 : ph < 8.6 ? 2 : 3; if (on !== DOR.on) { DOR.on = on; DOR.li.forEach((l, i) => l.classList.toggle('on', i === on)); } }
-const DRAW = [[pf, 'p1'], [weave3, 'p3'], [doRun, 'p3'], [range5, 'p5']].map(([f, id]) => [f, KOF(id)]);
-// a tiny mascot rides the gold progress bar: it walks while the journey moves and waves when it stops
-const RIDER = guy(document.body, { act: 'wave', fill: '#D4AF5A', line: '#0B0C0F' }); RIDER.id = 'rider'; let lastG = null, rFace = 1;
-function rider(G, dt) { const x = cl(G / (NP - 1)) * innerWidth, v = lastG == null ? 0 : (G - lastG) / Math.max(dt, 1e-3); lastG = G; if (Math.abs(v) > .02) rFace = v > 0 ? 1 : -1;
-  RIDER.className = 'guy ' + (Math.abs(v) > .02 ? 'walk' : 'wave'); RIDER.style.transform = `translateX(${Math.max(4, x - 18).toFixed(1)}px)`; RIDER.querySelector('svg').style.transform = rFace < 0 ? 'scaleX(-1)' : ''; }
-// a short gold trail behind the cursor (desktop only; it never sits ahead of the pointer)
-const TRL = matchMedia('(pointer:fine)').matches && !RMQ ? Array.from({ length: 8 }, (_, i) => { const d = document.createElement('div'), sz = 11 - i; d.className = 'trail'; Object.assign(d.style, { width: sz + 'px', height: sz + 'px', margin: -sz / 2 + 'px 0 0 ' + -sz / 2 + 'px' }); document.body.appendChild(d); return { d, x: -99, y: -99 }; }) : [];
-let TC = -1;
-function trail(dt, px, py) { if (px < -500) return; let x = px, y = py; const pk = Math.max(0, Math.min(NP - 1, Math.round(G)));
-  if (pk !== TC) { TC = pk; TRL.forEach((t, i) => { t.d.style.background = i < 4 ? PAL[pk].acc : PAL[pk].key; }); RET.style.borderColor = PAL[pk].acc; }   // the tail and reticle wear the chapter's own colours
-  TRL.forEach((t, i) => { const a = 1 - Math.exp(-dt * (24 - i * 2)); t.x += (x - t.x) * a; t.y += (y - t.y) * a; x = t.x; y = t.y; t.d.style.visibility = 'visible'; t.d.style.transform = `translate(${t.x.toFixed(1)}px,${t.y.toFixed(1)}px)`; }); }
-/* ---------- loader: the three builds switch on one by one while it counts to 100, then the curtain lifts ---------- */
-const LD = document.getElementById('loader'), LDN = LD.querySelector('.ln'), LROW = LD.querySelector('.row');
-// v15 loader: ten real screens orbit on a tilted ring and speed up while the counter runs to 100, then pour into the hero and the loader closes there
-const LDC = [SCR.pfF, SCR.snL, SCR.doB, SCR.snT, SCR.pfW, SCR.snD, SCR.pfSet, SCR.snI, SCR.pfS, SCR.snR].map(src => { const c = document.createElement('div'); c.className = 'lc'; c.innerHTML = `<img src="${src}" alt="">`; LD.appendChild(c); return c; });
-let LD1 = null; const C0 = M([1130, 640], [330, 900]);
-function loader(t, ready) { if (LD.style.display === 'none') return true;
-  const p = Math.min(cl(t / 1.7), ready ? 1 : .94), eoL = eo(p); LDN.innerHTML = String(Math.floor(eoL * 100)).padStart(2, '0') + '<small>%</small>';
-  if (p >= 1 && LD1 == null) LD1 = t;
-  const W = innerWidth, H = innerHeight, sc = Math.min(W / SW, H / SH), cx = W / 2, cy = H * (MOB ? .4 : .44), Rx = Math.min(W * .42, 600), Ry = Rx * .26;
-  const crx = W / 2 + (C0[0] - SW / 2) * sc, cry = H / 2 + (C0[1] - SH / 2) * sc, cv = LD1 == null ? 0 : Math.min(1, (t - LD1) / .5), cvE = cv * cv * (3 - 2 * cv), grow = 1.7 - .7 * eo(Math.min(1, t / .7));
-  const lw = LDC[0].offsetWidth, lh = LDC[0].offsetHeight;
-  LDC.forEach((c, i) => { const th = i / LDC.length * Math.PI * 2 + t * (1 + p * 2.4) + p * 3, zf = (Math.sin(th) + 1) / 2;
-    const x = (cx + Math.cos(th) * Rx * grow) * (1 - cvE) + crx * cvE, y = (cy + Math.sin(th) * Ry * grow - (1 - zf) * 30) * (1 - cvE) + cry * cvE, k = (.5 + .6 * zf) * (1 - cvE * .8);
-    c.style.transform = `translate(${(x - lw / 2).toFixed(1)}px,${(y - lh / 2).toFixed(1)}px) scale(${k.toFixed(3)}) rotate(${(Math.cos(th) * -14 * (1 - cvE)).toFixed(1)}deg)`; c.style.zIndex = Math.round(zf * 100); });
-  const close = LD1 == null ? 0 : cl((t - LD1 - .4) / .55), ce = eio(close);
-  LD.style.clipPath = close > 0 ? `circle(${((1 - ce) * Math.hypot(W, H)).toFixed(1)}px at ${crx.toFixed(1)}px ${cry.toFixed(1)}px)` : 'none';
-  if (close >= 1) { LD.style.display = 'none'; return true; } return false; }
-if (T != null || GQ || RMQ) LD.style.display = 'none';
-const imgsReady = () => Promise.all([...document.images].map(i => i.decode().catch(() => {}))).then(() => document.fonts.ready);
-{ const t0 = performance.now(); let last = t0, IMG = false, LDONE = RMQ; imgsReady().then(() => { IMG = true; PW = 1; });   // once images are in, warm one chapter every other frame
-  if (RMQ || CALM) { DRAW.forEach(([f]) => f(0)); G = target(); }   // calm: draw the finished states once
-  let wf = 0; const loop = n => { if (PW >= 0 && ++wf % 2 === 0) { PW++; if (PW >= NP) PW = -1; } const t = (n - t0) / 1000, dt = Math.min(.1, (n - last) / 1000); last = n; NOW = t;
-    if (!RMQ && !CALM) DRAW.forEach(([f, k]) => { if (PAGES[k].style.visibility === 'visible') f(t); });
-    if (MOB && !RMQ) ptr = [Math.sin(t * .45) * .3, Math.cos(t * .37) * .2];
-    if (!LDONE) LDONE = loader(t, IMG);
-    if (!GQ && LDONE) { const k = RMQ || CALM ? 1 : 1 - Math.exp(-dt * 5.5); G += (target() - G) * k; if (Math.abs(target() - G) < 1e-4) G = target(); }
-    hoverFx(t, dt, PXY.x, PXY.y); rider(G, dt); trail(dt, PXY.x, PXY.y);
-    tilt[0] += (ptr[0] - tilt[0]) * (1 - Math.exp(-dt * 4)); tilt[1] += (ptr[1] - tilt[1]) * (1 - Math.exp(-dt * 4)); journey(G); requestAnimationFrame(loop); };
-  requestAnimationFrame(loop); window.__ready = true; }
-</script></body></html>
+  <script type="module" src="js/main.js?v=16"></script>
+</body>
+</html>
