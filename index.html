@@ -3,18 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yash Khairwal — Studio V2 | Full-Stack & AI Engineering</title>
-  <meta name="description" content="Yash Khairwal builds AI features that ask before they act, and interfaces people enjoy using. AI engineering, frontend, full-stack and creative development from New Delhi." />
+  <title>Yash Khairwal | Full-Stack Developer (AI products)</title>
+  <meta name="description" content="Yash Khairwal is a full-stack developer in New Delhi building AI products: a Chrome extension, an approval-first assistant, a spending dashboard and a rental app." />
   <meta name="theme-color" content="#f8f2ec" />
-  <meta property="og:title" content="Yash Khairwal | AI Engineer and Frontend Developer" />
-  <meta property="og:description" content="AI that asks before it acts. Interfaces people enjoy using." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Yash Khairwal | Full-Stack Developer" />
+  <meta property="og:description" content="Full-stack developer building AI products: a Chrome extension, an approval-first assistant, a spending dashboard and a rental app." />
+  <meta property="og:url" content="https://portfolio-iota-lovat-25.vercel.app/" /><!-- TODO(Yash): update if the domain changes -->
+  <meta property="og:image" content="https://portfolio-iota-lovat-25.vercel.app/assets/og/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Yash Khairwal, Full-Stack Developer · AI products, with screenshots of four projects" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23191817'/%3E%3Ctext x='6' y='22' font-family='Arial' font-weight='700' font-size='15' fill='%23ede7dc'%3EYK%3C/text%3E%3Crect x='25' y='18' width='4' height='4' fill='%23e2643e'/%3E%3C/svg%3E" />
+  <link rel="preload" href="assets/img/lake-sakura-directors-cut.webp" as="image" type="image/webp" />
   <link rel="preload" href="assets/fonts/host-grotesk.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/style.css?v=14" />
-  <link rel="stylesheet" href="css/chapters.css?v=14" />
-  <link rel="stylesheet" href="css/cinematic.css?v=14" />
-  <link rel="stylesheet" href="css/director.css?v=3" />
+  <link rel="stylesheet" href="css/style.css?v=15" />
+  <link rel="stylesheet" href="css/chapters.css?v=15" />
+  <link rel="stylesheet" href="css/cinematic.css?v=15" />
+  <link rel="stylesheet" href="css/director.css?v=4" />
   <script>document.documentElement.classList.replace('no-js', 'js'); document.documentElement.classList.add('is-loaded'); if (location.protocol === 'file:') document.documentElement.classList.add('is-file');</script>
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
@@ -38,12 +46,13 @@
   <div class="grain" aria-hidden="true"></div>
 
   <header class="nav" data-nav>
-    <a class="nav__brand" href="#top" aria-label="Yash Khairwal, back to top">
+    <a class="nav__brand" href="#top">
       <span class="nav__name">Yash Khairwal</span>
-      <span class="nav__role">Full-stack / AI product</span>
+      <span class="nav__role">Full-stack developer</span>
     </a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links" data-nav-toggle>Menu</button>
     <nav aria-label="Primary">
-      <ul class="nav__links">
+      <ul class="nav__links" id="nav-links">
         <li><a href="#work" data-link="work">Work</a></li>
         <li><a href="#craft" data-link="craft">Skills</a></li>
         <li><a href="#about" data-link="about">About</a></li>
@@ -65,14 +74,14 @@
       <div class="hero__stage">
         <canvas id="hero-water" aria-hidden="true"></canvas>
         <div class="hero__fallback" aria-hidden="true"><span>PROMPTFORGE</span><strong>52 <i>to</i> 64</strong><img src="assets/proof/14-retry-final-composer.png" alt="" /><small>REAL BUILD. REAL PROOF.</small></div>
-        <div class="hero__meta wrap"><p class="mono">AI engineer &amp; frontend developer</p><p class="mono">New Delhi / Available for roles &amp; internships</p></div>
+        <div class="hero__meta wrap"><p class="mono">Full-stack developer · AI products</p><p class="mono">New Delhi / Available for roles &amp; internships</p></div>
         <div class="hero__main wrap">
           <div class="hero__intro">
-            <p class="eyebrow">Yash Khairwal / Engineering with intention</p>
-            <h1 class="hero__title">Ideas become<br /><em>working proof.</em></h1>
-            <p class="hero__lead">Full-stack systems, thoughtful AI, and interfaces you can actually try. Follow the evidence from first idea to working product.</p>
-            <div class="cta"><a class="btn btn--light" href="#promptforge" data-door="pf">Enter the work</a><a class="hero__index-link" href="#work">Browse all projects</a></div>
-            <p class="hero__credentials">B.Tech AI &amp; Data Science, 2026<br />React / TypeScript / Python / three.js</p>
+            <p class="eyebrow">Yash Khairwal · New Delhi</p>
+            <h1 class="hero__title">I build full&#8209;stack<br />products <em>with AI inside.</em></h1>
+            <p class="hero__lead">React, TypeScript, Node.js and Python. Four builds below, including a Chrome extension with 473/475 tests passing.</p>
+            <div class="cta"><a class="btn btn--light" href="#work">See the work</a><a class="hero__index-link" href="https://github.com/yashkh1411" target="_blank" rel="noopener">GitHub ↗</a><a class="hero__index-link" href="#contact">Contact</a><!-- TODO(Yash): add résumé once assets/Yash-Khairwal-Resume.pdf exists: <a class="hero__index-link" href="assets/Yash-Khairwal-Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a> --></div>
+            <p class="hero__credentials">B.Tech AI &amp; Data Science, 2026<br />React / TypeScript / Node.js / Python</p>
           </div>
           <p class="hero__hint mono">PromptForge / Real extension, real capture</p>
         </div>
@@ -95,7 +104,7 @@
               <span class="index__title">PromptForge</span>
               <span class="index__desc">Scores a prompt inside the chat box, improves it with a local model, never presses Send.</span>
               <span class="index__tag mono">Chrome extension &middot; tested</span>
-              <span class="door door--sm" aria-hidden="true"><i></i><b></b></span>
+              <span class="index__thumb"><picture><source type="image/webp" srcset="assets/img/thumbs/thumb-promptforge.webp 1x, assets/img/thumbs/thumb-promptforge@2x.webp 2x" /><img src="assets/img/thumbs/thumb-promptforge.jpg" width="640" height="400" loading="lazy" decoding="async" alt="PromptForge scoring a prompt 64/100 inside a chat box, with Improve, Keep mine and Undo" /></picture></span>
             </a>
           </li>
           <li data-reveal>
@@ -103,8 +112,8 @@
               <span class="index__n mono">02</span>
               <span class="index__title">DO</span>
               <span class="index__desc">An assistant that turns a request into a plan, then waits for your approval.</span>
-              <span class="index__tag mono">Agent UX &middot; simulation</span>
-              <span class="door door--sm" aria-hidden="true"><i></i><b></b></span>
+              <span class="index__tag mono">Agent UX &middot; working prototype</span>
+              <span class="index__thumb"><picture><source type="image/webp" srcset="assets/img/thumbs/thumb-do.webp 1x, assets/img/thumbs/thumb-do@2x.webp 2x" /><img src="assets/img/thumbs/thumb-do.jpg" width="640" height="400" loading="lazy" decoding="async" alt="DO showing a three-step plan for “Pay the electricity bill” with a hold-to-approve button" /></picture></span>
             </a>
           </li>
           <li data-reveal>
@@ -112,17 +121,17 @@
               <span class="index__n mono">03</span>
               <span class="index__title">FinPulse X</span>
               <span class="index__desc">One week of spending. One number first, and every view adds up to it.</span>
-              <span class="index__tag mono">Data UI &middot; illustrative</span>
-              <span class="door door--sm" aria-hidden="true"><i></i><b></b></span>
+              <span class="index__tag mono">Data UI &middot; interactive</span>
+              <span class="index__thumb"><picture><source type="image/webp" srcset="assets/img/thumbs/thumb-finpulse.webp 1x, assets/img/thumbs/thumb-finpulse@2x.webp 2x" /><img src="assets/img/thumbs/thumb-finpulse.jpg" width="640" height="400" loading="lazy" decoding="async" alt="FinPulse X weekly spending chart and ledger reconciling to ₹4,840 (illustrative data)" /></picture></span>
             </a>
           </li>
           <li data-reveal>
             <a class="index__row" href="#roam" data-door="roam">
               <span class="index__n mono">04</span>
               <span class="index__title">SteadyNest</span>
-              <span class="index__desc">An exploratory Delhi atlas: real mapped footprints, illustrative heights and an interactive route study.</span>
-              <span class="index__tag mono">3D atlas &middot; concept</span>
-              <span class="door door--sm" aria-hidden="true"><i></i><b></b></span>
+              <span class="index__desc">A rental app for Delhi NCR (listings, details, Tira AI guidance chat) plus an interactive 3D city atlas.</span>
+              <span class="index__tag mono">Android app &middot; 3D atlas</span>
+              <span class="index__thumb"><picture><source type="image/webp" srcset="assets/img/thumbs/thumb-steadynest.webp 1x, assets/img/thumbs/thumb-steadynest@2x.webp 2x" /><img src="assets/img/thumbs/thumb-steadynest.jpg" width="640" height="400" loading="lazy" decoding="async" alt="SteadyNest Android app: rental listings, a listing detail and the Tira rental-guidance chat" /></picture></span>
             </a>
           </li>
         </ol>
@@ -254,6 +263,19 @@
     </section>
 
     <!-- 01 CRAFT -->
+    <!-- SteadyNest: the shipped Android app (real screenshots), outside the pinned atlas -->
+    <section data-bg="#f2f0eb" class="sn-app" id="steadynest-app" data-shape="none" data-label="SteadyNest app">
+      <div class="wrap">
+        <p class="kicker mono">SteadyNest · Android app</p>
+        <h2 class="sn-app__title">The rental app behind the atlas.</h2>
+        <p class="sn-app__lede">Find a home in Delhi NCR, check a listing's rent and deposit, and ask Tira, the in-app AI guide, what to document before paying.</p>
+        <figure class="sn-app__figure">
+          <picture><source type="image/webp" srcset="assets/img/steadynest-phones.webp" /><img src="assets/img/steadynest-phones.jpg" width="1600" height="1000" loading="lazy" decoding="async" alt="SteadyNest Android app: Find a home list, Sunlit 2BHK listing detail, and Tira rental-guidance chat" /></picture>
+          <figcaption class="mono">Real app screenshots. The atlas above is an exploratory study.</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section data-bg="#f2f0eb" class="sec craft" id="craft" data-shape="lattice" data-label="What I do"
              data-x="3.2" data-y="0" data-s="1" data-my="2.35" data-ms="0.55">
       <div class="wrap split-grid">
@@ -377,10 +399,13 @@
         <div class="signoff__copy">
           <p class="mono signoff__eyebrow" data-reveal><span class="dot dot--signal"></span>A conversation is a good beginning.</p>
           <h2 class="signoff__title split">Let&rsquo;s build <em>what&rsquo;s next.</em></h2>
-          <p class="signoff__lede" data-reveal>A difficult problem. A detail worth getting right. From the first question to a working product. Hiring for an AI, frontend or full-stack role, or an internship? Send me a message.</p>
+          <p class="signoff__lede" data-reveal>Hiring for a full-stack, frontend or AI engineering role, or an internship? Message me on LinkedIn, or look through the code on GitHub.</p>
           <div class="signoff__cta" data-reveal>
             <a class="btn signoff__btn" href="https://www.linkedin.com/in/yash-khairwal-80530b276/" target="_blank" rel="noopener">Message me on LinkedIn <span aria-hidden="true">&#8599;</span></a>
+            <!-- TODO(Yash): add a verified email as the primary button: <a class="btn signoff__btn" href="mailto:YOUR-EMAIL">Email me</a> -->
             <a class="signoff__link" href="https://github.com/yashkh1411" target="_blank" rel="noopener">Explore my GitHub <span aria-hidden="true">&#8599;</span></a>
+            <a class="signoff__link" href="https://github.com/yashkh1411/portfolio" target="_blank" rel="noopener">Code for this site <span aria-hidden="true">&#8599;</span></a>
+            <!-- TODO(Yash): add résumé once assets/Yash-Khairwal-Resume.pdf exists: <a class="signoff__link" href="assets/Yash-Khairwal-Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a> -->
           </div>
         </div>
       </div>
@@ -393,6 +418,6 @@
   </main>
 
 
-  <script type="module" src="js/main.js?v=16"></script>
+  <script type="module" src="js/main.js?v=17"></script>
 </body>
 </html>

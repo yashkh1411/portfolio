@@ -354,7 +354,7 @@ html.js .split.in .w > span { transform: none; }
 .belt__group p { color: var(--fg-2); font-size: .98rem; }
 .marquee { width: 100%; overflow: hidden; border-block: 1px solid var(--line); padding-block: 1.2rem; mask-image: linear-gradient(90deg, transparent, #020000 12%, #020000 88%, transparent); }
 .marquee__track { display: flex; gap: 3rem; width: max-content; animation: marquee 38s linear infinite; }
-.marquee span { font-size: clamp(2rem, 1.2rem + 3vw, 4rem); font-weight: 500; letter-spacing: -.03em; color: transparent; -webkit-text-stroke: 1px rgba(27,25,23, .32); white-space: nowrap; }
+.marquee span { font-size: clamp(2rem, 1.2rem + 3vw, 4rem); font-weight: 500; letter-spacing: -.03em; color: transparent; -webkit-text-stroke: 1px rgba(27,25,23, .7); white-space: nowrap; }
 .marquee span:nth-child(3n) { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: var(--fg-2); -webkit-text-stroke: 0; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 

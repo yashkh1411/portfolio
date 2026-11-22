@@ -1,5 +1,5 @@
 /* ---- from finpulse.css ---- */
-.fp-chapter{--fp-bg:#1a1816;--fp-cream:#f3f1ef;--fp-light:#e0dedc;--fp-accent:#ed694b;--fp-rule:#f5a79538;--fp-dim:#b6b4b2;position:relative;height:440svh;background:var(--fp-bg);color:var(--fp-cream);outline:none;isolation:isolate}
+.fp-chapter{--fp-bg:#1a1816;--fp-cream:#f3f1ef;--fp-light:#e0dedc;--fp-accent:#ed694b;--fp-rule:#f5a79538;--fp-dim:#b6b4b2;position:relative;height:300svh;background:var(--fp-bg);color:var(--fp-cream);outline:none;isolation:isolate}
 .fp-sticky{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate}
 .fp-ambient{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 10%,#29272544,transparent 60%),radial-gradient(ellipse at 5% 95%,#1e1c1a33,transparent 55%);z-index:-2;pointer-events:none}
 .fp-ambient::after{content:"";position:absolute;inset:0;background-image:var(--grain);opacity:.025;mix-blend-mode:soft-light}
@@ -132,7 +132,7 @@
 .fp-day-select>span{display:none}
 }
 @media(max-width:760px){
-.fp-chapter{height:450svh}
+.fp-chapter{height:320svh}
 .fp-mast{top:84px;font-size:8px;padding-top:11px}
 .fp-mast>span:last-child{font-size:6px;max-width:42%;line-height:1.7}
 .fp-stage{top:145px;bottom:200px}
@@ -311,7 +311,7 @@
 /* ---- from roam-cinematic.css ---- */
 .rm-story{
   --rm-photo:1;--rm-aperture:100%;--rm-opening:1;--rm-phrase:0;--rm-hindi:1;--rm-english:0;--rm-word-origin:1;--rm-itinerary:0;--rm-sweep:0;--rm-progress:0;
-  position:relative;min-height:550svh;background:#e7e5e3;color:#22201e;isolation:isolate;outline:none;
+  position:relative;min-height:380svh;background:#e7e5e3;color:#22201e;isolation:isolate;outline:none;
 }
 .rm-pin{position:sticky;top:0;height:100svh;min-height:0;overflow:hidden;background:#e7e5e3;font-family:var(--f-d,"Host Grotesk",sans-serif)}
 .rm-world{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 55% 35%,#f2f0ee 0,#e7e5e3 66%,#dad8d6 100%)}
@@ -409,7 +409,7 @@
 .rm-footer nav>button{font-size:9px}
 }
 @media(max-width:700px){
-.rm-story{min-height:575svh}
+.rm-story{min-height:380svh}
 .rm-chapter-meta{left:24px;right:24px;top:88px;font-size:8px;gap:16px;padding-top:11px}
 .rm-chapter-meta>span:last-child{max-width:23ch;text-align:right;font-size:7px}
 .rm-opening{left:26px;top:167px;right:24px}

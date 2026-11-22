@@ -29,7 +29,7 @@ function template() {
     <div class="fp-step-heading fp-step-intro" id="fin-number"><p>A little clarity goes a long way.</p><h2 id="fp-title">What did<br /><em>this week cost?</em></h2></div>
     <div class="fp-step-heading fp-step-chart"><p>01 / THE SAME NUMBER, UNFOLDED</p><h3>The shape<br /><em>of your week.</em></h3></div>
     <div class="fp-step-heading fp-step-system"><p>02 / THE THINKING BENEATH IT</p><h3>One source.<br /><em>Every view.</em></h3></div>
-    <div class="fp-number" aria-label="${money(total)} in illustrative weekly spending">${glyphs}</div>
+    <div class="fp-number" role="img" aria-label="${money(total)} in illustrative weekly spending">${glyphs}</div>
     <p class="fp-intro-note"><span>${money(total)}</span> isn’t the whole story.<br />Scroll to see what it’s made of. <i>↓</i></p>
     <div class="fp-view-controls">
       <div class="fp-toggle" role="group" aria-label="Spending chart view"><button type="button" data-mode="daily">Daily</button><button type="button" data-mode="cumulative">Cumulative</button></div>
@@ -227,9 +227,11 @@ export function initFinPulse(root, lenis) {
       },
     });
     scroll = tl.scrollTrigger;
-    tl.fromTo(digits, { rotateX: 60, rotateY: -14, y: 25, opacity: 0 }, { rotateX: 0, rotateY: 0, y: 0, opacity: 1, duration: 0.1, stagger: 0.009, ease: 'power3.out' }, 0)
-      .fromTo('.fp-glyph-track', { y: 0, yPercent: 0 }, { y: 0, yPercent: -75, stagger: 0.009, duration: 0.12, ease: 'power3.out' }, 0.025)
-      .to('.fp-intro-note', { opacity: 0, y: -12, duration: 0.07 }, 0.2)
+    // On phones the odometer roll read as scattered digits mid-scroll, so show the settled number straight away.
+    if (compact) gsap.set('.fp-glyph-track', { y: 0, yPercent: -75 });
+    else tl.fromTo(digits, { rotateX: 60, rotateY: -14, y: 25, opacity: 0 }, { rotateX: 0, rotateY: 0, y: 0, opacity: 1, duration: 0.1, stagger: 0.009, ease: 'power3.out' }, 0)
+      .fromTo('.fp-glyph-track', { y: 0, yPercent: 0 }, { y: 0, yPercent: -75, stagger: 0.009, duration: 0.12, ease: 'power3.out' }, 0.025);
+    tl.to('.fp-intro-note', { opacity: 0, y: -12, duration: 0.07 }, 0.2)
       .to('.fp-step-intro', { opacity: 0, y: -35, duration: 0.08 }, 0.23);
     digits.forEach((digit, i) => {
       const at = 0.24 + i * 0.012;

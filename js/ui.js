@@ -145,7 +145,7 @@ function navigation(lenis, door) {
     if (!target) return;
     e.preventDefault();
     if (a.dataset.door) {
-      const preview = a.querySelector('.door') || a;
+      const preview = a.querySelector('.door, .index__thumb') || a;
       door.enter(id, preview.getBoundingClientRect());
       history.replaceState(null, '', `#${id}`);
       return;
@@ -156,6 +156,14 @@ function navigation(lenis, door) {
     const focusable = target.querySelector('h1, h2');
     if (focusable) { focusable.setAttribute('tabindex', '-1'); focusable.focus({ preventScroll: true }); }
   });
+  // Mobile menu: the links are hidden below 860px, so a toggle opens them as a panel.
+  const toggle = $('[data-nav-toggle]');
+  if (toggle) {
+    const setOpen = (open) => { bar.classList.toggle('is-open', open); toggle.setAttribute('aria-expanded', String(open)); toggle.textContent = open ? 'Close' : 'Menu'; };
+    toggle.addEventListener('click', () => setOpen(!bar.classList.contains('is-open')));
+    bar.addEventListener('click', (e) => { if (e.target.closest('.nav__links a, .nav > .btn')) setOpen(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && bar.classList.contains('is-open')) { setOpen(false); toggle.focus(); } });
+  }
   return { frame() { bar.classList.toggle('is-scrolled', scrollY > 40); } };
 }
 

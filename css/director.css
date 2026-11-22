@@ -46,10 +46,11 @@ body { color: var(--fg); background: #f8f2ec; transition: background-color 700ms
 .btn:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #cc6f67; outline-offset: 4px; }
 
 /* Chapter zero: a photographic lake and a genuinely rendered, captured proof object. */
-.cinema-hero { background: #dfb9ae; color: #392839; height: 176svh; }
+.cinema-hero { background: #dfb9ae; color: #392839; height: 130svh; }
 .hero__stage {
   min-height: 680px; height: 100svh;
   background: #dfb9ae url('../assets/img/lake-sakura-directors-cut.png') center center / cover no-repeat;
+  background-image: image-set(url('../assets/img/lake-sakura-directors-cut.webp') type('image/webp'), url('../assets/img/lake-sakura-directors-cut.png') type('image/png'));
   isolation: isolate;
 }
 .hero__stage::before {
@@ -337,7 +338,7 @@ body { color: var(--fg); background: #f8f2ec; transition: background-color 700ms
 @media (max-width:860px) {
   .rm-story .rm-map-fallback { inset:24% -14% 9% 19%; }
   .nav { left:16px; right:16px; top:14px; padding:10px 14px; border-radius:18px; }
-  .cinema-hero { height:145svh; }
+  .cinema-hero { height:125svh; }
   .hero__stage { min-height:730px; background-position:58% center; }
   .hero__stage::before { background:linear-gradient(180deg,rgba(255,245,239,.7) 0%,rgba(255,242,236,.34) 46%,transparent 85%); }
   .hero__meta { padding-top:103px; }
@@ -362,7 +363,7 @@ body { color: var(--fg); background: #f8f2ec; transition: background-color 700ms
   .nav { left:10px; right:10px; padding:9px 12px; }
   .nav__name { font-size:13px; }
   .nav__links a { font-size:12px; padding-inline:7px; }
-  .cinema-hero { height:120svh; }
+  .cinema-hero { height:112svh; }
   .hero__stage { min-height:720px; height:100svh; background-position:56% center; }
   .hero__meta { padding-top:97px; }
   .hero__main { padding-top:35px; }
@@ -409,3 +410,41 @@ body { color: var(--fg); background: #f8f2ec; transition: background-color 700ms
   .no-hero-webgl .hero__fallback { animation:none; transform:none; }
   .about__visual { animation:none; transform:none; }
 }
+
+/* ---------- Recruiter pass (Nov 2026): readability, real thumbnails, mobile menu ---------- */
+/* Hero meta line sat on the cherry branch: give it a solid pill. */
+.hero__meta .mono { background: rgba(248,242,236,.86); color: #2d202d; text-shadow: none; padding: 6px 12px; border-radius: 999px; font-size: .8125rem; }
+/* Small muted labels: at least 12px and darker, same hues. */
+.hero__hint, .hero__foot .mono, .index__tag, .project-brief dt, .compare figcaption, .project-next small, .kicker { font-size: 12px; }
+.hero__hint { color: #3e2a39; }
+.index__tag { color: #6a3f55; }
+.hero__index-link { color: #3e2a39; }
+
+/* Work index: real screenshots instead of the placeholder door icon. */
+.index__row { grid-template-columns: 40px 1.05fr 1.5fr 1fr 136px; }
+.index__thumb { display: block; width: 136px; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; box-shadow: 0 6px 18px rgba(23,22,20,.16); background: #e9e2d6; }
+.index__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+.index__row:hover .index__thumb img { transform: scale(1.04); }
+@media (max-width:1100px) and (min-width:861px) { .index__row { grid-template-columns: 32px 1.1fr 1.4fr 104px; } .index__thumb { width: 104px; } }
+@media (max-width:860px) { .index__row { grid-template-columns: 26px minmax(0,1fr) 96px; } .index__thumb { grid-column: 3; grid-row: 1 / span 2; width: 96px; align-self: center; } }
+@media (max-width:430px) { .index__row { grid-template-columns: 22px minmax(0,1fr) 80px; } .index__thumb { width: 80px; } }
+
+/* SteadyNest app screenshots (normal flow, not pinned). */
+.sn-app { position: relative; z-index: 4; background: #f2f0eb; padding: clamp(72px,9vw,128px) 0; }
+.sn-app .kicker { color: #6a3f55; letter-spacing: .08em; text-transform: uppercase; }
+.sn-app__title { font-size: clamp(2rem,3.6vw,3.4rem); font-weight: 500; letter-spacing: -.035em; line-height: 1.05; margin: 12px 0 16px; color: #2d202d; }
+.sn-app__lede { max-width: 40em; font-size: 1.0625rem; line-height: 1.6; color: #51424b; }
+.sn-app__figure { margin: 40px auto 0; max-width: 1040px; }
+.sn-app__figure img { width: 100%; height: auto; display: block; border-radius: 16px; }
+.sn-app__figure figcaption { margin-top: 12px; font-size: 12px; color: #6a3f55; text-align: center; }
+
+/* Mobile menu: links were display:none below 860px with no way to open them. */
+.nav__toggle { display: none; }
+@media (max-width:860px) {
+  .nav > .btn { display: inline-flex !important; }
+  .nav__toggle { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(45,32,45,.25); background: transparent; color: inherit; font: 500 13px var(--f-sans, sans-serif); cursor: pointer; }
+  .nav.is-open .nav__links { display: flex; flex-direction: column; gap: 2px; position: absolute; top: calc(100% + 8px); left: 0; right: 0; padding: 8px; background: #f8f2ec; border: 1px solid rgba(45,32,45,.14); border-radius: 16px; box-shadow: 0 18px 40px rgba(45,32,45,.18); }
+  .nav.is-open .nav__links a { min-height: 48px; font-size: 16px; padding-inline: 14px; color: #2d202d; }
+}
+@media (max-width:600px) { .nav__toggle { min-height: 36px; padding: 0 12px; font-size: 12px; } .nav > .btn { display: none !important; } }
+.hero__title em { white-space: nowrap; }

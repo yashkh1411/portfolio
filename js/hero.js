@@ -55,8 +55,8 @@ export async function initHero({reduced=false}={}) {
   const mobile=width<860,p=reduced?0:clamp(-host.getBoundingClientRect().top/Math.max(1,host.offsetHeight-height));
   // The proof rises calmly and remains in the landscape. No lens-rushing zoom.
   const intro=reduced?1:smooth(0,1,(now-start)/2400),push=smooth(.18,.91,p),exit=smooth(.85,1,p);
-  const x=mobile?.45:2.48,y=mobile?-1.08:.12;
-  body.position.set(x,y-1.65*(1-intro),0);body.rotation.set(-.04,-.17+push*.08,.025*(1-push));body.scale.setScalar(mobile?.60:.86);
+  const narrow=width<600,x=mobile?.45:2.48,y=narrow?-1.78:mobile?-1.08:.12;
+  body.position.set(x,y-1.65*(1-intro),0);body.rotation.set(-.04,-.17+push*.08,.025*(1-push));body.scale.setScalar(narrow?.46:mobile?.60:.86);
   reflection.position.set(x,-3.3-body.position.y,0);reflection.rotation.set(-body.rotation.x,body.rotation.y,-body.rotation.z);reflection.scale.set(body.scale.x,-body.scale.y,body.scale.z);
   const z=mobile?10.8:10.6;camera.position.set(x*.1*push,mobile?1.1-.25*push:1.05-.18*push,z-(mobile?.6:.75)*push);camera.lookAt(x*.08*push,mobile?-.22:.1,0);
   water.material.uniforms.uTime.value=reduced?0:(now-start)*.001;water.material.uniforms.uCenter.value.set(x,0);

@@ -1,8 +1,8 @@
-# Yash Khairwal — Studio V3 Portfolio
+# Yash Khairwal — Portfolio
 
-This branch contains the current cinematic portfolio published at:
+Live site:
 
-**https://yash-khairwal-studio-v2-2026.stony-gull-0511.chatgpt.site/**
+**https://portfolio-iota-lovat-25.vercel.app/**
 
 ## Run locally
 
@@ -26,4 +26,4 @@ The portfolio describes PromptForge, DO, FinPulse X, and SteadyNest. Simulations
 
 ## Repository history
 
-The previous single-file portfolio's README is retained as `LEGACY_README.md`. The older files not used by Studio V3 remain in this branch to avoid irreversible deletion while reviewing the migration.
+Some older files not used by the current site remain in the repo and can be cleaned up later.
