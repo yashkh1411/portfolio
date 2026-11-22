@@ -447,4 +447,6 @@ body { color: var(--fg); background: #f8f2ec; transition: background-color 700ms
   .nav.is-open .nav__links a { min-height: 48px; font-size: 16px; padding-inline: 14px; color: #2d202d; }
 }
 @media (max-width:600px) { .nav__toggle { min-height: 36px; padding: 0 12px; font-size: 12px; } .nav > .btn { display: none !important; } }
-.hero__title em { white-space: nowrap; }
+.hero__title em { display: block; white-space: nowrap; }
+@media (min-width:861px) and (max-height:820px) { .hero__title { font-size: clamp(2.8rem, 5.2vw, 4.4rem); } }
+@media (min-width:601px) and (max-width:860px) and (max-height:820px) { .hero__title { font-size: clamp(2.6rem, 6.4vw, 3.6rem); } .hero__lead { max-width: 30em; } }

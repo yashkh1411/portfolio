@@ -1,10 +1,10 @@
 import Lenis from '../vendor/lenis.mjs';
-import { initHero } from './hero.js?v=15';
+import { initHero } from './hero.js?v=17';
 import { initChapterLinks } from './transitions.js?v=14';
 // Boot: smooth scroll (optional), page UI, then the 3D stage if WebGL and the CDN are available.
-import { initUI } from './ui.js?v=14';
+import { initUI } from './ui.js?v=15';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { initFinPulse } from './chapters/finpulse.js?v=14';
+import { initFinPulse } from './chapters/finpulse.js?v=15';
 import { initRoam } from './chapters/roam.js?v=16';
 
 const root = document.documentElement;

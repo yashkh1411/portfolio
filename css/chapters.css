@@ -630,6 +630,18 @@
 .rm-story .rm-place-detail{padding-top:13px}
 .rm-story .rm-place-detail p{font-size:12px}
 }
+/* Short desktop windows (e.g. 1366x625, 1024x600): the "A day, connected" list ran under the step tabs. */
+@media(max-height:660px) and (min-width:701px){
+.rm-story .rm-itinerary{top:132px}
+.rm-story .rm-itinerary h3{font-size:44px;margin:12px 0 14px}
+.rm-story .rm-itinerary li>button{min-height:38px}
+.rm-story .rm-place-detail{padding-top:8px}
+.rm-story .rm-place-detail p{margin:6px 0}
+.rm-story .rm-place-detail>small{display:none}
+}
+@media(max-height:580px) and (min-width:701px){
+.rm-story .rm-place-detail{display:none}
+}
 @media(max-width:700px) and (max-height:740px){
 .rm-story .rm-itinerary{top:137px;padding:13px 16px}
 .rm-story .rm-itinerary h3{font-size:30px;margin:12px 0}
